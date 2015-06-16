@@ -7,6 +7,36 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4223C8E418B2C1EA00983C44 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4223C8E318B2C1EA00983C44 /* Icon@2x.png */; };
+		427747091AEAF82900BAB6F7 /* AddObservationDate.m in Sources */ = {isa = PBXBuildFile; fileRef = 427747071AEAF82900BAB6F7 /* AddObservationDate.m */; };
+		4277470A1AEAF82900BAB6F7 /* AddObservationDate.xib in Resources */ = {isa = PBXBuildFile; fileRef = 427747081AEAF82900BAB6F7 /* AddObservationDate.xib */; };
+		4277470E1AEAF96000BAB6F7 /* AddObservationDate_iphone5.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4277470D1AEAF96000BAB6F7 /* AddObservationDate_iphone5.xib */; };
+		427747121AEAF9B900BAB6F7 /* AddObservationDateDone.m in Sources */ = {isa = PBXBuildFile; fileRef = 427747101AEAF9B900BAB6F7 /* AddObservationDateDone.m */; };
+		427747131AEAF9B900BAB6F7 /* AddObservationDateDone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 427747111AEAF9B900BAB6F7 /* AddObservationDateDone.xib */; };
+		427747151AEAF9E800BAB6F7 /* AddObservationDateDone_iphone5.xib in Resources */ = {isa = PBXBuildFile; fileRef = 427747141AEAF9E800BAB6F7 /* AddObservationDateDone_iphone5.xib */; };
+		427747191AEAFC4000BAB6F7 /* AddObservationString.m in Sources */ = {isa = PBXBuildFile; fileRef = 427747171AEAFC4000BAB6F7 /* AddObservationString.m */; };
+		4277471A1AEAFC4000BAB6F7 /* AddObservationString.xib in Resources */ = {isa = PBXBuildFile; fileRef = 427747181AEAFC4000BAB6F7 /* AddObservationString.xib */; };
+		4277471E1AEAFC7400BAB6F7 /* AddObservationStringDone.m in Sources */ = {isa = PBXBuildFile; fileRef = 4277471C1AEAFC7400BAB6F7 /* AddObservationStringDone.m */; };
+		4277471F1AEAFC7400BAB6F7 /* AddObservationStringDone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4277471D1AEAFC7400BAB6F7 /* AddObservationStringDone.xib */; };
+		427747211AEAFCA200BAB6F7 /* AddObservationStringDone_iphone5.xib in Resources */ = {isa = PBXBuildFile; fileRef = 427747201AEAFCA200BAB6F7 /* AddObservationStringDone_iphone5.xib */; };
+		427747231AEAFCE900BAB6F7 /* AddObservationString_iphone5.xib in Resources */ = {isa = PBXBuildFile; fileRef = 427747221AEAFCE900BAB6F7 /* AddObservationString_iphone5.xib */; };
+		427747251AEB3F5200BAB6F7 /* AddObservationDateSkipAndCamera.xib in Resources */ = {isa = PBXBuildFile; fileRef = 427747241AEB3F5200BAB6F7 /* AddObservationDateSkipAndCamera.xib */; };
+		427747271AEB413900BAB6F7 /* AddObservationDateSkipAndCamera_iphone5.xib in Resources */ = {isa = PBXBuildFile; fileRef = 427747261AEB413900BAB6F7 /* AddObservationDateSkipAndCamera_iphone5.xib */; };
+		427747291AED9D4100BAB6F7 /* AddObservationStringSkipAndCamera.xib in Resources */ = {isa = PBXBuildFile; fileRef = 427747281AED9D4100BAB6F7 /* AddObservationStringSkipAndCamera.xib */; };
+		4277472B1AED9DAA00BAB6F7 /* AddObservationStringSkipAndCamera_iphone5.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4277472A1AED9DAA00BAB6F7 /* AddObservationStringSkipAndCamera_iphone5.xib */; };
+		4277472D1AED9E1F00BAB6F7 /* AddObservationStringDoneSkipAndCamera.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4277472C1AED9E1F00BAB6F7 /* AddObservationStringDoneSkipAndCamera.xib */; };
+		4277472F1AED9E7800BAB6F7 /* AddObservationStringDoneSkipAndCamera_iphone5.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4277472E1AED9E7800BAB6F7 /* AddObservationStringDoneSkipAndCamera_iphone5.xib */; };
+		427747311AEDB06100BAB6F7 /* AddObservationDateDoneSkipAndCamera.xib in Resources */ = {isa = PBXBuildFile; fileRef = 427747301AEDB06100BAB6F7 /* AddObservationDateDoneSkipAndCamera.xib */; };
+		427747331AEDB0B600BAB6F7 /* AddObservationDateDoneSkipAndCamera_iphone5.xib in Resources */ = {isa = PBXBuildFile; fileRef = 427747321AEDB0B500BAB6F7 /* AddObservationDateDoneSkipAndCamera_iphone5.xib */; };
+		42A315461B1E647A00F474B7 /* PicklistView_iphone5.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42A315451B1E647A00F474B7 /* PicklistView_iphone5.xib */; };
+		42B6D53A1AFD93C300E555C1 /* PicklistView.m in Sources */ = {isa = PBXBuildFile; fileRef = 42B6D5381AFD93C300E555C1 /* PicklistView.m */; };
+		42B6D53B1AFD93C300E555C1 /* PicklistView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42B6D5391AFD93C300E555C1 /* PicklistView.xib */; };
+		42D2AAE01AC372C300A91FF4 /* AddPredefinedObservation.m in Sources */ = {isa = PBXBuildFile; fileRef = 42D2AADE1AC372C300A91FF4 /* AddPredefinedObservation.m */; };
+		42D2AAE11AC372C300A91FF4 /* AddPredefinedObservation.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42D2AADF1AC372C300A91FF4 /* AddPredefinedObservation.xib */; };
+		42D2AAE31AC3730400A91FF4 /* AddPredefinedObservation_iphone5.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42D2AAE21AC3730400A91FF4 /* AddPredefinedObservation_iphone5.xib */; };
+		42D8B3981A1BEA8700615F23 /* Authenticate.m in Sources */ = {isa = PBXBuildFile; fileRef = 42D8B3961A1BEA8700615F23 /* Authenticate.m */; };
+		42D8B3991A1BEA8700615F23 /* Authenticate.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42D8B3971A1BEA8700615F23 /* Authenticate.xib */; };
+		42D8B39B1A1BEBAA00615F23 /* Authenticate_iphone5.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42D8B39A1A1BEBAA00615F23 /* Authenticate_iphone5.xib */; };
 		42E3F80B1888584A00EF990B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42E3F80A1888584A00EF990B /* Foundation.framework */; };
 		42E3F80D1888584A00EF990B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42E3F80C1888584A00EF990B /* CoreGraphics.framework */; };
 		42E3F80F1888584A00EF990B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42E3F80E1888584A00EF990B /* UIKit.framework */; };
@@ -21,6 +51,93 @@
 		42E3F82C1888584A00EF990B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42E3F80E1888584A00EF990B /* UIKit.framework */; };
 		42E3F8341888584A00EF990B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 42E3F8321888584A00EF990B /* InfoPlist.strings */; };
 		42E3F8361888584A00EF990B /* CitSciMobileTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 42E3F8351888584A00EF990B /* CitSciMobileTests.m */; };
+		42E3F84718888C0200EF990B /* ViewController_iphone5.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42E3F84618888C0200EF990B /* ViewController_iphone5.xib */; };
+		42E3F84918888C9800EF990B /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42E3F84818888C9800EF990B /* ViewController.xib */; };
+		42E3F85018888D6500EF990B /* FormNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 42E3F84B18888D6500EF990B /* FormNode.m */; };
+		42E3F85118888D6500EF990B /* Model.m in Sources */ = {isa = PBXBuildFile; fileRef = 42E3F84D18888D6500EF990B /* Model.m */; };
+		42E3F85218888D6500EF990B /* ProjectNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 42E3F84F18888D6500EF990B /* ProjectNode.m */; };
+		42E3F8A018888D7F00EF990B /* AboutUs_iphone5.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42E3F85318888D7E00EF990B /* AboutUs_iphone5.xib */; };
+		42E3F8A118888D7F00EF990B /* AboutUs.m in Sources */ = {isa = PBXBuildFile; fileRef = 42E3F85518888D7E00EF990B /* AboutUs.m */; };
+		42E3F8A218888D7F00EF990B /* AboutUs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42E3F85618888D7E00EF990B /* AboutUs.xib */; };
+		42E3F8A318888D7F00EF990B /* AddAuthority_iphone5.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42E3F85718888D7E00EF990B /* AddAuthority_iphone5.xib */; };
+		42E3F8A418888D7F00EF990B /* AddAuthority.m in Sources */ = {isa = PBXBuildFile; fileRef = 42E3F85918888D7E00EF990B /* AddAuthority.m */; };
+		42E3F8A518888D7F00EF990B /* AddAuthority.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42E3F85A18888D7E00EF990B /* AddAuthority.xib */; };
+		42E3F8A618888D7F00EF990B /* AddObservation_iphone5.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42E3F85B18888D7E00EF990B /* AddObservation_iphone5.xib */; };
+		42E3F8A718888D7F00EF990B /* AddObservation.m in Sources */ = {isa = PBXBuildFile; fileRef = 42E3F85D18888D7E00EF990B /* AddObservation.m */; };
+		42E3F8A818888D7F00EF990B /* AddObservation.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42E3F85E18888D7E00EF990B /* AddObservation.xib */; };
+		42E3F8A918888D7F00EF990B /* AddObservationEnter_iphone5.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42E3F85F18888D7E00EF990B /* AddObservationEnter_iphone5.xib */; };
+		42E3F8AA18888D7F00EF990B /* AddObservationEnter.m in Sources */ = {isa = PBXBuildFile; fileRef = 42E3F86118888D7E00EF990B /* AddObservationEnter.m */; };
+		42E3F8AB18888D7F00EF990B /* AddObservationEnter.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42E3F86218888D7E00EF990B /* AddObservationEnter.xib */; };
+		42E3F8AC18888D7F00EF990B /* AddObservationEnterDone_iphone5.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42E3F86318888D7E00EF990B /* AddObservationEnterDone_iphone5.xib */; };
+		42E3F8AD18888D7F00EF990B /* AddObservationEnterDone.m in Sources */ = {isa = PBXBuildFile; fileRef = 42E3F86518888D7E00EF990B /* AddObservationEnterDone.m */; };
+		42E3F8AE18888D7F00EF990B /* AddObservationEnterDone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42E3F86618888D7E00EF990B /* AddObservationEnterDone.xib */; };
+		42E3F8AF18888D7F00EF990B /* AddObservationEnterDoneSkipAndCamera_iphone5.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42E3F86718888D7E00EF990B /* AddObservationEnterDoneSkipAndCamera_iphone5.xib */; };
+		42E3F8B018888D7F00EF990B /* AddObservationEnterDoneSkipAndCamera.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42E3F86818888D7E00EF990B /* AddObservationEnterDoneSkipAndCamera.xib */; };
+		42E3F8B118888D7F00EF990B /* AddObservationEnterSkipAndCamera_iphone5.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42E3F86918888D7E00EF990B /* AddObservationEnterSkipAndCamera_iphone5.xib */; };
+		42E3F8B218888D7F00EF990B /* AddObservationEnterSkipAndCamera.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42E3F86A18888D7E00EF990B /* AddObservationEnterSkipAndCamera.xib */; };
+		42E3F8B318888D7F00EF990B /* AddObservationSelect_iphone5.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42E3F86B18888D7E00EF990B /* AddObservationSelect_iphone5.xib */; };
+		42E3F8B418888D7F00EF990B /* AddObservationSelect.m in Sources */ = {isa = PBXBuildFile; fileRef = 42E3F86D18888D7E00EF990B /* AddObservationSelect.m */; };
+		42E3F8B518888D7F00EF990B /* AddObservationSelect.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42E3F86E18888D7E00EF990B /* AddObservationSelect.xib */; };
+		42E3F8B618888D7F00EF990B /* AddObservationSelectDone_iphone5.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42E3F86F18888D7E00EF990B /* AddObservationSelectDone_iphone5.xib */; };
+		42E3F8B718888D7F00EF990B /* AddObservationSelectDone.m in Sources */ = {isa = PBXBuildFile; fileRef = 42E3F87118888D7E00EF990B /* AddObservationSelectDone.m */; };
+		42E3F8B818888D7F00EF990B /* AddObservationSelectDone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42E3F87218888D7E00EF990B /* AddObservationSelectDone.xib */; };
+		42E3F8B918888D7F00EF990B /* AddObservationSelectDoneSkipAndCamera_iphone5.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42E3F87318888D7E00EF990B /* AddObservationSelectDoneSkipAndCamera_iphone5.xib */; };
+		42E3F8BA18888D7F00EF990B /* AddObservationSelectDoneSkipAndCamera.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42E3F87418888D7E00EF990B /* AddObservationSelectDoneSkipAndCamera.xib */; };
+		42E3F8BB18888D7F00EF990B /* AddObservationSelectSkipAndCamera_iphone5.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42E3F87518888D7E00EF990B /* AddObservationSelectSkipAndCamera_iphone5.xib */; };
+		42E3F8BC18888D7F00EF990B /* AddObservationSelectSkipAndCamera.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42E3F87618888D7E00EF990B /* AddObservationSelectSkipAndCamera.xib */; };
+		42E3F8BD18888D7F00EF990B /* Camera_iphone5.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42E3F87718888D7E00EF990B /* Camera_iphone5.xib */; };
+		42E3F8BE18888D7F00EF990B /* Camera.m in Sources */ = {isa = PBXBuildFile; fileRef = 42E3F87918888D7E00EF990B /* Camera.m */; };
+		42E3F8BF18888D7F00EF990B /* Camera.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42E3F87A18888D7E00EF990B /* Camera.xib */; };
+		42E3F8C018888D7F00EF990B /* Developers_iphone5.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42E3F87B18888D7E00EF990B /* Developers_iphone5.xib */; };
+		42E3F8C118888D7F00EF990B /* Developers.m in Sources */ = {isa = PBXBuildFile; fileRef = 42E3F87D18888D7E00EF990B /* Developers.m */; };
+		42E3F8C218888D7F00EF990B /* Developers.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42E3F87E18888D7F00EF990B /* Developers.xib */; };
+		42E3F8C318888D7F00EF990B /* FormsTableViewController_iphone5.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42E3F87F18888D7F00EF990B /* FormsTableViewController_iphone5.xib */; };
+		42E3F8C418888D7F00EF990B /* FormsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42E3F88118888D7F00EF990B /* FormsTableViewController.m */; };
+		42E3F8C518888D7F00EF990B /* FormsTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42E3F88218888D7F00EF990B /* FormsTableViewController.xib */; };
+		42E3F8C618888D7F00EF990B /* Help_iphone5.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42E3F88318888D7F00EF990B /* Help_iphone5.xib */; };
+		42E3F8C718888D7F00EF990B /* Help.m in Sources */ = {isa = PBXBuildFile; fileRef = 42E3F88518888D7F00EF990B /* Help.m */; };
+		42E3F8C818888D7F00EF990B /* Help.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42E3F88618888D7F00EF990B /* Help.xib */; };
+		42E3F8C918888D7F00EF990B /* Information_iphone5.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42E3F88718888D7F00EF990B /* Information_iphone5.xib */; };
+		42E3F8CA18888D7F00EF990B /* Information.m in Sources */ = {isa = PBXBuildFile; fileRef = 42E3F88918888D7F00EF990B /* Information.m */; };
+		42E3F8CB18888D7F00EF990B /* Information.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42E3F88A18888D7F00EF990B /* Information.xib */; };
+		42E3F8CC18888D7F00EF990B /* ObservationsViewController_iphone5.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42E3F88B18888D7F00EF990B /* ObservationsViewController_iphone5.xib */; };
+		42E3F8CD18888D7F00EF990B /* ObservationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42E3F88D18888D7F00EF990B /* ObservationsViewController.m */; };
+		42E3F8CE18888D7F00EF990B /* ObservationsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42E3F88E18888D7F00EF990B /* ObservationsViewController.xib */; };
+		42E3F8D018888D7F00EF990B /* ProjectsTableViewController_iphone5.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42E3F89018888D7F00EF990B /* ProjectsTableViewController_iphone5.xib */; };
+		42E3F8D118888D7F00EF990B /* ProjectsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42E3F89218888D7F00EF990B /* ProjectsTableViewController.m */; };
+		42E3F8D218888D7F00EF990B /* ProjectsTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42E3F89318888D7F00EF990B /* ProjectsTableViewController.xib */; };
+		42E3F8D618888D7F00EF990B /* UploadViewController_iphone5.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42E3F89818888D7F00EF990B /* UploadViewController_iphone5.xib */; };
+		42E3F8D718888D7F00EF990B /* UploadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42E3F89A18888D7F00EF990B /* UploadViewController.m */; };
+		42E3F8D818888D7F00EF990B /* UploadViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42E3F89B18888D7F00EF990B /* UploadViewController.xib */; };
+		42E3F8D918888D7F00EF990B /* UserData_iphone5.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42E3F89C18888D7F00EF990B /* UserData_iphone5.xib */; };
+		42E3F8DA18888D7F00EF990B /* UserData.m in Sources */ = {isa = PBXBuildFile; fileRef = 42E3F89E18888D7F00EF990B /* UserData.m */; };
+		42E3F8DB18888D7F00EF990B /* UserData.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42E3F89F18888D7F00EF990B /* UserData.xib */; };
+		42E3F8E818888DA300EF990B /* DisplayMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 42E3F8DD18888DA300EF990B /* DisplayMap.m */; };
+		42E3F8E918888DA300EF990B /* GetLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42E3F8DF18888DA300EF990B /* GetLocationViewController.m */; };
+		42E3F8EA18888DA300EF990B /* MyTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 42E3F8E118888DA300EF990B /* MyTableCell.m */; };
+		42E3F8EB18888DA300EF990B /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 42E3F8E318888DA300EF990B /* Reachability.m */; };
+		42E3F8EC18888DA300EF990B /* SMXMLDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 42E3F8E518888DA300EF990B /* SMXMLDocument.m */; };
+		42E3F8ED18888DA300EF990B /* ToastAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 42E3F8E718888DA300EF990B /* ToastAlert.m */; };
+		42E3F8FE18888DBC00EF990B /* CitSci.png in Resources */ = {isa = PBXBuildFile; fileRef = 42E3F8EE18888DBC00EF990B /* CitSci.png */; };
+		42E3F8FF18888DBC00EF990B /* colorado_state_university_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 42E3F8EF18888DBC00EF990B /* colorado_state_university_logo.png */; };
+		42E3F90018888DBC00EF990B /* Greg.png in Resources */ = {isa = PBXBuildFile; fileRef = 42E3F8F018888DBC00EF990B /* Greg.png */; };
+		42E3F90118888DBC00EF990B /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 42E3F8F118888DBC00EF990B /* Icon-72.png */; };
+		42E3F90218888DBC00EF990B /* Icon-120.png in Resources */ = {isa = PBXBuildFile; fileRef = 42E3F8F218888DBC00EF990B /* Icon-120.png */; };
+		42E3F90318888DBC00EF990B /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 42E3F8F318888DBC00EF990B /* Icon.png */; };
+		42E3F90418888DBC00EF990B /* Lee.png in Resources */ = {isa = PBXBuildFile; fileRef = 42E3F8F418888DBC00EF990B /* Lee.png */; };
+		42E3F90518888DBC00EF990B /* LeewayLogo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 42E3F8F518888DBC00EF990B /* LeewayLogo.jpg */; };
+		42E3F90618888DBC00EF990B /* natural_resource_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 42E3F8F618888DBC00EF990B /* natural_resource_logo.png */; };
+		42E3F90718888DBC00EF990B /* Observations.png in Resources */ = {isa = PBXBuildFile; fileRef = 42E3F8F718888DBC00EF990B /* Observations.png */; };
+		42E3F90818888DBC00EF990B /* Pramod.png in Resources */ = {isa = PBXBuildFile; fileRef = 42E3F8F818888DBC00EF990B /* Pramod.png */; };
+		42E3F90918888DBC00EF990B /* Russ.png in Resources */ = {isa = PBXBuildFile; fileRef = 42E3F8F918888DBC00EF990B /* Russ.png */; };
+		42E3F90A18888DBC00EF990B /* SetProject.png in Resources */ = {isa = PBXBuildFile; fileRef = 42E3F8FA18888DBC00EF990B /* SetProject.png */; };
+		42E3F90B18888DBC00EF990B /* Settings.png in Resources */ = {isa = PBXBuildFile; fileRef = 42E3F8FB18888DBC00EF990B /* Settings.png */; };
+		42E3F90C18888DBC00EF990B /* Upload.png in Resources */ = {isa = PBXBuildFile; fileRef = 42E3F8FC18888DBC00EF990B /* Upload.png */; };
+		42E3F90D18888DBC00EF990B /* UploadOld.png in Resources */ = {isa = PBXBuildFile; fileRef = 42E3F8FD18888DBC00EF990B /* UploadOld.png */; };
+		42E3F90F18888DFC00EF990B /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42E3F90E18888DFC00EF990B /* QuartzCore.framework */; };
+		42E3F91118888E0F00EF990B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42E3F91018888E0F00EF990B /* SystemConfiguration.framework */; };
+		42E3F91318888E1800EF990B /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42E3F91218888E1800EF990B /* MapKit.framework */; };
+		42E3F91518888E2200EF990B /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42E3F91418888E2200EF990B /* CoreLocation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +151,43 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4223C8E318B2C1EA00983C44 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon@2x.png"; path = "CitSciMobile/Resources/Icon@2x.png"; sourceTree = "<group>"; };
+		427747061AEAF82900BAB6F7 /* AddObservationDate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddObservationDate.h; path = CitSciMobile/Screens/AddObservationDate.h; sourceTree = "<group>"; };
+		427747071AEAF82900BAB6F7 /* AddObservationDate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddObservationDate.m; path = CitSciMobile/Screens/AddObservationDate.m; sourceTree = "<group>"; };
+		427747081AEAF82900BAB6F7 /* AddObservationDate.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddObservationDate.xib; path = CitSciMobile/Screens/AddObservationDate.xib; sourceTree = "<group>"; };
+		4277470D1AEAF96000BAB6F7 /* AddObservationDate_iphone5.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddObservationDate_iphone5.xib; path = CitSciMobile/Screens/AddObservationDate_iphone5.xib; sourceTree = "<group>"; };
+		4277470F1AEAF9B900BAB6F7 /* AddObservationDateDone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddObservationDateDone.h; path = CitSciMobile/Screens/AddObservationDateDone.h; sourceTree = "<group>"; };
+		427747101AEAF9B900BAB6F7 /* AddObservationDateDone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddObservationDateDone.m; path = CitSciMobile/Screens/AddObservationDateDone.m; sourceTree = "<group>"; };
+		427747111AEAF9B900BAB6F7 /* AddObservationDateDone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddObservationDateDone.xib; path = CitSciMobile/Screens/AddObservationDateDone.xib; sourceTree = "<group>"; };
+		427747141AEAF9E800BAB6F7 /* AddObservationDateDone_iphone5.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddObservationDateDone_iphone5.xib; path = CitSciMobile/Screens/AddObservationDateDone_iphone5.xib; sourceTree = "<group>"; };
+		427747161AEAFC4000BAB6F7 /* AddObservationString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddObservationString.h; path = CitSciMobile/Screens/AddObservationString.h; sourceTree = "<group>"; };
+		427747171AEAFC4000BAB6F7 /* AddObservationString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddObservationString.m; path = CitSciMobile/Screens/AddObservationString.m; sourceTree = "<group>"; };
+		427747181AEAFC4000BAB6F7 /* AddObservationString.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddObservationString.xib; path = CitSciMobile/Screens/AddObservationString.xib; sourceTree = "<group>"; };
+		4277471B1AEAFC7400BAB6F7 /* AddObservationStringDone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddObservationStringDone.h; path = CitSciMobile/Screens/AddObservationStringDone.h; sourceTree = "<group>"; };
+		4277471C1AEAFC7400BAB6F7 /* AddObservationStringDone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddObservationStringDone.m; path = CitSciMobile/Screens/AddObservationStringDone.m; sourceTree = "<group>"; };
+		4277471D1AEAFC7400BAB6F7 /* AddObservationStringDone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddObservationStringDone.xib; path = CitSciMobile/Screens/AddObservationStringDone.xib; sourceTree = "<group>"; };
+		427747201AEAFCA200BAB6F7 /* AddObservationStringDone_iphone5.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddObservationStringDone_iphone5.xib; path = CitSciMobile/Screens/AddObservationStringDone_iphone5.xib; sourceTree = "<group>"; };
+		427747221AEAFCE900BAB6F7 /* AddObservationString_iphone5.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddObservationString_iphone5.xib; path = CitSciMobile/Screens/AddObservationString_iphone5.xib; sourceTree = "<group>"; };
+		427747241AEB3F5200BAB6F7 /* AddObservationDateSkipAndCamera.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddObservationDateSkipAndCamera.xib; path = CitSciMobile/Screens/AddObservationDateSkipAndCamera.xib; sourceTree = "<group>"; };
+		427747261AEB413900BAB6F7 /* AddObservationDateSkipAndCamera_iphone5.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddObservationDateSkipAndCamera_iphone5.xib; path = CitSciMobile/Screens/AddObservationDateSkipAndCamera_iphone5.xib; sourceTree = "<group>"; };
+		427747281AED9D4100BAB6F7 /* AddObservationStringSkipAndCamera.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddObservationStringSkipAndCamera.xib; path = CitSciMobile/Screens/AddObservationStringSkipAndCamera.xib; sourceTree = "<group>"; };
+		4277472A1AED9DAA00BAB6F7 /* AddObservationStringSkipAndCamera_iphone5.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddObservationStringSkipAndCamera_iphone5.xib; path = CitSciMobile/Screens/AddObservationStringSkipAndCamera_iphone5.xib; sourceTree = "<group>"; };
+		4277472C1AED9E1F00BAB6F7 /* AddObservationStringDoneSkipAndCamera.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddObservationStringDoneSkipAndCamera.xib; path = CitSciMobile/Screens/AddObservationStringDoneSkipAndCamera.xib; sourceTree = "<group>"; };
+		4277472E1AED9E7800BAB6F7 /* AddObservationStringDoneSkipAndCamera_iphone5.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddObservationStringDoneSkipAndCamera_iphone5.xib; path = CitSciMobile/Screens/AddObservationStringDoneSkipAndCamera_iphone5.xib; sourceTree = "<group>"; };
+		427747301AEDB06100BAB6F7 /* AddObservationDateDoneSkipAndCamera.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddObservationDateDoneSkipAndCamera.xib; path = CitSciMobile/Screens/AddObservationDateDoneSkipAndCamera.xib; sourceTree = "<group>"; };
+		427747321AEDB0B500BAB6F7 /* AddObservationDateDoneSkipAndCamera_iphone5.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddObservationDateDoneSkipAndCamera_iphone5.xib; path = CitSciMobile/Screens/AddObservationDateDoneSkipAndCamera_iphone5.xib; sourceTree = "<group>"; };
+		42A315451B1E647A00F474B7 /* PicklistView_iphone5.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PicklistView_iphone5.xib; path = CitSciMobile/Screens/PicklistView_iphone5.xib; sourceTree = "<group>"; };
+		42B6D5371AFD93C200E555C1 /* PicklistView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PicklistView.h; path = CitSciMobile/Screens/PicklistView.h; sourceTree = "<group>"; };
+		42B6D5381AFD93C300E555C1 /* PicklistView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PicklistView.m; path = CitSciMobile/Screens/PicklistView.m; sourceTree = "<group>"; };
+		42B6D5391AFD93C300E555C1 /* PicklistView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PicklistView.xib; path = CitSciMobile/Screens/PicklistView.xib; sourceTree = "<group>"; };
+		42D2AADD1AC372C300A91FF4 /* AddPredefinedObservation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddPredefinedObservation.h; path = CitSciMobile/Screens/AddPredefinedObservation.h; sourceTree = "<group>"; };
+		42D2AADE1AC372C300A91FF4 /* AddPredefinedObservation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddPredefinedObservation.m; path = CitSciMobile/Screens/AddPredefinedObservation.m; sourceTree = "<group>"; };
+		42D2AADF1AC372C300A91FF4 /* AddPredefinedObservation.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddPredefinedObservation.xib; path = CitSciMobile/Screens/AddPredefinedObservation.xib; sourceTree = "<group>"; };
+		42D2AAE21AC3730400A91FF4 /* AddPredefinedObservation_iphone5.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddPredefinedObservation_iphone5.xib; sourceTree = "<group>"; };
+		42D8B3951A1BEA8700615F23 /* Authenticate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Authenticate.h; path = CitSciMobile/Screens/Authenticate.h; sourceTree = "<group>"; };
+		42D8B3961A1BEA8700615F23 /* Authenticate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Authenticate.m; path = CitSciMobile/Screens/Authenticate.m; sourceTree = "<group>"; };
+		42D8B3971A1BEA8700615F23 /* Authenticate.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = Authenticate.xib; path = CitSciMobile/Screens/Authenticate.xib; sourceTree = "<group>"; };
+		42D8B39A1A1BEBAA00615F23 /* Authenticate_iphone5.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = Authenticate_iphone5.xib; path = CitSciMobile/Screens/Authenticate_iphone5.xib; sourceTree = "<group>"; };
 		42E3F8071888584A00EF990B /* CitSciMobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CitSciMobile.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		42E3F80A1888584A00EF990B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		42E3F80C1888584A00EF990B /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -53,6 +207,118 @@
 		42E3F8311888584A00EF990B /* CitSciMobileTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CitSciMobileTests-Info.plist"; sourceTree = "<group>"; };
 		42E3F8331888584A00EF990B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		42E3F8351888584A00EF990B /* CitSciMobileTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CitSciMobileTests.m; sourceTree = "<group>"; };
+		42E3F84618888C0200EF990B /* ViewController_iphone5.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewController_iphone5.xib; sourceTree = "<group>"; };
+		42E3F84818888C9800EF990B /* ViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewController.xib; sourceTree = "<group>"; };
+		42E3F84A18888D6500EF990B /* FormNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FormNode.h; path = CitSciMobile/Model/FormNode.h; sourceTree = "<group>"; };
+		42E3F84B18888D6500EF990B /* FormNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FormNode.m; path = CitSciMobile/Model/FormNode.m; sourceTree = "<group>"; };
+		42E3F84C18888D6500EF990B /* Model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Model.h; path = CitSciMobile/Model/Model.h; sourceTree = "<group>"; };
+		42E3F84D18888D6500EF990B /* Model.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Model.m; path = CitSciMobile/Model/Model.m; sourceTree = "<group>"; };
+		42E3F84E18888D6500EF990B /* ProjectNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProjectNode.h; path = CitSciMobile/Model/ProjectNode.h; sourceTree = "<group>"; };
+		42E3F84F18888D6500EF990B /* ProjectNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProjectNode.m; path = CitSciMobile/Model/ProjectNode.m; sourceTree = "<group>"; };
+		42E3F85318888D7E00EF990B /* AboutUs_iphone5.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AboutUs_iphone5.xib; path = CitSciMobile/Screens/AboutUs_iphone5.xib; sourceTree = "<group>"; };
+		42E3F85418888D7E00EF990B /* AboutUs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AboutUs.h; path = CitSciMobile/Screens/AboutUs.h; sourceTree = "<group>"; };
+		42E3F85518888D7E00EF990B /* AboutUs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AboutUs.m; path = CitSciMobile/Screens/AboutUs.m; sourceTree = "<group>"; };
+		42E3F85618888D7E00EF990B /* AboutUs.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AboutUs.xib; path = CitSciMobile/Screens/AboutUs.xib; sourceTree = "<group>"; };
+		42E3F85718888D7E00EF990B /* AddAuthority_iphone5.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddAuthority_iphone5.xib; path = CitSciMobile/Screens/AddAuthority_iphone5.xib; sourceTree = "<group>"; };
+		42E3F85818888D7E00EF990B /* AddAuthority.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddAuthority.h; path = CitSciMobile/Screens/AddAuthority.h; sourceTree = "<group>"; };
+		42E3F85918888D7E00EF990B /* AddAuthority.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddAuthority.m; path = CitSciMobile/Screens/AddAuthority.m; sourceTree = "<group>"; };
+		42E3F85A18888D7E00EF990B /* AddAuthority.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddAuthority.xib; path = CitSciMobile/Screens/AddAuthority.xib; sourceTree = "<group>"; };
+		42E3F85B18888D7E00EF990B /* AddObservation_iphone5.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddObservation_iphone5.xib; path = CitSciMobile/Screens/AddObservation_iphone5.xib; sourceTree = "<group>"; };
+		42E3F85C18888D7E00EF990B /* AddObservation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddObservation.h; path = CitSciMobile/Screens/AddObservation.h; sourceTree = "<group>"; };
+		42E3F85D18888D7E00EF990B /* AddObservation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddObservation.m; path = CitSciMobile/Screens/AddObservation.m; sourceTree = "<group>"; };
+		42E3F85E18888D7E00EF990B /* AddObservation.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddObservation.xib; path = CitSciMobile/Screens/AddObservation.xib; sourceTree = "<group>"; };
+		42E3F85F18888D7E00EF990B /* AddObservationEnter_iphone5.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddObservationEnter_iphone5.xib; path = CitSciMobile/Screens/AddObservationEnter_iphone5.xib; sourceTree = "<group>"; };
+		42E3F86018888D7E00EF990B /* AddObservationEnter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddObservationEnter.h; path = CitSciMobile/Screens/AddObservationEnter.h; sourceTree = "<group>"; };
+		42E3F86118888D7E00EF990B /* AddObservationEnter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddObservationEnter.m; path = CitSciMobile/Screens/AddObservationEnter.m; sourceTree = "<group>"; };
+		42E3F86218888D7E00EF990B /* AddObservationEnter.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddObservationEnter.xib; path = CitSciMobile/Screens/AddObservationEnter.xib; sourceTree = "<group>"; };
+		42E3F86318888D7E00EF990B /* AddObservationEnterDone_iphone5.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddObservationEnterDone_iphone5.xib; path = CitSciMobile/Screens/AddObservationEnterDone_iphone5.xib; sourceTree = "<group>"; };
+		42E3F86418888D7E00EF990B /* AddObservationEnterDone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddObservationEnterDone.h; path = CitSciMobile/Screens/AddObservationEnterDone.h; sourceTree = "<group>"; };
+		42E3F86518888D7E00EF990B /* AddObservationEnterDone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddObservationEnterDone.m; path = CitSciMobile/Screens/AddObservationEnterDone.m; sourceTree = "<group>"; };
+		42E3F86618888D7E00EF990B /* AddObservationEnterDone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddObservationEnterDone.xib; path = CitSciMobile/Screens/AddObservationEnterDone.xib; sourceTree = "<group>"; };
+		42E3F86718888D7E00EF990B /* AddObservationEnterDoneSkipAndCamera_iphone5.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddObservationEnterDoneSkipAndCamera_iphone5.xib; path = CitSciMobile/Screens/AddObservationEnterDoneSkipAndCamera_iphone5.xib; sourceTree = "<group>"; };
+		42E3F86818888D7E00EF990B /* AddObservationEnterDoneSkipAndCamera.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddObservationEnterDoneSkipAndCamera.xib; path = CitSciMobile/Screens/AddObservationEnterDoneSkipAndCamera.xib; sourceTree = "<group>"; };
+		42E3F86918888D7E00EF990B /* AddObservationEnterSkipAndCamera_iphone5.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddObservationEnterSkipAndCamera_iphone5.xib; path = CitSciMobile/Screens/AddObservationEnterSkipAndCamera_iphone5.xib; sourceTree = "<group>"; };
+		42E3F86A18888D7E00EF990B /* AddObservationEnterSkipAndCamera.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddObservationEnterSkipAndCamera.xib; path = CitSciMobile/Screens/AddObservationEnterSkipAndCamera.xib; sourceTree = "<group>"; };
+		42E3F86B18888D7E00EF990B /* AddObservationSelect_iphone5.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddObservationSelect_iphone5.xib; path = CitSciMobile/Screens/AddObservationSelect_iphone5.xib; sourceTree = "<group>"; };
+		42E3F86C18888D7E00EF990B /* AddObservationSelect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddObservationSelect.h; path = CitSciMobile/Screens/AddObservationSelect.h; sourceTree = "<group>"; };
+		42E3F86D18888D7E00EF990B /* AddObservationSelect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddObservationSelect.m; path = CitSciMobile/Screens/AddObservationSelect.m; sourceTree = "<group>"; };
+		42E3F86E18888D7E00EF990B /* AddObservationSelect.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddObservationSelect.xib; path = CitSciMobile/Screens/AddObservationSelect.xib; sourceTree = "<group>"; };
+		42E3F86F18888D7E00EF990B /* AddObservationSelectDone_iphone5.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddObservationSelectDone_iphone5.xib; path = CitSciMobile/Screens/AddObservationSelectDone_iphone5.xib; sourceTree = "<group>"; };
+		42E3F87018888D7E00EF990B /* AddObservationSelectDone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddObservationSelectDone.h; path = CitSciMobile/Screens/AddObservationSelectDone.h; sourceTree = "<group>"; };
+		42E3F87118888D7E00EF990B /* AddObservationSelectDone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddObservationSelectDone.m; path = CitSciMobile/Screens/AddObservationSelectDone.m; sourceTree = "<group>"; };
+		42E3F87218888D7E00EF990B /* AddObservationSelectDone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddObservationSelectDone.xib; path = CitSciMobile/Screens/AddObservationSelectDone.xib; sourceTree = "<group>"; };
+		42E3F87318888D7E00EF990B /* AddObservationSelectDoneSkipAndCamera_iphone5.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddObservationSelectDoneSkipAndCamera_iphone5.xib; path = CitSciMobile/Screens/AddObservationSelectDoneSkipAndCamera_iphone5.xib; sourceTree = "<group>"; };
+		42E3F87418888D7E00EF990B /* AddObservationSelectDoneSkipAndCamera.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddObservationSelectDoneSkipAndCamera.xib; path = CitSciMobile/Screens/AddObservationSelectDoneSkipAndCamera.xib; sourceTree = "<group>"; };
+		42E3F87518888D7E00EF990B /* AddObservationSelectSkipAndCamera_iphone5.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddObservationSelectSkipAndCamera_iphone5.xib; path = CitSciMobile/Screens/AddObservationSelectSkipAndCamera_iphone5.xib; sourceTree = "<group>"; };
+		42E3F87618888D7E00EF990B /* AddObservationSelectSkipAndCamera.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddObservationSelectSkipAndCamera.xib; path = CitSciMobile/Screens/AddObservationSelectSkipAndCamera.xib; sourceTree = "<group>"; };
+		42E3F87718888D7E00EF990B /* Camera_iphone5.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = Camera_iphone5.xib; path = CitSciMobile/Screens/Camera_iphone5.xib; sourceTree = "<group>"; };
+		42E3F87818888D7E00EF990B /* Camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Camera.h; path = CitSciMobile/Screens/Camera.h; sourceTree = "<group>"; };
+		42E3F87918888D7E00EF990B /* Camera.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Camera.m; path = CitSciMobile/Screens/Camera.m; sourceTree = "<group>"; };
+		42E3F87A18888D7E00EF990B /* Camera.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = Camera.xib; path = CitSciMobile/Screens/Camera.xib; sourceTree = "<group>"; };
+		42E3F87B18888D7E00EF990B /* Developers_iphone5.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = Developers_iphone5.xib; path = CitSciMobile/Screens/Developers_iphone5.xib; sourceTree = "<group>"; };
+		42E3F87C18888D7E00EF990B /* Developers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Developers.h; path = CitSciMobile/Screens/Developers.h; sourceTree = "<group>"; };
+		42E3F87D18888D7E00EF990B /* Developers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Developers.m; path = CitSciMobile/Screens/Developers.m; sourceTree = "<group>"; };
+		42E3F87E18888D7F00EF990B /* Developers.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = Developers.xib; path = CitSciMobile/Screens/Developers.xib; sourceTree = "<group>"; };
+		42E3F87F18888D7F00EF990B /* FormsTableViewController_iphone5.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FormsTableViewController_iphone5.xib; path = CitSciMobile/Screens/FormsTableViewController_iphone5.xib; sourceTree = "<group>"; };
+		42E3F88018888D7F00EF990B /* FormsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FormsTableViewController.h; path = CitSciMobile/Screens/FormsTableViewController.h; sourceTree = "<group>"; };
+		42E3F88118888D7F00EF990B /* FormsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FormsTableViewController.m; path = CitSciMobile/Screens/FormsTableViewController.m; sourceTree = "<group>"; };
+		42E3F88218888D7F00EF990B /* FormsTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FormsTableViewController.xib; path = CitSciMobile/Screens/FormsTableViewController.xib; sourceTree = "<group>"; };
+		42E3F88318888D7F00EF990B /* Help_iphone5.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = Help_iphone5.xib; path = CitSciMobile/Screens/Help_iphone5.xib; sourceTree = "<group>"; };
+		42E3F88418888D7F00EF990B /* Help.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Help.h; path = CitSciMobile/Screens/Help.h; sourceTree = "<group>"; };
+		42E3F88518888D7F00EF990B /* Help.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Help.m; path = CitSciMobile/Screens/Help.m; sourceTree = "<group>"; };
+		42E3F88618888D7F00EF990B /* Help.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = Help.xib; path = CitSciMobile/Screens/Help.xib; sourceTree = "<group>"; };
+		42E3F88718888D7F00EF990B /* Information_iphone5.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = Information_iphone5.xib; path = CitSciMobile/Screens/Information_iphone5.xib; sourceTree = "<group>"; };
+		42E3F88818888D7F00EF990B /* Information.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Information.h; path = CitSciMobile/Screens/Information.h; sourceTree = "<group>"; };
+		42E3F88918888D7F00EF990B /* Information.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Information.m; path = CitSciMobile/Screens/Information.m; sourceTree = "<group>"; };
+		42E3F88A18888D7F00EF990B /* Information.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = Information.xib; path = CitSciMobile/Screens/Information.xib; sourceTree = "<group>"; };
+		42E3F88B18888D7F00EF990B /* ObservationsViewController_iphone5.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ObservationsViewController_iphone5.xib; path = CitSciMobile/Screens/ObservationsViewController_iphone5.xib; sourceTree = "<group>"; };
+		42E3F88C18888D7F00EF990B /* ObservationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ObservationsViewController.h; path = CitSciMobile/Screens/ObservationsViewController.h; sourceTree = "<group>"; };
+		42E3F88D18888D7F00EF990B /* ObservationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ObservationsViewController.m; path = CitSciMobile/Screens/ObservationsViewController.m; sourceTree = "<group>"; };
+		42E3F88E18888D7F00EF990B /* ObservationsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ObservationsViewController.xib; path = CitSciMobile/Screens/ObservationsViewController.xib; sourceTree = "<group>"; };
+		42E3F89018888D7F00EF990B /* ProjectsTableViewController_iphone5.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProjectsTableViewController_iphone5.xib; path = CitSciMobile/Screens/ProjectsTableViewController_iphone5.xib; sourceTree = "<group>"; };
+		42E3F89118888D7F00EF990B /* ProjectsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProjectsTableViewController.h; path = CitSciMobile/Screens/ProjectsTableViewController.h; sourceTree = "<group>"; };
+		42E3F89218888D7F00EF990B /* ProjectsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProjectsTableViewController.m; path = CitSciMobile/Screens/ProjectsTableViewController.m; sourceTree = "<group>"; };
+		42E3F89318888D7F00EF990B /* ProjectsTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProjectsTableViewController.xib; path = CitSciMobile/Screens/ProjectsTableViewController.xib; sourceTree = "<group>"; };
+		42E3F89818888D7F00EF990B /* UploadViewController_iphone5.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = UploadViewController_iphone5.xib; path = CitSciMobile/Screens/UploadViewController_iphone5.xib; sourceTree = "<group>"; };
+		42E3F89918888D7F00EF990B /* UploadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UploadViewController.h; path = CitSciMobile/Screens/UploadViewController.h; sourceTree = "<group>"; };
+		42E3F89A18888D7F00EF990B /* UploadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UploadViewController.m; path = CitSciMobile/Screens/UploadViewController.m; sourceTree = "<group>"; };
+		42E3F89B18888D7F00EF990B /* UploadViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = UploadViewController.xib; path = CitSciMobile/Screens/UploadViewController.xib; sourceTree = "<group>"; };
+		42E3F89C18888D7F00EF990B /* UserData_iphone5.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = UserData_iphone5.xib; path = CitSciMobile/Screens/UserData_iphone5.xib; sourceTree = "<group>"; };
+		42E3F89D18888D7F00EF990B /* UserData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserData.h; path = CitSciMobile/Screens/UserData.h; sourceTree = "<group>"; };
+		42E3F89E18888D7F00EF990B /* UserData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserData.m; path = CitSciMobile/Screens/UserData.m; sourceTree = "<group>"; };
+		42E3F89F18888D7F00EF990B /* UserData.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = UserData.xib; path = CitSciMobile/Screens/UserData.xib; sourceTree = "<group>"; };
+		42E3F8DC18888DA300EF990B /* DisplayMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DisplayMap.h; path = CitSciMobile/Utilities/DisplayMap.h; sourceTree = "<group>"; };
+		42E3F8DD18888DA300EF990B /* DisplayMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DisplayMap.m; path = CitSciMobile/Utilities/DisplayMap.m; sourceTree = "<group>"; };
+		42E3F8DE18888DA300EF990B /* GetLocationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetLocationViewController.h; path = CitSciMobile/Utilities/GetLocationViewController.h; sourceTree = "<group>"; };
+		42E3F8DF18888DA300EF990B /* GetLocationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetLocationViewController.m; path = CitSciMobile/Utilities/GetLocationViewController.m; sourceTree = "<group>"; };
+		42E3F8E018888DA300EF990B /* MyTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyTableCell.h; path = CitSciMobile/Utilities/MyTableCell.h; sourceTree = "<group>"; };
+		42E3F8E118888DA300EF990B /* MyTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyTableCell.m; path = CitSciMobile/Utilities/MyTableCell.m; sourceTree = "<group>"; };
+		42E3F8E218888DA300EF990B /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Reachability.h; path = CitSciMobile/Utilities/Reachability.h; sourceTree = "<group>"; };
+		42E3F8E318888DA300EF990B /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Reachability.m; path = CitSciMobile/Utilities/Reachability.m; sourceTree = "<group>"; };
+		42E3F8E418888DA300EF990B /* SMXMLDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SMXMLDocument.h; path = CitSciMobile/Utilities/SMXMLDocument.h; sourceTree = "<group>"; };
+		42E3F8E518888DA300EF990B /* SMXMLDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SMXMLDocument.m; path = CitSciMobile/Utilities/SMXMLDocument.m; sourceTree = "<group>"; };
+		42E3F8E618888DA300EF990B /* ToastAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToastAlert.h; path = CitSciMobile/Utilities/ToastAlert.h; sourceTree = "<group>"; };
+		42E3F8E718888DA300EF990B /* ToastAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToastAlert.m; path = CitSciMobile/Utilities/ToastAlert.m; sourceTree = "<group>"; };
+		42E3F8EE18888DBC00EF990B /* CitSci.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CitSci.png; path = CitSciMobile/Resources/CitSci.png; sourceTree = "<group>"; };
+		42E3F8EF18888DBC00EF990B /* colorado_state_university_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = colorado_state_university_logo.png; path = CitSciMobile/Resources/colorado_state_university_logo.png; sourceTree = "<group>"; };
+		42E3F8F018888DBC00EF990B /* Greg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Greg.png; path = CitSciMobile/Resources/Greg.png; sourceTree = "<group>"; };
+		42E3F8F118888DBC00EF990B /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-72.png"; path = "CitSciMobile/Resources/Icon-72.png"; sourceTree = "<group>"; };
+		42E3F8F218888DBC00EF990B /* Icon-120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-120.png"; path = "CitSciMobile/Resources/Icon-120.png"; sourceTree = "<group>"; };
+		42E3F8F318888DBC00EF990B /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = CitSciMobile/Resources/Icon.png; sourceTree = "<group>"; };
+		42E3F8F418888DBC00EF990B /* Lee.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Lee.png; path = CitSciMobile/Resources/Lee.png; sourceTree = "<group>"; };
+		42E3F8F518888DBC00EF990B /* LeewayLogo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = LeewayLogo.jpg; path = CitSciMobile/Resources/LeewayLogo.jpg; sourceTree = "<group>"; };
+		42E3F8F618888DBC00EF990B /* natural_resource_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = natural_resource_logo.png; path = CitSciMobile/Resources/natural_resource_logo.png; sourceTree = "<group>"; };
+		42E3F8F718888DBC00EF990B /* Observations.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Observations.png; path = CitSciMobile/Resources/Observations.png; sourceTree = "<group>"; };
+		42E3F8F818888DBC00EF990B /* Pramod.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Pramod.png; path = CitSciMobile/Resources/Pramod.png; sourceTree = "<group>"; };
+		42E3F8F918888DBC00EF990B /* Russ.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Russ.png; path = CitSciMobile/Resources/Russ.png; sourceTree = "<group>"; };
+		42E3F8FA18888DBC00EF990B /* SetProject.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SetProject.png; path = CitSciMobile/Resources/SetProject.png; sourceTree = "<group>"; };
+		42E3F8FB18888DBC00EF990B /* Settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Settings.png; path = CitSciMobile/Resources/Settings.png; sourceTree = "<group>"; };
+		42E3F8FC18888DBC00EF990B /* Upload.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Upload.png; path = CitSciMobile/Resources/Upload.png; sourceTree = "<group>"; };
+		42E3F8FD18888DBC00EF990B /* UploadOld.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = UploadOld.png; path = CitSciMobile/Resources/UploadOld.png; sourceTree = "<group>"; };
+		42E3F90E18888DFC00EF990B /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		42E3F91018888E0F00EF990B /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		42E3F91218888E1800EF990B /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		42E3F91418888E2200EF990B /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +326,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				42E3F91518888E2200EF990B /* CoreLocation.framework in Frameworks */,
+				42E3F91318888E1800EF990B /* MapKit.framework in Frameworks */,
+				42E3F91118888E0F00EF990B /* SystemConfiguration.framework in Frameworks */,
+				42E3F90F18888DFC00EF990B /* QuartzCore.framework in Frameworks */,
 				42E3F80D1888584A00EF990B /* CoreGraphics.framework in Frameworks */,
 				42E3F80F1888584A00EF990B /* UIKit.framework in Frameworks */,
 				42E3F80B1888584A00EF990B /* Foundation.framework in Frameworks */,
@@ -83,6 +353,10 @@
 			isa = PBXGroup;
 			children = (
 				42E3F8101888584A00EF990B /* CitSciMobile */,
+				42E3F8421888596600EF990B /* Model */,
+				42E3F8431888596E00EF990B /* Screens */,
+				42E3F8441888597600EF990B /* Utilities */,
+				42E3F8451888598000EF990B /* Resources */,
 				42E3F82F1888584A00EF990B /* CitSciMobileTests */,
 				42E3F8091888584A00EF990B /* Frameworks */,
 				42E3F8081888584A00EF990B /* Products */,
@@ -101,6 +375,10 @@
 		42E3F8091888584A00EF990B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				42E3F91418888E2200EF990B /* CoreLocation.framework */,
+				42E3F91218888E1800EF990B /* MapKit.framework */,
+				42E3F91018888E0F00EF990B /* SystemConfiguration.framework */,
+				42E3F90E18888DFC00EF990B /* QuartzCore.framework */,
 				42E3F80A1888584A00EF990B /* Foundation.framework */,
 				42E3F80C1888584A00EF990B /* CoreGraphics.framework */,
 				42E3F80E1888584A00EF990B /* UIKit.framework */,
@@ -117,6 +395,8 @@
 				42E3F81C1888584A00EF990B /* Main.storyboard */,
 				42E3F81F1888584A00EF990B /* ViewController.h */,
 				42E3F8201888584A00EF990B /* ViewController.m */,
+				42E3F84818888C9800EF990B /* ViewController.xib */,
+				42E3F84618888C0200EF990B /* ViewController_iphone5.xib */,
 				42E3F8221888584A00EF990B /* Images.xcassets */,
 				42E3F8111888584A00EF990B /* Supporting Files */,
 			);
@@ -150,6 +430,177 @@
 				42E3F8321888584A00EF990B /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		42E3F8421888596600EF990B /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				42E3F84A18888D6500EF990B /* FormNode.h */,
+				42E3F84B18888D6500EF990B /* FormNode.m */,
+				42E3F84C18888D6500EF990B /* Model.h */,
+				42E3F84D18888D6500EF990B /* Model.m */,
+				42E3F84E18888D6500EF990B /* ProjectNode.h */,
+				42E3F84F18888D6500EF990B /* ProjectNode.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		42E3F8431888596E00EF990B /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				42E3F88C18888D7F00EF990B /* ObservationsViewController.h */,
+				42E3F88D18888D7F00EF990B /* ObservationsViewController.m */,
+				42E3F88E18888D7F00EF990B /* ObservationsViewController.xib */,
+				42E3F88B18888D7F00EF990B /* ObservationsViewController_iphone5.xib */,
+				42E3F85418888D7E00EF990B /* AboutUs.h */,
+				42E3F85518888D7E00EF990B /* AboutUs.m */,
+				42E3F85618888D7E00EF990B /* AboutUs.xib */,
+				42E3F85318888D7E00EF990B /* AboutUs_iphone5.xib */,
+				42E3F85818888D7E00EF990B /* AddAuthority.h */,
+				42E3F85918888D7E00EF990B /* AddAuthority.m */,
+				42E3F85A18888D7E00EF990B /* AddAuthority.xib */,
+				42E3F85718888D7E00EF990B /* AddAuthority_iphone5.xib */,
+				42D2AADD1AC372C300A91FF4 /* AddPredefinedObservation.h */,
+				42D2AADE1AC372C300A91FF4 /* AddPredefinedObservation.m */,
+				42D2AADF1AC372C300A91FF4 /* AddPredefinedObservation.xib */,
+				42D2AAE21AC3730400A91FF4 /* AddPredefinedObservation_iphone5.xib */,
+				42E3F85C18888D7E00EF990B /* AddObservation.h */,
+				42E3F85D18888D7E00EF990B /* AddObservation.m */,
+				42E3F85E18888D7E00EF990B /* AddObservation.xib */,
+				42E3F85B18888D7E00EF990B /* AddObservation_iphone5.xib */,
+				427747061AEAF82900BAB6F7 /* AddObservationDate.h */,
+				427747071AEAF82900BAB6F7 /* AddObservationDate.m */,
+				427747081AEAF82900BAB6F7 /* AddObservationDate.xib */,
+				427747241AEB3F5200BAB6F7 /* AddObservationDateSkipAndCamera.xib */,
+				4277470D1AEAF96000BAB6F7 /* AddObservationDate_iphone5.xib */,
+				427747261AEB413900BAB6F7 /* AddObservationDateSkipAndCamera_iphone5.xib */,
+				4277470F1AEAF9B900BAB6F7 /* AddObservationDateDone.h */,
+				427747101AEAF9B900BAB6F7 /* AddObservationDateDone.m */,
+				427747111AEAF9B900BAB6F7 /* AddObservationDateDone.xib */,
+				427747141AEAF9E800BAB6F7 /* AddObservationDateDone_iphone5.xib */,
+				427747301AEDB06100BAB6F7 /* AddObservationDateDoneSkipAndCamera.xib */,
+				427747321AEDB0B500BAB6F7 /* AddObservationDateDoneSkipAndCamera_iphone5.xib */,
+				427747161AEAFC4000BAB6F7 /* AddObservationString.h */,
+				427747171AEAFC4000BAB6F7 /* AddObservationString.m */,
+				427747181AEAFC4000BAB6F7 /* AddObservationString.xib */,
+				427747221AEAFCE900BAB6F7 /* AddObservationString_iphone5.xib */,
+				427747281AED9D4100BAB6F7 /* AddObservationStringSkipAndCamera.xib */,
+				4277472A1AED9DAA00BAB6F7 /* AddObservationStringSkipAndCamera_iphone5.xib */,
+				4277471B1AEAFC7400BAB6F7 /* AddObservationStringDone.h */,
+				4277471C1AEAFC7400BAB6F7 /* AddObservationStringDone.m */,
+				4277471D1AEAFC7400BAB6F7 /* AddObservationStringDone.xib */,
+				427747201AEAFCA200BAB6F7 /* AddObservationStringDone_iphone5.xib */,
+				4277472C1AED9E1F00BAB6F7 /* AddObservationStringDoneSkipAndCamera.xib */,
+				4277472E1AED9E7800BAB6F7 /* AddObservationStringDoneSkipAndCamera_iphone5.xib */,
+				42E3F86018888D7E00EF990B /* AddObservationEnter.h */,
+				42E3F86118888D7E00EF990B /* AddObservationEnter.m */,
+				42E3F86218888D7E00EF990B /* AddObservationEnter.xib */,
+				42E3F85F18888D7E00EF990B /* AddObservationEnter_iphone5.xib */,
+				42E3F86A18888D7E00EF990B /* AddObservationEnterSkipAndCamera.xib */,
+				42E3F86918888D7E00EF990B /* AddObservationEnterSkipAndCamera_iphone5.xib */,
+				42E3F86418888D7E00EF990B /* AddObservationEnterDone.h */,
+				42E3F86518888D7E00EF990B /* AddObservationEnterDone.m */,
+				42E3F86618888D7E00EF990B /* AddObservationEnterDone.xib */,
+				42E3F86318888D7E00EF990B /* AddObservationEnterDone_iphone5.xib */,
+				42E3F86818888D7E00EF990B /* AddObservationEnterDoneSkipAndCamera.xib */,
+				42E3F86718888D7E00EF990B /* AddObservationEnterDoneSkipAndCamera_iphone5.xib */,
+				42E3F86C18888D7E00EF990B /* AddObservationSelect.h */,
+				42E3F86D18888D7E00EF990B /* AddObservationSelect.m */,
+				42E3F86E18888D7E00EF990B /* AddObservationSelect.xib */,
+				42E3F86B18888D7E00EF990B /* AddObservationSelect_iphone5.xib */,
+				42E3F87618888D7E00EF990B /* AddObservationSelectSkipAndCamera.xib */,
+				42E3F87518888D7E00EF990B /* AddObservationSelectSkipAndCamera_iphone5.xib */,
+				42E3F87018888D7E00EF990B /* AddObservationSelectDone.h */,
+				42E3F87118888D7E00EF990B /* AddObservationSelectDone.m */,
+				42E3F87218888D7E00EF990B /* AddObservationSelectDone.xib */,
+				42E3F86F18888D7E00EF990B /* AddObservationSelectDone_iphone5.xib */,
+				42E3F87318888D7E00EF990B /* AddObservationSelectDoneSkipAndCamera_iphone5.xib */,
+				42E3F87418888D7E00EF990B /* AddObservationSelectDoneSkipAndCamera.xib */,
+				42E3F87818888D7E00EF990B /* Camera.h */,
+				42E3F87918888D7E00EF990B /* Camera.m */,
+				42E3F87A18888D7E00EF990B /* Camera.xib */,
+				42E3F87718888D7E00EF990B /* Camera_iphone5.xib */,
+				42E3F87C18888D7E00EF990B /* Developers.h */,
+				42E3F87D18888D7E00EF990B /* Developers.m */,
+				42E3F87E18888D7F00EF990B /* Developers.xib */,
+				42E3F87B18888D7E00EF990B /* Developers_iphone5.xib */,
+				42E3F88018888D7F00EF990B /* FormsTableViewController.h */,
+				42E3F88118888D7F00EF990B /* FormsTableViewController.m */,
+				42E3F88218888D7F00EF990B /* FormsTableViewController.xib */,
+				42E3F87F18888D7F00EF990B /* FormsTableViewController_iphone5.xib */,
+				42E3F88418888D7F00EF990B /* Help.h */,
+				42E3F88518888D7F00EF990B /* Help.m */,
+				42E3F88618888D7F00EF990B /* Help.xib */,
+				42E3F88318888D7F00EF990B /* Help_iphone5.xib */,
+				42E3F88818888D7F00EF990B /* Information.h */,
+				42E3F88918888D7F00EF990B /* Information.m */,
+				42E3F88A18888D7F00EF990B /* Information.xib */,
+				42E3F88718888D7F00EF990B /* Information_iphone5.xib */,
+				42E3F89118888D7F00EF990B /* ProjectsTableViewController.h */,
+				42E3F89218888D7F00EF990B /* ProjectsTableViewController.m */,
+				42E3F89318888D7F00EF990B /* ProjectsTableViewController.xib */,
+				42E3F89018888D7F00EF990B /* ProjectsTableViewController_iphone5.xib */,
+				42B6D5371AFD93C200E555C1 /* PicklistView.h */,
+				42B6D5381AFD93C300E555C1 /* PicklistView.m */,
+				42B6D5391AFD93C300E555C1 /* PicklistView.xib */,
+				42A315451B1E647A00F474B7 /* PicklistView_iphone5.xib */,
+				42E3F89918888D7F00EF990B /* UploadViewController.h */,
+				42E3F89A18888D7F00EF990B /* UploadViewController.m */,
+				42E3F89B18888D7F00EF990B /* UploadViewController.xib */,
+				42E3F89818888D7F00EF990B /* UploadViewController_iphone5.xib */,
+				42E3F89D18888D7F00EF990B /* UserData.h */,
+				42E3F89E18888D7F00EF990B /* UserData.m */,
+				42E3F89F18888D7F00EF990B /* UserData.xib */,
+				42E3F89C18888D7F00EF990B /* UserData_iphone5.xib */,
+				42D8B3951A1BEA8700615F23 /* Authenticate.h */,
+				42D8B3961A1BEA8700615F23 /* Authenticate.m */,
+				42D8B3971A1BEA8700615F23 /* Authenticate.xib */,
+				42D8B39A1A1BEBAA00615F23 /* Authenticate_iphone5.xib */,
+			);
+			name = Screens;
+			sourceTree = "<group>";
+		};
+		42E3F8441888597600EF990B /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				42E3F8DC18888DA300EF990B /* DisplayMap.h */,
+				42E3F8DD18888DA300EF990B /* DisplayMap.m */,
+				42E3F8DE18888DA300EF990B /* GetLocationViewController.h */,
+				42E3F8DF18888DA300EF990B /* GetLocationViewController.m */,
+				42E3F8E018888DA300EF990B /* MyTableCell.h */,
+				42E3F8E118888DA300EF990B /* MyTableCell.m */,
+				42E3F8E218888DA300EF990B /* Reachability.h */,
+				42E3F8E318888DA300EF990B /* Reachability.m */,
+				42E3F8E418888DA300EF990B /* SMXMLDocument.h */,
+				42E3F8E518888DA300EF990B /* SMXMLDocument.m */,
+				42E3F8E618888DA300EF990B /* ToastAlert.h */,
+				42E3F8E718888DA300EF990B /* ToastAlert.m */,
+			);
+			name = Utilities;
+			sourceTree = "<group>";
+		};
+		42E3F8451888598000EF990B /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				4223C8E318B2C1EA00983C44 /* Icon@2x.png */,
+				42E3F8EE18888DBC00EF990B /* CitSci.png */,
+				42E3F8EF18888DBC00EF990B /* colorado_state_university_logo.png */,
+				42E3F8F018888DBC00EF990B /* Greg.png */,
+				42E3F8F118888DBC00EF990B /* Icon-72.png */,
+				42E3F8F218888DBC00EF990B /* Icon-120.png */,
+				42E3F8F318888DBC00EF990B /* Icon.png */,
+				42E3F8F418888DBC00EF990B /* Lee.png */,
+				42E3F8F518888DBC00EF990B /* LeewayLogo.jpg */,
+				42E3F8F618888DBC00EF990B /* natural_resource_logo.png */,
+				42E3F8F718888DBC00EF990B /* Observations.png */,
+				42E3F8F818888DBC00EF990B /* Pramod.png */,
+				42E3F8F918888DBC00EF990B /* Russ.png */,
+				42E3F8FA18888DBC00EF990B /* SetProject.png */,
+				42E3F8FB18888DBC00EF990B /* Settings.png */,
+				42E3F8FC18888DBC00EF990B /* Upload.png */,
+				42E3F8FD18888DBC00EF990B /* UploadOld.png */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -196,7 +647,7 @@
 		42E3F7FF1888584A00EF990B /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "lee casuto";
 				TargetAttributes = {
 					42E3F8271888584A00EF990B = {
@@ -228,9 +679,90 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				42E3F90318888DBC00EF990B /* Icon.png in Resources */,
+				4277471A1AEAFC4000BAB6F7 /* AddObservationString.xib in Resources */,
+				427747291AED9D4100BAB6F7 /* AddObservationStringSkipAndCamera.xib in Resources */,
+				42E3F90018888DBC00EF990B /* Greg.png in Resources */,
+				42E3F8A018888D7F00EF990B /* AboutUs_iphone5.xib in Resources */,
+				427747151AEAF9E800BAB6F7 /* AddObservationDateDone_iphone5.xib in Resources */,
+				42E3F8BB18888D7F00EF990B /* AddObservationSelectSkipAndCamera_iphone5.xib in Resources */,
+				42E3F90D18888DBC00EF990B /* UploadOld.png in Resources */,
+				42E3F90418888DBC00EF990B /* Lee.png in Resources */,
+				42E3F84918888C9800EF990B /* ViewController.xib in Resources */,
+				42E3F90A18888DBC00EF990B /* SetProject.png in Resources */,
+				42E3F8BD18888D7F00EF990B /* Camera_iphone5.xib in Resources */,
+				4277472B1AED9DAA00BAB6F7 /* AddObservationStringSkipAndCamera_iphone5.xib in Resources */,
+				42E3F8BF18888D7F00EF990B /* Camera.xib in Resources */,
+				42E3F8B318888D7F00EF990B /* AddObservationSelect_iphone5.xib in Resources */,
+				42E3F90B18888DBC00EF990B /* Settings.png in Resources */,
+				42E3F8C818888D7F00EF990B /* Help.xib in Resources */,
+				42E3F8A318888D7F00EF990B /* AddAuthority_iphone5.xib in Resources */,
+				42E3F90C18888DBC00EF990B /* Upload.png in Resources */,
+				427747331AEDB0B600BAB6F7 /* AddObservationDateDoneSkipAndCamera_iphone5.xib in Resources */,
+				42E3F90118888DBC00EF990B /* Icon-72.png in Resources */,
+				42E3F90918888DBC00EF990B /* Russ.png in Resources */,
+				42E3F8BA18888D7F00EF990B /* AddObservationSelectDoneSkipAndCamera.xib in Resources */,
+				427747131AEAF9B900BAB6F7 /* AddObservationDateDone.xib in Resources */,
+				42E3F90518888DBC00EF990B /* LeewayLogo.jpg in Resources */,
+				4277472D1AED9E1F00BAB6F7 /* AddObservationStringDoneSkipAndCamera.xib in Resources */,
+				42E3F8D218888D7F00EF990B /* ProjectsTableViewController.xib in Resources */,
+				42E3F8C918888D7F00EF990B /* Information_iphone5.xib in Resources */,
+				42E3F8D818888D7F00EF990B /* UploadViewController.xib in Resources */,
 				42E3F8231888584A00EF990B /* Images.xcassets in Resources */,
+				42E3F8AF18888D7F00EF990B /* AddObservationEnterDoneSkipAndCamera_iphone5.xib in Resources */,
+				42E3F84718888C0200EF990B /* ViewController_iphone5.xib in Resources */,
+				42E3F8FF18888DBC00EF990B /* colorado_state_university_logo.png in Resources */,
+				4277470A1AEAF82900BAB6F7 /* AddObservationDate.xib in Resources */,
+				42E3F8C518888D7F00EF990B /* FormsTableViewController.xib in Resources */,
 				42E3F8151888584A00EF990B /* InfoPlist.strings in Resources */,
+				42E3F8AC18888D7F00EF990B /* AddObservationEnterDone_iphone5.xib in Resources */,
+				42E3F8D918888D7F00EF990B /* UserData_iphone5.xib in Resources */,
+				42E3F8B518888D7F00EF990B /* AddObservationSelect.xib in Resources */,
+				42E3F8A518888D7F00EF990B /* AddAuthority.xib in Resources */,
+				42E3F8B618888D7F00EF990B /* AddObservationSelectDone_iphone5.xib in Resources */,
+				42E3F8BC18888D7F00EF990B /* AddObservationSelectSkipAndCamera.xib in Resources */,
+				42E3F8CB18888D7F00EF990B /* Information.xib in Resources */,
+				42E3F90618888DBC00EF990B /* natural_resource_logo.png in Resources */,
+				4277470E1AEAF96000BAB6F7 /* AddObservationDate_iphone5.xib in Resources */,
+				42E3F8B018888D7F00EF990B /* AddObservationEnterDoneSkipAndCamera.xib in Resources */,
+				4223C8E418B2C1EA00983C44 /* Icon@2x.png in Resources */,
+				42E3F8A618888D7F00EF990B /* AddObservation_iphone5.xib in Resources */,
+				42E3F90718888DBC00EF990B /* Observations.png in Resources */,
+				42E3F8AB18888D7F00EF990B /* AddObservationEnter.xib in Resources */,
+				42E3F8B118888D7F00EF990B /* AddObservationEnterSkipAndCamera_iphone5.xib in Resources */,
+				4277471F1AEAFC7400BAB6F7 /* AddObservationStringDone.xib in Resources */,
+				42E3F8C018888D7F00EF990B /* Developers_iphone5.xib in Resources */,
+				42E3F8FE18888DBC00EF990B /* CitSci.png in Resources */,
+				42B6D53B1AFD93C300E555C1 /* PicklistView.xib in Resources */,
+				42E3F8C618888D7F00EF990B /* Help_iphone5.xib in Resources */,
+				42E3F8A218888D7F00EF990B /* AboutUs.xib in Resources */,
 				42E3F81E1888584A00EF990B /* Main.storyboard in Resources */,
+				42D8B3991A1BEA8700615F23 /* Authenticate.xib in Resources */,
+				42E3F8C218888D7F00EF990B /* Developers.xib in Resources */,
+				42E3F8A918888D7F00EF990B /* AddObservationEnter_iphone5.xib in Resources */,
+				42E3F90218888DBC00EF990B /* Icon-120.png in Resources */,
+				427747211AEAFCA200BAB6F7 /* AddObservationStringDone_iphone5.xib in Resources */,
+				42E3F8D618888D7F00EF990B /* UploadViewController_iphone5.xib in Resources */,
+				4277472F1AED9E7800BAB6F7 /* AddObservationStringDoneSkipAndCamera_iphone5.xib in Resources */,
+				42E3F8DB18888D7F00EF990B /* UserData.xib in Resources */,
+				42A315461B1E647A00F474B7 /* PicklistView_iphone5.xib in Resources */,
+				42E3F8C318888D7F00EF990B /* FormsTableViewController_iphone5.xib in Resources */,
+				42E3F8CC18888D7F00EF990B /* ObservationsViewController_iphone5.xib in Resources */,
+				42E3F90818888DBC00EF990B /* Pramod.png in Resources */,
+				42E3F8AE18888D7F00EF990B /* AddObservationEnterDone.xib in Resources */,
+				42E3F8B218888D7F00EF990B /* AddObservationEnterSkipAndCamera.xib in Resources */,
+				42E3F8CE18888D7F00EF990B /* ObservationsViewController.xib in Resources */,
+				427747251AEB3F5200BAB6F7 /* AddObservationDateSkipAndCamera.xib in Resources */,
+				42D2AAE31AC3730400A91FF4 /* AddPredefinedObservation_iphone5.xib in Resources */,
+				42E3F8B818888D7F00EF990B /* AddObservationSelectDone.xib in Resources */,
+				427747271AEB413900BAB6F7 /* AddObservationDateSkipAndCamera_iphone5.xib in Resources */,
+				42E3F8D018888D7F00EF990B /* ProjectsTableViewController_iphone5.xib in Resources */,
+				42E3F8A818888D7F00EF990B /* AddObservation.xib in Resources */,
+				427747231AEAFCE900BAB6F7 /* AddObservationString_iphone5.xib in Resources */,
+				42D2AAE11AC372C300A91FF4 /* AddPredefinedObservation.xib in Resources */,
+				427747311AEDB06100BAB6F7 /* AddObservationDateDoneSkipAndCamera.xib in Resources */,
+				42E3F8B918888D7F00EF990B /* AddObservationSelectDoneSkipAndCamera_iphone5.xib in Resources */,
+				42D8B39B1A1BEBAA00615F23 /* Authenticate_iphone5.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -249,9 +781,41 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				42E3F8CA18888D7F00EF990B /* Information.m in Sources */,
+				42E3F8D718888D7F00EF990B /* UploadViewController.m in Sources */,
+				42E3F8D118888D7F00EF990B /* ProjectsTableViewController.m in Sources */,
+				42E3F8BE18888D7F00EF990B /* Camera.m in Sources */,
 				42E3F8211888584A00EF990B /* ViewController.m in Sources */,
+				42E3F8DA18888D7F00EF990B /* UserData.m in Sources */,
+				42E3F8EC18888DA300EF990B /* SMXMLDocument.m in Sources */,
+				42E3F8EA18888DA300EF990B /* MyTableCell.m in Sources */,
+				42E3F8E918888DA300EF990B /* GetLocationViewController.m in Sources */,
+				42E3F8AA18888D7F00EF990B /* AddObservationEnter.m in Sources */,
+				42E3F8C418888D7F00EF990B /* FormsTableViewController.m in Sources */,
 				42E3F81B1888584A00EF990B /* AppDelegate.m in Sources */,
+				427747121AEAF9B900BAB6F7 /* AddObservationDateDone.m in Sources */,
+				42D2AAE01AC372C300A91FF4 /* AddPredefinedObservation.m in Sources */,
+				427747091AEAF82900BAB6F7 /* AddObservationDate.m in Sources */,
+				42B6D53A1AFD93C300E555C1 /* PicklistView.m in Sources */,
+				42E3F8B718888D7F00EF990B /* AddObservationSelectDone.m in Sources */,
 				42E3F8171888584A00EF990B /* main.m in Sources */,
+				42E3F8AD18888D7F00EF990B /* AddObservationEnterDone.m in Sources */,
+				42E3F8CD18888D7F00EF990B /* ObservationsViewController.m in Sources */,
+				42E3F8A418888D7F00EF990B /* AddAuthority.m in Sources */,
+				42E3F8B418888D7F00EF990B /* AddObservationSelect.m in Sources */,
+				4277471E1AEAFC7400BAB6F7 /* AddObservationStringDone.m in Sources */,
+				427747191AEAFC4000BAB6F7 /* AddObservationString.m in Sources */,
+				42E3F85018888D6500EF990B /* FormNode.m in Sources */,
+				42D8B3981A1BEA8700615F23 /* Authenticate.m in Sources */,
+				42E3F85118888D6500EF990B /* Model.m in Sources */,
+				42E3F8C718888D7F00EF990B /* Help.m in Sources */,
+				42E3F8E818888DA300EF990B /* DisplayMap.m in Sources */,
+				42E3F85218888D6500EF990B /* ProjectNode.m in Sources */,
+				42E3F8ED18888DA300EF990B /* ToastAlert.m in Sources */,
+				42E3F8A718888D7F00EF990B /* AddObservation.m in Sources */,
+				42E3F8C118888D7F00EF990B /* Developers.m in Sources */,
+				42E3F8EB18888DA300EF990B /* Reachability.m in Sources */,
+				42E3F8A118888D7F00EF990B /* AboutUs.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -305,7 +869,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -334,7 +897,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
@@ -344,7 +907,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -357,6 +919,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Lee casuto (L3FF28DFFN)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -367,7 +930,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -382,6 +945,7 @@
 				GCC_PREFIX_HEADER = "CitSciMobile/CitSciMobile-Prefix.pch";
 				INFOPLIST_FILE = "CitSciMobile/CitSciMobile-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -395,6 +959,7 @@
 				GCC_PREFIX_HEADER = "CitSciMobile/CitSciMobile-Prefix.pch";
 				INFOPLIST_FILE = "CitSciMobile/CitSciMobile-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "101cdd33-aa6d-403d-92bb-8fea5bae445f";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -402,7 +967,6 @@
 		42E3F83D1888584A00EF990B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/CitSciMobile.app/CitSciMobile";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -425,7 +989,6 @@
 		42E3F83E1888584A00EF990B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/CitSciMobile.app/CitSciMobile";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -441,6 +1004,73 @@
 			};
 			name = Release;
 		};
+		42E3F83F1888586700EF990B /* AdHoc */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = AdHoc;
+		};
+		42E3F8401888586700EF990B /* AdHoc */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Distribution: Lee casuto (L3FF28DFFN)";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CitSciMobile/CitSciMobile-Prefix.pch";
+				INFOPLIST_FILE = "CitSciMobile/CitSciMobile-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "101cdd33-aa6d-403d-92bb-8fea5bae445f";
+				WRAPPER_EXTENSION = app;
+			};
+			name = AdHoc;
+		};
+		42E3F8411888586700EF990B /* AdHoc */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/CitSciMobile.app/CitSciMobile";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CitSciMobile/CitSciMobile-Prefix.pch";
+				INFOPLIST_FILE = "CitSciMobileTests/CitSciMobileTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = AdHoc;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -449,6 +1079,7 @@
 			buildConfigurations = (
 				42E3F8371888584A00EF990B /* Debug */,
 				42E3F8381888584A00EF990B /* Release */,
+				42E3F83F1888586700EF990B /* AdHoc */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -458,16 +1089,20 @@
 			buildConfigurations = (
 				42E3F83A1888584A00EF990B /* Debug */,
 				42E3F83B1888584A00EF990B /* Release */,
+				42E3F8401888586700EF990B /* AdHoc */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		42E3F83C1888584A00EF990B /* Build configuration list for PBXNativeTarget "CitSciMobileTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				42E3F83D1888584A00EF990B /* Debug */,
 				42E3F83E1888584A00EF990B /* Release */,
+				42E3F8411888586700EF990B /* AdHoc */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
