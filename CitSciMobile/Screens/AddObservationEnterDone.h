@@ -24,6 +24,9 @@
     
     NSString                                                *theName;
     NSString                                                *theComment;
+    
+    // recover from xcode 5.1
+    IBOutlet UIToolbar                                      *Yikes;
 }
 
 @property (nonatomic, retain) IBOutlet UITextField          *SelectionEnterDoneInput;
@@ -35,6 +38,7 @@
 @property (nonatomic, retain) IBOutlet UILabel              *TheAttributeNumber;
 @property (nonatomic, retain) IBOutlet UILabel              *TitleName;
 @property (nonatomic, retain) IBOutlet UILabel              *TheUnits;
+@property (nonatomic, retain) UIToolbar                     *Yikes;
 
 -(IBAction) DoneButton:(int)intNewView;
 -(IBAction) CancelButton:(int)intNewView;

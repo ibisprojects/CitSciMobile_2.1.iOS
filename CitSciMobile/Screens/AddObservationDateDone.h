@@ -22,6 +22,9 @@
     
     NSString                                                *theName;
     NSString                                                *theComment;
+    
+    // recover from xcode 5.1
+    IBOutlet UIToolbar                                      *Yikes;
 }
 
 @property(nonatomic,retain) UIDatePicker                    *DatePicker;
@@ -33,6 +36,7 @@
 @property (nonatomic, retain) NSMutableArray                *CurrentAttributes;
 @property (nonatomic, retain) IBOutlet UILabel              *SelectionName;
 @property (nonatomic, retain) IBOutlet UILabel              *TitleName;
+@property (nonatomic, retain) UIToolbar                     *Yikes;
 
 -(IBAction) DoneButton:(int)intNewView;
 -(IBAction) CancelButton:(int)intNewView;

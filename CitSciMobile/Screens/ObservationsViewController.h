@@ -27,13 +27,15 @@
     NSMutableArray              *UploadAllErrors;
     
     // recover from xcode 5.1
-    IBOutlet UIToolbar                   *Yikes;
+    IBOutlet UIToolbar          *Yikes;
+    IBOutlet UIToolbar          *BottomYikes;
 }
 
 @property (nonatomic, retain) UITableView                       *VisitsTable;
 @property (nonatomic, retain) NSMutableArray                    *GoneVisits;
 @property (nonatomic, retain) NSMutableArray                    *UploadAllErrors;
 @property (nonatomic, retain) UIToolbar                         *Yikes;
+@property (nonatomic, retain) UIToolbar                         *BottomYikes;
 @property (nonatomic, retain) IBOutlet UILabel                  *ProjectNamePortrait;
 @property (nonatomic, retain) IBOutlet UILabel                  *FormNamePortrait;
 @property (nonatomic, retain) IBOutlet UILabel                  *UserNamePortrait;

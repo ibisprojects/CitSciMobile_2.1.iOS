@@ -18,6 +18,8 @@
 @implementation FormsTableViewController
 @synthesize FormNames;
 @synthesize FormIDs;
+@synthesize Yikes;
+@synthesize BottomYikes;
 
 
 //
@@ -199,12 +201,17 @@ Model *TheOptions;
 {
     [super viewWillAppear:animated];
     
+    self.Yikes.translucent          = NO;
+    self.Yikes.barTintColor         = [UIColor blackColor];
+    self.BottomYikes.translucent    = NO;
+    self.BottomYikes.barTintColor   = [UIColor blackColor];
+    
     [TheOptions ReadOptionsFromFile];
         
     [TheOptions SetFormNames];
     
-    self.FormNames    = [TheOptions GetFormNames];
-    self.FormIDs      = [TheOptions GetFormIDs];
+    self.FormNames                  = [TheOptions GetFormNames];
+    self.FormIDs                    = [TheOptions GetFormIDs];
 }
 
 - (void)viewDidLoad

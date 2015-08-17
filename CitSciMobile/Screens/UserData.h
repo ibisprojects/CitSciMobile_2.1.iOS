@@ -26,6 +26,10 @@
     NSString                *VisitToDelete;
     NSMutableArray          *GoneVisits;
     NSMutableArray          *UploadAllErrors;
+    
+    // recover from xcode 5.1
+    IBOutlet UIToolbar      *Yikes;
+    IBOutlet UIToolbar      *BottomYikes;
 }
 
 @property (nonatomic, copy) NSString                        *theName;
@@ -41,6 +45,8 @@
 @property (nonatomic, retain) NSMutableArray                *GoneVisits;
 @property (nonatomic, retain) NSMutableArray                *UploadAllErrors;
 @property (nonatomic, retain) NSString                      *VisitToDelete;
+@property (nonatomic, retain) UIToolbar                     *Yikes;
+@property (nonatomic, retain) UIToolbar                     *BottomYikes;
 
 -(IBAction)SaveButton:(int)intNewView;
 -(IBAction)SelectServerButton:(int)intNewView;

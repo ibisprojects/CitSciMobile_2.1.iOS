@@ -12,10 +12,16 @@
 {
     NSMutableArray          *FormNames;
     NSMutableArray          *FormIDs;
+    
+    // recover from xcode 5.1
+    IBOutlet UIToolbar      *Yikes;
+    IBOutlet UIToolbar      *BottomYikes;
 }
 
 @property (nonatomic, retain) NSMutableArray                *FormNames;
 @property (nonatomic, retain) NSMutableArray                *FormIDs;
+@property (nonatomic, retain) UIToolbar                     *Yikes;
+@property (nonatomic, retain) UIToolbar                     *BottomYikes;
 
 -(IBAction) BackButton:(int)intNewView;
 -(IBAction) ObservationsButton:(int)intNewView;

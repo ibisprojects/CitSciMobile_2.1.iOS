@@ -23,6 +23,7 @@
 @synthesize AuthorityIDs;
 @synthesize PreviousTitle;
 @synthesize PreviousValue;
+@synthesize Yikes;
 
 //
 // get a pointer to all options
@@ -132,6 +133,8 @@ NSString *ShutUp;
     
     if(PreviousMode)
     {
+        //NSLog(@"===== addauthority: continue/previous mode");
+        //[TheOptions DumpAttributeData];
         int TheIndex = AUTHORITYSTART;
         if(!AuthoritySelectSet)
         {
@@ -258,12 +261,13 @@ NSString *ShutUp;
     
     if(!Error)
     {
+        [TheOptions SetCurrentViewValue:ADDAUTHORITY];
         AppDelegate  *appDelegate   = [[UIApplication sharedApplication] delegate];
         int OrganismIndex           = [TheOptions GetCurrentOrganismIndex];
         NSMutableArray *pl          = [TheOptions GetOrganismPicklistAtIndex:OrganismIndex];
         if(([TheOptions GetIsNewOrganism]) && ([pl count] > 0))
         {
-            
+            [TheOptions SetKeepAuthoritySet:true];
             [TheOptions SetViewAfterPicklist:TheNextView];
             [TheOptions SetViewType:TheNextView];
             [appDelegate displayView:PICKLISTVIEW];
@@ -271,6 +275,7 @@ NSString *ShutUp;
         }
         else
         {
+            [TheOptions SetKeepAuthoritySet:false];
             [appDelegate displayView:TheNextView];
             [TheOptions SetViewType:TheNextView];
         }
@@ -442,6 +447,9 @@ NSString *ShutUp;
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
+    
+    self.Yikes.translucent      = NO;
+    self.Yikes.barTintColor     = [UIColor blackColor];
     
     AuthorityDebug=false;
     if(AuthorityDebug) NSLog(@"==== addauthority viewwillappear");

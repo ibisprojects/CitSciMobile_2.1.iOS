@@ -10,10 +10,12 @@
 
 @interface UploadViewController : UIViewController <UITextFieldDelegate>
 {
-    
+    // recover from xcode 5.1
+    IBOutlet UIToolbar          *Yikes;
 }
 
 @property (nonatomic, retain) IBOutlet UITextField *badgeField;
+@property (nonatomic, retain) UIToolbar            *Yikes;
 
 -(IBAction) ObservationsButton:(int)intNewView;
 -(IBAction) SetProjectButton:(int)intNewView;

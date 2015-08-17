@@ -28,6 +28,9 @@
 @synthesize LocationsTable;
 @synthesize LocationNames;
 @synthesize LocationIDs;
+@synthesize Yikes;
+@synthesize PreviousTitle;
+@synthesize PreviousValue;
 
 //
 // get a pointer to all options
@@ -483,6 +486,9 @@ static Boolean DoCamera         = false;
 {
     [super viewWillAppear:YES];
     
+    self.Yikes.translucent  = NO;
+    self.Yikes.barTintColor = [UIColor blackColor];
+    
     self.LocationNames  = [TheOptions GetPredefinedLocationNames];
     self.LocationIDs    = [TheOptions GetPredefinedLocationIDs];
     
@@ -510,6 +516,11 @@ static Boolean DoCamera         = false;
         foo                              = [TheOptions GetCurrentAttributeDataValueAtIndex:LONVALUE];
         foo                              = [TheOptions GetCurrentAttributeDataValueAtIndex:ALTVALUE];
         foo                              = [TheOptions GetCurrentAttributeDataValueAtIndex:ACCVALUE];
+        
+        // set the previous choice
+        self.PreviousTitle.text          = @"Prior choice:";
+        foo                              = [TheOptions GetSelectedPredefinedName];
+        self.PreviousValue.text          = foo;
     }    
 }
 

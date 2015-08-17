@@ -16,6 +16,9 @@
     NSArray                 *UrlComponents;
     NSString                *FirstTime;
     NSString                *PreviousUser;
+    
+    // recover from xcode 5.1
+    IBOutlet UIToolbar      *Yikes;
 }
 
 @property (strong, nonatomic) IBOutlet  UIWebView               *webView;
@@ -24,6 +27,7 @@
 @property (strong, nonatomic) NSString                          *PreviousUser;
 @property (strong, nonatomic) NSMutableDictionary               *ParameterDictionary;
 @property (strong, nonatomic) NSArray                           *UrlComponents;
+@property (nonatomic, retain) UIToolbar                         *Yikes;
 
 -(void)DisplayLoginPage;
 -(IBAction)CancelButton:(int)intNewView;

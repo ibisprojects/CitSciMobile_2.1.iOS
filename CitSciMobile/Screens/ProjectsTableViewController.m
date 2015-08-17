@@ -21,6 +21,7 @@
 @synthesize VisitToDelete;
 @synthesize GoneVisits;
 @synthesize UploadAllErrors;
+@synthesize Yikes;
 
 //
 // get a pointer to all options
@@ -257,6 +258,9 @@ static Boolean PTUploadAll = false;
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    self.Yikes.translucent              = NO;
+    self.Yikes.barTintColor             = [UIColor blackColor];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleNotification:)name:@"parsecomplete" object:nil];
     

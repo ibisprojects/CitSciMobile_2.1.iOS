@@ -311,6 +311,7 @@ static NSString            *TheVisitName;
         self.XMLServerString = [[NSString alloc]init];
         [self SetServerError:false];
         [self SetDataFromServerStatus:true];
+        [self SetBioblitzDispaly:true];
         
         //
         // observation views values
@@ -322,7 +323,11 @@ static NSString            *TheVisitName;
         [self SetIsLast:false];
         [self SetAttributesSet:false];
         [self SetSiteCharacteristicsCount:0];
-        [self SetAuthoritySet:false];
+        if(!([self GetKeepAuthoritySet]))
+        {
+            [self SetAuthoritySet:false];
+        }
+        [self SetKeepAuthoritySet:false];
         [self SetAuthorityRowNumber:0];
         [self SetUploadError:false];
         [self SetPreviousMode:false];
@@ -1575,8 +1580,12 @@ static NSString            *TheVisitName;
     return;
 }
 
-
--(void)UploadVisit:(NSString *)TheVisit
+//
+// UploadObservation contains the previous code for
+// UploadVisit.  This is for reference only and not
+// called
+//
+-(void)UploadObservation:(NSString *)TheVisit
 {
     NSError         *Error;
     NSString        *operation = @"xmlpluspics";
@@ -1652,6 +1661,104 @@ static NSString            *TheVisitName;
     [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"XMLData\"\r\n\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[XMLData dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[@"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    // if there are any pictures, send 'em here
+    for(int i=0; i < [self.PictureList count]; i++)
+    {
+        NSString *filename = [[NSString alloc]initWithString:[self.PictureList objectAtIndex:i]];
+        NSData *Data = [NSData dataWithContentsOfFile:filename];
+        [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+        [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"userfile[]\"; filename=\"%@\"\r\n", filename] dataUsingEncoding:NSUTF8StringEncoding]];
+        [body appendData:[@"Content-Type: application/octet-stream\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+        [body appendData:[NSData dataWithData:Data]];
+        [body appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+    }
+    
+    // close form
+    [body appendData:[[NSString stringWithFormat:@"--%@--\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    // set up the request
+    [theRequest setHTTPBody:body];
+    
+    [theRequest setHTTPMethod:@"POST"];
+    
+    // this starts the networking activities.
+    theConnection = [[NSURLConnection alloc] initWithRequest:theRequest delegate:self];
+    
+    // timeout
+    theTimer = [NSTimer scheduledTimerWithTimeInterval:75.0 target:self selector:@selector(cancelURLConnection:) userInfo:nil repeats:NO];
+	
+	if( theConnection )
+	{
+		self.WebData = [NSMutableData data];
+	}
+	else
+	{
+		NSLog(@"the connection failed here");
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CitSciMobile"
+                                                        message:@"Network timeout!"
+                                                       delegate:nil cancelButtonTitle:@"OK"
+                                              otherButtonTitles: nil];
+        [alert show];
+	}
+}
+
+//
+// this method has been modified to upload a visit
+// using open authentication.  The original version
+// of this method is in UploadObservation and it not
+// called.  Ever.
+//
+-(void)UploadVisit:(NSString *)TheVisit
+{
+    ConnectionType              = UPLOADOBSERVATION;
+    NSString        *NumFiles   = [[NSString alloc]init];
+    NSString        *TheToken   = [self GetAccessToken];
+    //TheToken                    = [self GetRefreshToken];  // force error
+    
+    TheVisitName                = [[NSString alloc]initWithFormat:@"%@",[TheVisit lastPathComponent]];
+    
+    ServerMode                  = UPLOADMODE;
+    
+    NSString *nl                = @"\r\n";
+    NSString *pics              = [TheVisit stringByDeletingPathExtension];
+    
+    [self AddPicturesToRequest:pics];
+    NumFiles                    = [NSString stringWithFormat:@"%lu",(unsigned long)[self.PictureList count]];
+    
+    //
+    // build the HTTP request complete with pictures
+    //
+    // create the necessary variables for this technique
+    NSString        *boundary    = @"---------------------------7d7119bb0c50";
+    NSMutableData   *body        = [NSMutableData data];
+    NSString        *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@",boundary];
+    
+    NSString *url = [NSString stringWithFormat:@"%@",UPLOAD_URL];
+    NSMutableURLRequest *theRequest = [[NSMutableURLRequest alloc] init];
+    [theRequest setURL:[NSURL URLWithString:url]];
+    [theRequest addValue:contentType forHTTPHeaderField: @"Content-Type"];
+    
+    // token parameter
+    [body appendData:[[NSString stringWithFormat:@"--%@%@", boundary,nl] dataUsingEncoding:NSASCIIStringEncoding]];
+    [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"Token\"\r\n\r\n"] dataUsingEncoding:NSASCIIStringEncoding]];
+    [body appendData:[TheToken dataUsingEncoding:NSASCIIStringEncoding]];
+    [body appendData:[nl dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    // numfiles parameter
+    [body appendData:[[NSString stringWithFormat:@"--%@%@", boundary,nl] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"NumFiles\"\r\n\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[NumFiles dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[@"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    // XMLData parameter (as a file)
+    NSData *FileAsData = [NSData dataWithContentsOfFile:TheVisit];
+    [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"XMLData\"; filename=\"%@\"\r\n", TheVisitName] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[@"Content-Type: application/octet-stream\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[NSData dataWithData:FileAsData]];
+    [body appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+
     
     // if there are any pictures, send 'em here
     for(int i=0; i < [self.PictureList count]; i++)
@@ -1779,6 +1886,24 @@ static NSString            *TheVisitName;
 -(Boolean)GetFirstSelect
 {
     return FirstSelectSet;
+}
+-(void)CheckFirstSelect
+{
+    // see if this attribute index is the first select
+    // if so, set first select to true
+    int i   = [self GetCurrentAttributeChoiceIndex];
+    
+    [self SetFirstSelect:true];
+    for(int c=0; c < i; c++)
+    {
+        NSString *foo = [self GetAttributeDataTypeAtIndex:c];
+        foo = [foo lowercaseString];
+        if ([foo isEqualToString:@"select"])
+        {
+            [self SetFirstSelect:false];
+            break;
+        }
+    }
 }
 
 -(void)SetSelectIndex:(int)TheIndex
@@ -2008,6 +2133,15 @@ static NSString            *TheVisitName;
         ReturnValue                 = false;
     }
     return ReturnValue;
+}
+
+-(void)SetBioblitzDispaly:(Boolean)TheValue
+{
+    BioblitzDisplay = TheValue;
+}
+-(Boolean)GetBioblitzDisplay
+{
+    return BioblitzDisplay;
 }
 
 //
@@ -2436,6 +2570,79 @@ static NSString            *TheVisitName;
     return CurrentAttributeNumber;
 }
 
+//
+// returns 0 for for the first attribute
+// returns 1 for the second...
+//
+-(int)GetAttributeNumberForCurrentOrganism
+{
+    int         TheAttributeNumber      = [self GetCurrentAttributeChoiceIndex];
+    int         TheOrganismCount        = [self GetOrganismCount];
+    int         LocalCount;
+    int         NumAttrForThisOrg;
+    
+    //
+    // map TheAttributeNumber to the attribute number
+    // associated with the current organism.  For example,
+    // if TheAttributeNumber is 1, and there are 3 attributes
+    // in the first organism, we are working on attribute 2 of 3
+    //
+    // to do this, march down OrganismNumberOfAttributes counting
+    // attributes until we get to TheAttributeNumber.
+    
+    LocalCount  = 0;
+    for(int i=0; i < TheOrganismCount; i++)
+    {
+        int NumAttributes = [self GetOrganismNumberOfAttributes:i];
+        for(int j=0; j < NumAttributes; j++)
+        {
+            NumAttrForThisOrg   = [self GetCurrentOrganismAttributeCount];
+            if(LocalCount == TheAttributeNumber)
+            {
+                return j;
+            }
+            LocalCount++;
+        }
+    }
+    return 0;
+}
+
+-(NSString *)GetActiveAttributeString
+{
+    NSString    *TheString              = @"";
+    int         TheAttributeNumber      = [self GetCurrentAttributeChoiceIndex];
+    int         TheOrganismCount        = [self GetOrganismCount];
+    int         LocalCount;
+    int         NumAttrForThisOrg;
+    
+    //
+    // map TheAttributeNumber to the attribute number
+    // associated with the current organism.  For example,
+    // if TheAttributeNumber is 1, and there are 3 attributes
+    // in the first organism, we are working on attribute 2 of 3
+    //
+    // to do this, march down OrganismNumberOfAttributes counting
+    // attributes until we get to TheAttributeNumber.
+    
+    LocalCount  = 0;
+    for(int i=0; i < TheOrganismCount; i++)
+    {
+        int NumAttributes = [self GetOrganismNumberOfAttributes:i];
+        for(int j=0; j < NumAttributes; j++)
+        {
+            NumAttrForThisOrg   = [self GetCurrentOrganismAttributeCount];
+            if(LocalCount == TheAttributeNumber)
+            {
+                TheString = [[NSString alloc]initWithFormat:@"Attribute %d of %d",j+1,NumAttributes];
+                return TheString;
+            }
+            LocalCount++;
+        }
+    }
+    
+    return TheString;
+}
+
 -(NSString *)GetAttributeNameAtIndex:(int)TheIndex
 {
     NSString *foo;
@@ -2585,6 +2792,9 @@ static NSString            *TheVisitName;
             }
             @catch (NSException *e)
             {
+                NSLog(@"case 12");
+                //[self DumpAttributeData];
+                [self ShowIndexes];
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CitSciMobile"
                                                                 message:@"error case 12 call lee"
                                                                delegate:nil cancelButtonTitle:@"OK"
@@ -2805,22 +3015,26 @@ static NSString            *TheVisitName;
     int adicount = (int)[self.AttributeDataTypeIDs count];
     int adccount = (int)[self.AttributeDataChoiceCount count];
     int adchcount= (int)[self.AttributeDataChoices count];
-    int caccount = (int)[self.UnitAbbreviation count];
+    //int caccount = (int)[self.UnitAbbreviation count];
     int cacindex = (int)[self GetCurrentAttributeChoiceIndex];
     
     NSLog(@"=== indexes ===");
     NSLog(@"OrganismIndex:  %d",[self GetCurrentOrganismIndex]);
     NSLog(@"AttributeIndex: %d",cacindex);
-    NSLog(@"=== Units ==");
-    for(int i=0; i<caccount;i++)
-    {
-        NSLog(@"\tunit[%d]=%@",i,[self.UnitAbbreviation objectAtIndex:i]);
-    }
+    //NSLog(@"=== Units ==");
+    //for(int i=0; i<caccount;i++)
+    //{
+    //    NSLog(@"\tunit[%d]=%@",i,[self.UnitAbbreviation objectAtIndex:i]);
+    //}
     NSLog(@"=== organism names ===");
     for(int i=0; i<odncount;i++)
     {
         NSLog(@"\torganismdataname[%d]=%@",i,[self.OrganismDataName objectAtIndex:i]);
     }
+    NSLog(@"\n");
+    
+    NSLog(@"=== organism count ===");
+    NSLog(@"\tOrganismCount: %d",[self GetOrganismCount]);
     NSLog(@"\n");
     
     NSLog(@"=== organism number of attributes for each organism ===");
@@ -2851,10 +3065,17 @@ static NSString            *TheVisitName;
     }
     NSLog(@"\n");
     
-    [self DumpAttributeDataValues];
+    NSLog(@"=== attribute data type modifier ===");
+    for(int i=0; i<adtcount;i++)
+    {
+        NSLog(@"\tattributedatatypemodifier[%d]=%@",i,[self.AttributeDataTypeModifier objectAtIndex:i]);
+    }
     NSLog(@"\n");
     
-    NSLog(@"=== sttribute datatype id ===");
+    //[self DumpAttributeDataValues];
+    //NSLog(@"\n");
+    
+    NSLog(@"=== attribute datatype id ===");
     for(int i=0; i<adicount;i++)
     {
         NSLog(@"\tattributedatatypeid[%d]=%@",i,[self.AttributeDataTypeIDs objectAtIndex:i]);
@@ -2874,6 +3095,18 @@ static NSString            *TheVisitName;
     {
         NSLog(@"\tattributedatachoices[%d]=%@",i,[self.AttributeDataChoices objectAtIndex:i]);
     }
+    
+    NSLog(@"\n");
+    [self ShowIndexes];
+}
+
+-(void)DumpIndexes
+{
+    NSLog(@"=== all indexes ===");
+    NSLog(@"\tCurrentOrganismIndex:              %d",[self GetCurrentOrganismIndex]);
+    NSLog(@"\tCurrentAttributeChoiceIndex:       %d",[self GetCurrentAttributeChoiceIndex]);
+    NSLog(@"\tCurrentAttributeChoiceCountIndex:  %d",[self GetCurrentAttributeChoiceCountIndex]);
+    NSLog(@"\n");
 }
 
 -(void)DumpArraySizes
@@ -2925,6 +3158,24 @@ static NSString            *TheVisitName;
     Boolean LocalAuthSet        = [self GetAuthorityHasBeenSet];
     Boolean talktome            = false;
     int     LocalAttribIndex    = [self GetCurrentAttributeChoiceIndex];
+    int     CurView             = [self GetCurrentViewValue];
+    
+    //
+    // check to see if we're backing up to a pick list.
+    // if so, leave everything as is.
+    //
+    int orgindex                = [self GetCurrentOrganismIndex];
+    int attrnum                 = [self GetAttributeNumberForCurrentOrganism];
+    NSMutableArray *pl          = [self GetOrganismPicklistAtIndex:orgindex];
+    
+    if(CurView != PICKLISTVIEW)
+    {
+        if( (attrnum == 0) && ([pl count] > 0))
+        {
+            // we are done, go back for a picklist
+            return;
+        }
+    }
     
     [self SetIsNewOrganism:false];
     
@@ -2955,8 +3206,12 @@ static NSString            *TheVisitName;
     //
     if(LocalAttribIndex == 0)
     {
+        ////talktome = true;
         [self SetAttributesSet:false];
-        [self SetAuthoritySet:false];
+        if(!([self GetKeepAuthoritySet]))
+        {
+            [self SetAuthoritySet:false];
+        }
         [self SetAuthorityHasBeenSet:false];
         [self SetCurrentOrganismIndex:0];
         [self SetCurrentAttributeChoiceIndex:0];
@@ -2974,9 +3229,10 @@ static NSString            *TheVisitName;
         {
             NSLog(@"===only attribute not set");
             [self ShowIndexes];
-            [self DumpAttributeDataValues];
+            [self DumpAttributeData];
         }
         
+        talktome=false;
         return;
     }
     
@@ -3129,7 +3385,11 @@ static NSString            *TheVisitName;
             
             if(LocalAttributeDataChoicesIndex == 0)
             {
-                [self SetIsNewOrganism:true];
+                NSMutableArray *pl = [self GetOrganismPicklistAtIndex:LocalOrganismIndex];
+                if ([pl count] == 0)
+                {
+                    [self SetIsNewOrganism:true];
+                }
                 break;
             }
             
@@ -3182,7 +3442,10 @@ static NSString            *TheVisitName;
     [self SetCurrentAttributeDataChoicesIndex:0];
     [self SetCurrentAttributeChoiceCountIndex:0];
     [self SetAttributesSet:false];
-    [self SetAuthoritySet:false];
+    if(!([self GetKeepAuthoritySet]))
+    {
+        [self SetAuthoritySet:false];
+    }
     [self SetAuthorityHasBeenSet:false];
     [self SetFirstSelect:true];
     [self SetPreviousMode:false];
@@ -3246,6 +3509,7 @@ static NSString            *TheVisitName;
         [self SetAuthorityHasBeenSet:true];     // and set the state
         [self SetAuthoritySet:true];
         [self SetCurrentValues];
+        [self SetIsLast:false];
         
         if(talktome)
         {
@@ -3423,6 +3687,8 @@ static NSString            *TheVisitName;
         if([foo isEqualToString:@"select"])
         {
             LocalAttributeDataChoicesIndex=0;
+            // check for first select
+            [self CheckFirstSelect];
             if([self GetFirstSelect])
             {
                 [self SetFirstSelect:false];
@@ -3456,8 +3722,75 @@ static NSString            *TheVisitName;
         // set up the structures
         //
         [self SetCurrentValues];
-        
         return;
+    }
+}
+
+//
+// this should really be a call to SetPreviousAttribute,
+// but it can't because it's only called by Picklist.m
+// in the previous mode.  The scenario is we need to backup
+// from the organism pick list to whatever came before it.
+// Not only that, all the data structures must be consistent
+// so that following calls to SetNextAttribute and
+// SetPreviousAttribute function as expected.  Kind of a
+// headache, but it has to be done.  And it's in the model
+// because it needs to muck with the attribute and organism
+// data structures.
+//
+// Known quantities:
+// 1. this is only called when backing up from an organism
+//    picklist screen
+// 2. the data structures and pointers must be set up to identify
+//    the item exactly before the organism picklist.
+//
+// The cases are:
+// 1. backup to authority
+// 2. backup to the last attribute of the previous organism
+//
+-(void)SetFirstAttribute
+{
+    NSString *foo               = nil;
+    [self SetIsNewOrganism:true];
+    [self SetAuthorityHasBeenSet:true];     // and set the state
+    [self SetAuthoritySet:true];
+    
+    //
+    // second time through.  the structures have been initialized and
+    // authority is set, now position for the first attribute
+    //
+    [self SetAttributesSet:true];
+    [self SetCurrentOrganismIndex:0];
+    [self SetCurrentAttributeChoiceIndex:0];
+    [self SetCurrentAttributeDataChoicesIndex:0];
+    
+    // this is -1 because it's being set in previous mode
+    // check out SetPreviousAttribute to see how it's done
+    [self SetCurrentAttributeChoiceCountIndex:-1];
+    [self SetCurrentOrganismAttributeIndex:0];
+    [self SetIsNewOrganism:true];
+    
+    
+    int y;
+    
+    if([self.OrganismNumberOfAttributes count]!=0)
+    {
+        foo = [[NSString alloc]initWithFormat:@"%@",[self.OrganismNumberOfAttributes objectAtIndex:0]];
+    }
+    y         = (int)[foo integerValue];
+    if( ([self.OrganismDataName count]==1) && y==1)
+    {
+        [self SetIsLast:true];
+    }
+    
+    if(OrganismAttributeCount < [self.AttributeDataName count])
+    {
+        [self SetIsLast:false];
+    }
+    
+    if( (OrganismAttributeCount == 0) && ([self.AttributeDataName count] > 0) )
+    {
+        [self SetCollectionType:COLLECTSITE];
     }
 }
 
@@ -3474,6 +3807,8 @@ static NSString            *TheVisitName;
     int LocalAttributeChoiceCount       = [self GetCurrentAttributeChoiceCount];
     
     NSLog(@"==== Indexes ====");
+    NSLog(@"OrganismIndex:  %d",[self GetCurrentOrganismIndex]);
+    NSLog(@"AttributeIndex: %d",[self GetCurrentAttributeChoiceIndex]);
     NSLog(@"CurrentOrganismIndex=%d",LocalOrganismIndex);
     NSLog(@"CurrentAttributeChoiceIndex=%d",LocalAttributeChoiceIndex);
     NSLog(@"CurrentAttributeChoiceCountIndex=%d",LocalAttributeChoiceCountIndex);
@@ -3575,6 +3910,15 @@ static NSString            *TheVisitName;
 -(int)GetAuthorityCount
 {
     return (int)[self.AuthorityFirstName count];
+}
+
+-(void)SetKeepAuthoritySet:(Boolean)TheValue
+{
+    KeepAuthoritySet = TheValue;
+}
+-(Boolean)GetKeepAuthoritySet
+{
+    return KeepAuthoritySet;
 }
 
 -(void)SetAuthorityHasBeenSet:(Boolean)TheValue
@@ -3795,6 +4139,10 @@ static NSString            *TheVisitName;
 
 -(void)BuildLoginStatus:(NSString *)TheString
 {
+    if(!([self GetBioblitzDisplay]))
+    {
+        return;
+    }
     self.loginStatus = [self.loginStatus stringByAppendingString:TheString];
     
     if([self.loginStatus length] >= LOGINSTRINGLIMIT)
@@ -3879,8 +4227,9 @@ Boolean JSONWrite = false;
                 curdsname           = [self FixXML:curdsname];
                 curdsid             = [self FixXML:curdsid];
                 tempstring          = [[NSString alloc]initWithFormat:@"<GODMForm Name='%@' ID='%@' >\n",curdsname,curdsid];
-                
+                JSONWrite=false;
                 if(JSONWrite) NSLog(@"working on datasheet: %@",curdsname);
+                JSONWrite=false;
                 [self SetTranslatingDataSheetName:curdsname];
                 [self BuildLoginStatus:tempstring];
                 
@@ -4079,6 +4428,10 @@ Boolean JSONWrite = false;
             strvalue2 = @"";
         }
         
+        if([UnitType isEqual:[NSNull null]])
+        {
+            UnitType = @"";
+        }
         if([UnitType length] == 0)
         {
             UnitType = @"";
@@ -4194,6 +4547,7 @@ Boolean JSONWrite = false;
     Boolean         IsAttribute;                // flag for an attribute
     Boolean         DoneAnOrganism;             // flag to denote we've done an organism
     Boolean         NullAttribute;              // flag for determining bio blitz
+    Boolean         FirstNull;                  // do not write out the actual null attribute
     
     JsonResponseDictionary      = TheObject;
     dsAttributes                = [JsonResponseDictionary valueForKeyPath:@"data.Datasheets.OrgAttributes"];
@@ -4263,6 +4617,8 @@ Boolean JSONWrite = false;
         IsOrganismList      = false;
         IsOrganismDetails   = false;
         IsAttribute         = false;
+        FirstNull           = false;
+        [self SetBioblitzDispaly:true];
         id x = [child valueForKeyPath:@"OrganismDetails"];
         if (x == NULL)
         {
@@ -4287,6 +4643,8 @@ Boolean JSONWrite = false;
             if([self IsNullAttribute:child])
             {
                 NullAttribute = true;
+                FirstNull     = true;
+                [self SetBioblitzDispaly:false];
             }
             IsAttribute = true;
         }
@@ -4301,15 +4659,16 @@ Boolean JSONWrite = false;
         {
             if(!([BioBlitzName isEqualToString:[self GetTranslatingDataSheetName]]))
             {
-                NSString *Message  = [[NSString alloc]initWithFormat:@"BioBlitz mode is not supported in this release\ndatasheet name: %@",[self GetTranslatingDataSheetName]];
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CitSciMobile"
-                                                            message:Message
-                                                           delegate:nil cancelButtonTitle:@"OK"
-                                                  otherButtonTitles: nil];
-                [alert show];
+                //NSString *Message  = [[NSString alloc]initWithFormat:@"BioBlitz mode is not supported in this release\ndatasheet name: %@",[self GetTranslatingDataSheetName]];
+                //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CitSciMobile"
+                //                                            message:Message
+                //                                           delegate:nil cancelButtonTitle:@"OK"
+                //                                  otherButtonTitles: nil];
+                //[alert show];
                 BioBlitzName        = [self GetTranslatingDataSheetName];
+                //NSLog(@"null attribute so bioblitz child:%@",child);
             }
-            continue;
+            //continue;
         }
         
         //
@@ -4319,7 +4678,7 @@ Boolean JSONWrite = false;
         // attribute XML
         //
         // is this an organism
-        if(IsOrganismDetails || IsOrganismList)
+        if(IsOrganismDetails || IsOrganismList || NullAttribute)
         {
             DoneAnOrganism = true;
             // do we need to complete the current organism
@@ -4336,6 +4695,7 @@ Boolean JSONWrite = false;
                     AttributesStarted   = false;
                 }
                 // close off the current organism and open a new one
+                
                 [self BuildLoginStatus:@"\t\t\t</OrganismDataEntry>\n"];
                 [self BuildLoginStatus:@"\t\t\t<OrganismDataEntry>\n"];
             }
@@ -4361,7 +4721,12 @@ Boolean JSONWrite = false;
             {
                 strname2                = @"Select";
             }
+            if(NullAttribute)
+            {
+                strname2                = @"Entered";
+            }
             tempstring                  = [[NSString alloc]initWithFormat:@"\t\t\t\t<OrganismInfos HowSpecified='%@'>\n",strname2];
+            
             [self BuildLoginStatus:tempstring];
             
             //
@@ -4379,9 +4744,14 @@ Boolean JSONWrite = false;
                 {
                     NSString *OrgName   = [[NSString alloc]initWithFormat:@"%@",[TheNames objectAtIndex:orgcount]];
                     NSString *OrgID     = [[NSString alloc]initWithFormat:@"%@",[TheIDs objectAtIndex:orgcount]];
+                    
+                    if([OrgID isEqual:[NSNull null]])
+                    {
+                        OrgID           = @"";
+                    }
                     tempstring          = [[NSString alloc]initWithFormat:@"\t\t\t\t\t<OrganismInfoOption Name='%@' OrganismInfoID='%@' />\n",OrgName,OrgID];
+                    
                     [self BuildLoginStatus:tempstring];
-                    ////NSLog(@"tempstring: %@",tempstring);
                 }
             }
             else
@@ -4389,6 +4759,12 @@ Boolean JSONWrite = false;
                 strname                 = [child valueForKeyPath:@"OrganismDetails.Name"];
                 strname                 = [self FixXML:strname];
                 strvalue                = [child valueForKey:@"OrganismInfoID"];
+                
+                if([strvalue isEqual:[NSNull null]])
+                {
+                    strvalue           = @"";
+                }
+                
                 tempstring              = [[NSString alloc]initWithFormat:@"\t\t\t\t\t<OrganismInfoOption Name='%@' OrganismInfoID='%@' />\n",strname,strvalue];
                 [self BuildLoginStatus:tempstring];
             }
@@ -5509,6 +5885,13 @@ Boolean JSONWrite = false;
                     }
                     [self.OrganismPicklist addObject:temp];
                 }
+                else if ([HowSpecified isEqualToString:@"entered"])
+                {
+                    [self.OrganismDataName addObject:NOTYETSET];
+                    [self.OrganismDataIDs addObject:@" "];
+                    temp = [[NSMutableArray alloc]init];
+                    [self.OrganismPicklist addObject:temp];
+                }
                 else
                 {
                     for (SMXMLElement *OrganismInfoOption in [OrganismInfos childrenNamed:@"OrganismInfoOption"])
@@ -5840,6 +6223,39 @@ Boolean JSONWrite = false;
             }
             
             [[NSNotificationCenter defaultCenter] postNotificationName:@"genrefreshtoken" object:nil];
+            break;
+            
+        case UPLOADOBSERVATION:
+            jsonResponseData        = [NSJSONSerialization JSONObjectWithData:self.WebData options:kNilOptions error:nil];
+            //NSLog(@"jsonResponseData: %@",jsonResponseData);
+            
+            // the response is returned as a dictionary
+            self.JSONDictionary     = [[NSMutableDictionary alloc]init];
+            self.JSONDictionary     = (NSMutableDictionary *)jsonResponseData;
+            
+            SValue                  = [jsonResponseData valueForKeyPath:@"status"];
+            SMessage                = [jsonResponseData valueForKeyPath:@"message"];
+            SValue                  = [SValue lowercaseString];
+            
+            range                   = [SValue  rangeOfString: @"failed" options: NSCaseInsensitiveSearch];
+            if (range.location == NSNotFound)
+            {
+                // we're okay so soldier on
+                //NSLog(@"connectionDidFinishloading: UPLOADOBSERVATION");
+            }
+            else
+            {
+                // problem so show the message
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CitSciMobile"
+                                                                message:SMessage
+                                                               delegate:nil cancelButtonTitle:@"OK"
+                                                      otherButtonTitles: nil];
+                [alert show];
+                [self SetBadNetworkConnection:true];
+                [self SetUploadError:true];
+            }
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"NSURLConnectionDidFinish" object:nil];
             break;
             
         case OLDLOGIN:

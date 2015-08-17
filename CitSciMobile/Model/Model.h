@@ -122,6 +122,7 @@
 #define PROJECTLIST_URL         @"https://ibis-test1.nrel.colostate.edu/app.php/API/GetProjectList?Token="
 #define DATASHEETS_URL          @"https://ibis-test1.nrel.colostate.edu/app.php/API/GetDatasheets?Token="
 #define PROJECTSANDDATASHEETS   @"https://ibis-test1.nrel.colostate.edu/app.php/API/GetProjectsAndDatasheets?Token="
+#define UPLOAD_URL              @"https://ibis-test1.nrel.colostate.edu/app.php/API/UploadData"
 #define OAUTH_SCOPE             @"user"
 #define GETACCESSTOKEN          0
 #define GETPROJECTS             1
@@ -130,6 +131,7 @@
 #define GETPROJECTSANDFORMS     4
 #define OLDLOGIN                5
 #define GENREFRESHTOKEN         6
+#define UPLOADOBSERVATION       7
 
 // defines for file sizes
 #define LOGINSTRINGLIMIT        100000
@@ -207,6 +209,7 @@
     int                 CameraMode;                     // either observation or organism
     NSString            *loginStatus;                   // don't lose this value
     Boolean             BadNetworkConnection;           // error from service
+    Boolean             BioblitzDisplay;                // display bioblitz attribute
     
     // forms variables
     NSString            *CurrentFormName;               // name of active form
@@ -270,6 +273,7 @@
     Boolean             LastAttribute;                  // key for "Done" views
     Boolean             AttributesSet;                  // first call to SetNextAttribute
     Boolean             AuthoritySet;                   // defines getting authority
+    Boolean             KeepAuthoritySet;               // for picklist
     Boolean             AuthorityHasBeenSet;            // defines getting authority
     int                 SiteCharacteristicCount;        // number of site characteristics
     int                 AuthoritySelection;             // the row number selected
@@ -496,6 +500,7 @@
 -(NSString *)GetVisitComment;
 -(Boolean)DoesThisNameExist:(NSString *)TheName;
 -(void)UploadVisit:(NSString *)TheVisit;
+-(void)UploadObservation:(NSString *)TheObservation;
 -(void)AddPicturesToRequest:(NSString *)TheVisit;
 
 //
@@ -529,11 +534,14 @@
 -(void)SetNextView:(int)TheViewNumber;
 -(int)GetNextView;
 -(void)SetPreviousMode:(Boolean)TheValue;
+-(void)SetCurrentValues;
+-(void)SetFirstAttribute;
 -(Boolean)GetPreviousMode;
 -(void)SetGoingForward:(Boolean)TheValue;
 -(Boolean)GetGoingForward;
 -(void)SetFirstSelect:(Boolean)TheValue;
 -(Boolean)GetFirstSelect;
+-(void)CheckFirstSelect;
 -(void)SetSelectIndex:(int)TheIndex;
 -(int)GetSelectIndex;
 -(void)SetViewType:(int)TheType;
@@ -564,6 +572,8 @@
 -(Boolean)ValidFloat:(NSString *)TheValue;
 -(Boolean)ValidLat:(NSString *)TheValue;
 -(Boolean)ValidLon:(NSString *)TheValue;
+-(void)SetBioblitzDispaly:(Boolean)TheValue;
+-(Boolean)GetBioblitzDisplay;
 
 //
 // form methods
@@ -601,6 +611,7 @@
 -(void)DumpAttributeData;
 -(void)DumpAttributeDataValues;
 -(void)DumpAttributeDataChoiceCount;
+-(void)DumpIndexes;
 -(void)SetCurrentOrganismName;
 -(void)SetCurrentOrganismAttributeIndex:(int)TheIndex;
 -(int)GetCurrentOrganismAttributeIndex;
@@ -632,6 +643,8 @@
 -(NSString *)GetAttributeNameAtIndex:(int)TheIndex;
 -(void)SetCurrentAttributeNumber:(int)TheNumber;
 -(int)GetCurrentAttributeNumber;
+-(NSString *)GetActiveAttributeString;
+-(int)GetAttributeNumberForCurrentOrganism;
 -(void)SetCurrentAttributeType;
 -(void)SetCurrentAttributeTypeModifier;
 -(NSString *)GetCurrentAttributeType;
@@ -666,11 +679,15 @@
 -(Boolean)GetAttributesSet;
 -(void)SetIsLast:(Boolean)TheValue;
 -(Boolean)GetIsLast;
+-(void)SetCurrentViewValue:(int)TheValue;
+-(int)GetCurrentViewValue;
 -(void)SetCurrentAttributeChoiceCountIndex:(int)TheIndex;
 -(int)GetCurrentAttributeChoiceCountIndex;
 -(void)ShowIndexes;
 -(void)SetAuthoritySet:(Boolean)TheValue;
 -(Boolean)GetAuthoritySet;
+-(void)SetKeepAuthoritySet:(Boolean)TheValue;
+-(Boolean)GetKeepAuthoritySet;
 -(void)SetAuthorityHasBeenSet:(Boolean)TheValue;
 -(Boolean)GetAuthorityHasBeenSet;
 -(int)GetAuthorityCount;

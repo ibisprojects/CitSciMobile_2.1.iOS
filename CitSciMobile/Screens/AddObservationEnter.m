@@ -1,4 +1,4 @@
-  //
+//
 //  AddObservationEnter.m
 //  CitSciMobile
 //
@@ -24,6 +24,7 @@
 @synthesize textField;
 @synthesize TheUnits;
 @synthesize TheAttributeNumber;
+@synthesize Yikes;
 
 //
 // get a pointer to all options
@@ -54,6 +55,8 @@ static int AttributeNumber  = 0;
 //
 -(IBAction)ContinueButton:(int)intNewView
 {
+    //NSLog(@"===== addobservationENTER: enter continue");
+    //[TheOptions DumpAttributeData];
     Boolean PreviousMode = [TheOptions GetPreviousMode];
     self.theComment      = [[NSString alloc]init];
     self.theName         = [[NSString alloc]init];
@@ -111,7 +114,18 @@ static int AttributeNumber  = 0;
             [TheOptions SetCurrentAttributeDataValue:temp];
         }
         
+        //if(PreviousMode)
+        //{
+            //NSLog(@"===== addobservationENTER: previousmode continue before setnextattr");
+            //[TheOptions ShowIndexes];
+        //}
         [TheOptions SetNextAttribute];
+        
+        //if(PreviousMode)
+        //{
+            //NSLog(@"===== addobservationENTER: previousmode continue after setnextattr");
+            //[TheOptions ShowIndexes];
+        //}
         
         Boolean Done            = [TheOptions GetIsLast];
         Boolean Error           = false;
@@ -348,14 +362,22 @@ static int AttributeNumber  = 0;
 //
 -(IBAction)PreviousButton:(int)intNewView
 {
+    //NSLog(@"===== addobservationENTER: enter previous before setprevious");
+    //[TheOptions ShowIndexes];
+    //[TheOptions DumpAttributeData];
     Boolean CollectingSite  = false;
     Boolean CollectingOrg   = false;
+    int     PreviousNumber  = [TheOptions GetAttributeNumberForCurrentOrganism];
     if([TheOptions GetCollectionType]==COLLECTSITE)
     {
         CollectingSite      = true;
     }
     [TheOptions SetPreviousMode:true];
     [TheOptions SetPreviousAttribute];
+    
+    //NSLog(@"===== addobservationENTER: enter previous after setprevious");
+    //[TheOptions ShowIndexes];
+    
     if([TheOptions GetCollectionType]==COLLECTORGANISM)
     {
         CollectingOrg       = true;
@@ -432,13 +454,14 @@ static int AttributeNumber  = 0;
         [TheOptions SetCurrentAttributeNumber:AtNum];
         AppDelegate  *appDelegate   = [[UIApplication sharedApplication] delegate];
         int OrganismIndex           = [TheOptions GetCurrentOrganismIndex];
+        int AttrIndex               = [TheOptions GetAttributeNumberForCurrentOrganism];
         NSMutableArray *pl          = [TheOptions GetOrganismPicklistAtIndex:OrganismIndex];
-        if(([TheOptions GetIsNewOrganism]) && ([pl count] > 0))
+        
+        Boolean ShowPicklist        = ([pl count]>0 && (AttrIndex==0) && (PreviousNumber==0));
+        if(ShowPicklist)
         {
-            
             [TheOptions SetViewAfterPicklist:TheNextView];
             [appDelegate displayView:PICKLISTVIEW];
-            
         }
         else
         {
@@ -529,6 +552,11 @@ static int AttributeNumber  = 0;
 {
     [super viewWillAppear:YES];
     
+    [TheOptions SetCurrentViewValue:ADDOBSERVATIONENTER];
+    
+    self.Yikes.translucent  = NO;
+    self.Yikes.barTintColor = [UIColor blackColor];
+    
     [self.CurrentAttributes removeAllObjects];
     
     OrganismIndex           = [TheOptions GetCurrentOrganismIndex];
@@ -560,7 +588,14 @@ static int AttributeNumber  = 0;
         self.TitleName.text = @"Treatment Attribute";
     }
     
-    if([TheOptions GetIsNewOrganism])
+    Boolean ShowBox = false;
+    if ([TheOptions GetAttributeNumberForCurrentOrganism] == 0 &&
+        ([TheOptions GetCollectionType] == COLLECTORGANISM))
+    {
+        ShowBox = true;
+    }
+    
+    if([TheOptions GetIsNewOrganism] || ShowBox)
     {
         NSString *message;
         int site           = [TheOptions GetCollectionType];
@@ -647,22 +682,21 @@ static int AttributeNumber  = 0;
     //
     // set up the attribute number being collected and next attribute
     //
-    int thisorgattcount     = [TheOptions GetCurrentOrganismAttributeCount];
     AttributeNumber         = [TheOptions GetCurrentAttributeNumber];
     int site                = [TheOptions GetCollectionType];
     NSString *CurAttribute;
     int RemainingAttributes;
     if(site == COLLECTORGANISM)
     {
-        RemainingAttributes = thisorgattcount;
+        CurAttribute            = [TheOptions GetActiveAttributeString];
     }
     
     if(site == COLLECTSITE)
     {
         RemainingAttributes = [TheOptions GetTotalAttributeCount]-[TheOptions GetOrganismAttributeCount];
+        CurAttribute            = [[NSString alloc]initWithFormat:@"Attribute %d of %d",AttributeNumber,RemainingAttributes];
     }
     
-    CurAttribute            = [[NSString alloc]initWithFormat:@"Attribute %d of %d",AttributeNumber,RemainingAttributes];
     self.TheAttributeNumber.text   = CurAttribute;
     ////NSLog(@"===FEED FOR LABEL:%@",CurAttribute);
     //if(!([TheOptions GetPreviousMode]))

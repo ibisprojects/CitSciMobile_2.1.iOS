@@ -15,6 +15,9 @@
     NSString                *VisitToDelete;
     NSMutableArray          *GoneVisits;
     NSMutableArray          *UploadAllErrors;
+    
+    // recover from xcode 5.1
+    IBOutlet UIToolbar      *Yikes;
 }
 
 @property (nonatomic, retain) NSMutableArray                *ProjectNames;
@@ -22,6 +25,7 @@
 @property (nonatomic, retain) NSMutableArray                *GoneVisits;
 @property (nonatomic, retain) NSMutableArray                *UploadAllErrors;
 @property (nonatomic, retain) NSString                      *VisitToDelete;
+@property (nonatomic, retain) UIToolbar                     *Yikes;
 
 -(IBAction) ObservationsButton:(int)intNewView;
 -(IBAction) SetProjectButton:(int)intNewView;

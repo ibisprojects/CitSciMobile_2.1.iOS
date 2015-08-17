@@ -32,6 +32,7 @@
 @synthesize GoneVisits;
 @synthesize UploadAllErrors;
 @synthesize Yikes;
+@synthesize BottomYikes;
 
 Boolean CollectedVisitsDebug=false;
 static int MyNumberOfVisits;
@@ -345,14 +346,6 @@ static int CurrentVisitIndex;
     int NumFiles            = [TheOptions GetNumberOfVisitFiles];
     MyNumberOfVisits        = NumFiles;
     
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CitSciMobile"
-                                                    message:@"Upload is disabled for now!"
-                                                   delegate:nil cancelButtonTitle:@"OK"
-                                          otherButtonTitles: nil];
-    [alert show];
-    
-    if(1) return;
-    
     //
     // get all of the visit names
     //
@@ -371,13 +364,6 @@ static int CurrentVisitIndex;
 //--------------------------//
 -(IBAction)UploadOneButton:(int)intNewView
 {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CitSciMobile"
-                                                    message:@"Upload is disabled for now!"
-                                                   delegate:nil cancelButtonTitle:@"OK"
-                                          otherButtonTitles: nil];
-    [alert show];
-    
-    if(1) return;
     if (SelectedRow == -1)
 	{
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CitSciMobile"
@@ -601,7 +587,10 @@ static int CurrentVisitIndex;
 {
     [super viewWillAppear:animated];
     
-    self.Yikes.translucent      = NO;
+    self.Yikes.translucent              = NO;
+    self.Yikes.barTintColor             = [UIColor blackColor];
+    self.BottomYikes.translucent        = NO;
+    self.BottomYikes.barTintColor       = [UIColor blackColor];
     
     // set up the default values from the options file
     [TheOptions ReadOptionsFromFile];

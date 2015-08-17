@@ -14,6 +14,7 @@
 @end
 
 @implementation Developers
+@synthesize Yikes;
 
 //
 // The buttons
@@ -82,6 +83,14 @@
         // Custom initialization
     }
     return self;
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    self.Yikes.translucent              = NO;
+    self.Yikes.barTintColor             = [UIColor blackColor];
 }
 
 - (void)viewDidLoad

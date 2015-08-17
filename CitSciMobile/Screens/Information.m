@@ -16,6 +16,7 @@
 @end
 
 @implementation Information
+@synthesize Yikes;
 
 
 
@@ -95,6 +96,13 @@ Model *TheOptions;
     return self;
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    self.Yikes.translucent              = NO;
+    self.Yikes.barTintColor             = [UIColor blackColor];
+}
 
 - (void)viewDidLoad
 {

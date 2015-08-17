@@ -21,6 +21,7 @@
 @synthesize UrlComponents;
 @synthesize FirstTime;
 @synthesize PreviousUser;
+@synthesize Yikes;
 
 
 //
@@ -312,6 +313,9 @@ UIActivityIndicatorView *activityView;
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    self.Yikes.translucent              = NO;
+    self.Yikes.barTintColor             = [UIColor blackColor];
     
     if([self.FirstTime isEqualToString:NOTYETSET])
     {

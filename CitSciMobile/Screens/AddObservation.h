@@ -22,6 +22,9 @@
     NSString                    *theLon;
     NSString                    *theAcc;
     NSString                    *theAlt;
+    
+    // recover from xcode 5.1
+    IBOutlet UIToolbar          *Yikes;
 }
 
 @property (nonatomic, retain) IBOutlet UITextField          *ObservationNameInput;
@@ -36,6 +39,7 @@
 @property (nonatomic, copy) NSString                        *theLon;
 @property (nonatomic, copy) NSString                        *theAcc;
 @property (nonatomic, copy) NSString                        *theAlt;
+@property (nonatomic, retain) UIToolbar                     *Yikes;
 
 -(IBAction) ContinueButton:(int)intNewView;
 -(IBAction) GPSButton:(int)intNewView;

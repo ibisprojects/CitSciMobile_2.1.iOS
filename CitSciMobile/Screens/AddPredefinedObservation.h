@@ -17,6 +17,12 @@
     NSString                    *theComment;
     NSMutableArray              *LocationNames;
     NSMutableArray              *LocationIDs;
+    
+    IBOutlet UILabel            *PreviousTitle;
+    IBOutlet UILabel            *PreviousValue;
+    
+    // recover from xcode 5.1
+    IBOutlet UIToolbar          *Yikes;
 }
 
 @property (nonatomic, retain) IBOutlet UITextField          *ObservationNameInput;
@@ -26,6 +32,9 @@
 @property (nonatomic, retain) NSMutableArray                *LocationIDs;
 @property (nonatomic, copy) NSString                        *theName;
 @property (nonatomic, copy) NSString                        *theComment;
+@property (nonatomic, retain) UILabel                       *PreviousTitle;
+@property (nonatomic, retain) UILabel                       *PreviousValue;
+@property (nonatomic, retain) UIToolbar                     *Yikes;
 
 -(IBAction) ContinueButton:(int)intNewView;
 -(IBAction) CameraButton:(int)intNewView;

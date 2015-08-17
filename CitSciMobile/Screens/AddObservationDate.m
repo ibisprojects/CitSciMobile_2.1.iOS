@@ -25,6 +25,9 @@
 @synthesize TitleName;
 @synthesize CurrentAttributes;
 @synthesize TheAttributeNumber;
+@synthesize Yikes;
+@synthesize PreviousTitle;
+@synthesize PreviousValue;
 
 //
 // get a pointer to all options
@@ -71,6 +74,8 @@ static int AttributeNumber  = 0;
 //
 -(IBAction)ContinueButton:(int)intNewView
 {
+    //NSLog(@"===== addobservationdate: enter continue");
+    //[TheOptions ShowIndexes];
     Boolean PreviousMode = [TheOptions GetPreviousMode];
     self.theComment      = [[NSString alloc]init];
     self.theName         = [[NSString alloc]init];
@@ -129,11 +134,12 @@ static int AttributeNumber  = 0;
         }
         
         NSString *temp = [[NSString alloc]initWithFormat:@"%@ %@:%@ %@",dateString, HourString,MinuteString,Meridian];
-        //NSLog(@"temp: %@",temp);
         
-        if(PreviousMode)
+        int CurrentAttributeCount                = [TheOptions GetCurrentAttributeDataValueCount];
+        int TheIndex                             = [TheOptions GetCurrentAttributeChoiceIndex]+ATTRIBUTEINDEXOFFSET;
+        
+        if(PreviousMode && (TheIndex < CurrentAttributeCount))
         {
-            int TheIndex = [TheOptions GetCurrentAttributeChoiceIndex]+ATTRIBUTEINDEXOFFSET;
             [TheOptions ReplaceAttributeDataValueAtIndex:TheIndex:temp];
         }
         else
@@ -375,6 +381,13 @@ static int AttributeNumber  = 0;
     [appDelegate displayView:CAMERAVIEW];
 }
 
+//
+// temporary check for picklist as the previous view
+//
+-(Boolean)IsPicklistNext
+{
+    return false;
+}
 //--------------------------//
 // PreviousButton           //
 //--------------------------//
@@ -382,17 +395,32 @@ static int AttributeNumber  = 0;
 //
 -(IBAction)PreviousButton:(int)intNewView
 {
-    Boolean CollectingSite  = false;
-    Boolean CollectingOrg   = false;
+    //NSLog(@"===== addobservationDate: previous");
+    //[TheOptions DumpAttributeData];
+    Boolean CollectingSite          = false;
+    Boolean CollectingOrg           = false;
+    int     PreviousNumber          = [TheOptions GetAttributeNumberForCurrentOrganism];
+    AppDelegate  *appDelegate       = [[UIApplication sharedApplication] delegate];
+    
+    if([self IsPicklistNext])
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CitSciMobile"
+                                                    message:@"Do Not backup from here"
+                                                   delegate:nil cancelButtonTitle:@"OK"
+                                          otherButtonTitles: nil];
+        [alert show];
+        return;
+    }
+    
     if([TheOptions GetCollectionType]==COLLECTSITE)
     {
-        CollectingSite      = true;
+        CollectingSite              = true;
     }
     [TheOptions SetPreviousMode:true];
     [TheOptions SetPreviousAttribute];
     if([TheOptions GetCollectionType]==COLLECTORGANISM)
     {
-        CollectingOrg       = true;
+        CollectingOrg               = true;
     }
     
     Boolean     Error               = false;
@@ -444,7 +472,7 @@ static int AttributeNumber  = 0;
                                               otherButtonTitles: nil];
         [alert show];
         
-        AppDelegate  *appDelegate = [[UIApplication sharedApplication] delegate];
+        ////AppDelegate  *appDelegate = [[UIApplication sharedApplication] delegate];
         [appDelegate displayView:OBSERVATIONSVIEW];
     }
     
@@ -464,16 +492,17 @@ static int AttributeNumber  = 0;
             AtNum                   = [TheOptions GetCurrentOrganismAttributeCount]+1;
         }
         [TheOptions SetCurrentAttributeNumber:AtNum];
-        AppDelegate  *appDelegate   = [[UIApplication sharedApplication] delegate];
+        ////AppDelegate  *appDelegate   = [[UIApplication sharedApplication] delegate];
         int OrganismIndex           = [TheOptions GetCurrentOrganismIndex];
+        int AttrIndex               = [TheOptions GetAttributeNumberForCurrentOrganism];
         NSMutableArray *pl          = [TheOptions GetOrganismPicklistAtIndex:OrganismIndex];
-        if(([TheOptions GetIsNewOrganism]) && ([pl count] > 0))
+        //if(([TheOptions GetIsNewOrganism]) && ([pl count] > 0))
+        Boolean ShowPicklist        = ([pl count]>0 && (AttrIndex==0) && (PreviousNumber==0));
+        if(ShowPicklist)
         {
-            
             [TheOptions SetViewAfterPicklist:TheNextView];
             [TheOptions SetViewType:TheNextView];
             [appDelegate displayView:PICKLISTVIEW];
-            
         }
         else
         {
@@ -548,6 +577,11 @@ static int AttributeNumber  = 0;
 {
     [super viewWillAppear:YES];
     
+    [TheOptions SetCurrentViewValue:ADDOBSERVATIONDATE];
+    
+    self.Yikes.translucent  = NO;
+    self.Yikes.barTintColor = [UIColor blackColor];
+    
     [self.DatePicker setBackgroundColor:[UIColor whiteColor]];
     
     [self.CurrentAttributes removeAllObjects];
@@ -574,7 +608,40 @@ static int AttributeNumber  = 0;
         self.TitleName.text = @"Treatment Attribute";
     }
     
-    if([TheOptions GetIsNewOrganism])
+    int CurrentAttributeCount                = [TheOptions GetCurrentAttributeDataValueCount];
+    int TheIndex                             = [TheOptions GetCurrentAttributeChoiceIndex] + ATTRIBUTEINDEXOFFSET;
+    //
+    // we need to set up values if we come in backwards or
+    // from a previous view
+    //
+    if([TheOptions GetPreviousMode])
+    {
+        // set the values and stay in previous mode until we
+        // tap continue
+        if(TheIndex < CurrentAttributeCount)
+        {
+            self.PreviousTitle.text  = @"Prior choice:";
+            NSString *foo       = [[NSString alloc]initWithFormat:@"%@",[TheOptions GetCurrentAttributeDataValueAtIndex:TheIndex]];
+            self.PreviousValue.text  = foo;
+            
+            self.SelectionEnterInput.text = foo;
+        }
+        
+        if( (AttributeNumber > 1) && !([TheOptions GetGoingForward]) )
+        {
+            AttributeNumber--;
+            [TheOptions SetCurrentAttributeNumber:AttributeNumber];
+        }
+    }
+
+    Boolean ShowBox = false;
+    if ([TheOptions GetAttributeNumberForCurrentOrganism] == 0 &&
+        ([TheOptions GetCollectionType] == COLLECTORGANISM))
+    {
+        ShowBox = true;
+    }
+    
+    if([TheOptions GetIsNewOrganism] || ShowBox)
     {
         NSString *message;
         int site          = [TheOptions GetCollectionType];
@@ -637,53 +704,28 @@ static int AttributeNumber  = 0;
     self.SelectionEnterInput.delegate        = self;
     
     //
-    // we need to set up values if we come in backwards or
-    // from a previous view
-    //
-    if([TheOptions GetPreviousMode])
-    {
-        // set the values and stay in previous mode until we
-        // tap continue
-        
-        int TheIndex        = [TheOptions GetCurrentAttributeChoiceIndex]+ATTRIBUTEINDEXOFFSET;
-        
-        NSString *foo       = [[NSString alloc]initWithFormat:@"%@",[TheOptions GetCurrentAttributeDataValueAtIndex:TheIndex]];
-        
-        self.SelectionEnterInput.text = foo;
-
-        if( (AttributeNumber > 1) && !([TheOptions GetGoingForward]) )
-        {
-            AttributeNumber--;
-            [TheOptions SetCurrentAttributeNumber:AttributeNumber];
-        }
-    }
-    
-    //
     // set up the attribute number being collected and next attribute
     //
-    int thisorgattcount     = [TheOptions GetCurrentOrganismAttributeCount];
     AttributeNumber         = [TheOptions GetCurrentAttributeNumber];
     int site                = [TheOptions GetCollectionType];
     NSString *CurAttribute;
     int RemainingAttributes;
     if(site == COLLECTORGANISM)
     {
-        RemainingAttributes = thisorgattcount;
+        CurAttribute            = [TheOptions GetActiveAttributeString];
     }
     
     if(site == COLLECTSITE)
     {
         RemainingAttributes = [TheOptions GetTotalAttributeCount]-[TheOptions GetOrganismAttributeCount];
+        CurAttribute            = [[NSString alloc]initWithFormat:@"Attribute %d of %d",AttributeNumber,RemainingAttributes];
     }
     
-    CurAttribute            = [[NSString alloc]initWithFormat:@"Attribute %d of %d",AttributeNumber,RemainingAttributes];
-    ///NSLog(@"===FEED FOR LABEL:%@",CurAttribute);
     self.TheAttributeNumber.text   = CurAttribute;
-    //if(!([TheOptions GetPreviousMode]))
-    {
-        AttributeNumber++;
-        [TheOptions SetCurrentAttributeNumber:AttributeNumber];
-    }
+    
+    AttributeNumber++;
+    [TheOptions SetCurrentAttributeNumber:AttributeNumber];
+    
 }
 
 - (void)didReceiveMemoryWarning

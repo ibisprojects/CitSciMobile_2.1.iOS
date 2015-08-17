@@ -17,6 +17,7 @@ NSString *kBadgeValuePrefKey = @"kBadgeValue";
 @end
 
 @implementation UploadViewController
+@synthesize Yikes;
 
 //
 // get a pointer to all options
@@ -112,10 +113,13 @@ Model *TheOptions;
 {
     [super viewWillAppear:animated];
     
-    UITabBarItem *tabBarItem = (UITabBarItem *)[self.tabBarController.tabBar.items objectAtIndex:2];
+    self.Yikes.translucent      = NO;
+    self.Yikes.barTintColor     = [UIColor blackColor];
+    
+    UITabBarItem *tabBarItem    = (UITabBarItem *)[self.tabBarController.tabBar.items objectAtIndex:2];
     
     // this line clears it out
-    tabBarItem.badgeValue = 0;
+    tabBarItem.badgeValue       = 0;
     
     // this line sets it to a value
     //tabBarItem.badgeValue = @"10";

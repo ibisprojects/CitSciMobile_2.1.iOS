@@ -18,6 +18,9 @@
 @implementation PicklistView
 @synthesize PicklistNames;
 @synthesize PicklistIDs;
+@synthesize Yikes;
+@synthesize PreviousValue;
+@synthesize PreviousTitle;
 
 //
 // get a pointer to all options
@@ -38,6 +41,9 @@ static int CurrentOrganism;
 // the table functions
 - (IBAction)ContinueButton:(id)sender
 {
+    AppDelegate  *appDelegate   = [[UIApplication sharedApplication] delegate];
+    int NextView                = [TheOptions GetViewAfterPicklist];
+    
     if(SelectedOrganismRow == -1)
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CitSciMobile"
@@ -45,14 +51,312 @@ static int CurrentOrganism;
                                                        delegate:nil cancelButtonTitle:@"OK"
                                               otherButtonTitles: nil];
         [alert show];
+        
+        return;
+    }
+    
+    if([TheOptions GetPreviousMode])
+    {
+        [TheOptions SetAuthorityHasBeenSet:true];
+        ////[TheOptions SetPreviousAttribute];
+        
+        Boolean Done            = [TheOptions GetIsLast];
+        Boolean Error           = false;
+        NSString *SelectType    = [[NSString alloc] initWithFormat:@"%@", [TheOptions GetCurrentAttributeType]];
+        NSString *Modifier      = [[NSString alloc] initWithFormat:@"%@", [TheOptions GetCurrentAttributeTypeModifier]];
+        SelectType              = [SelectType lowercaseString];
+        Modifier                = [Modifier lowercaseString];
+        int TheNextView         = 0;
+        
+        if([SelectType isEqualToString:@"entered"])
+        {
+            if(Done)
+            {
+                if([Modifier isEqualToString:@"date"])
+                {
+                    TheNextView = ADDOBSERVATIONDATEDONE;
+                }
+                else if([Modifier isEqualToString:@"string"])
+                {
+                    TheNextView = ADDOBSERVATIONSTRINGDONE;
+                }
+                else
+                {
+                    TheNextView = ADDOBSERVATIONENTERDONE;
+                }
+            }
+            else
+            {
+                if([Modifier isEqualToString:@"date"])
+                {
+                    TheNextView = ADDOBSERVATIONDATE;
+                }
+                else if([Modifier isEqualToString:@"string"])
+                {
+                    TheNextView = ADDOBSERVATIONSTRING;
+                }
+                else
+                {
+                    TheNextView = ADDOBSERVATIONENTER;
+                }
+            }
+        }
+        else if([SelectType isEqualToString:@"select"])
+        {
+            if(Done)
+            {
+                TheNextView = ADDOBSERVATIONSELECTDONE;
+            }
+            else
+            {
+                TheNextView = ADDOBSERVATIONSELECT;
+            }
+        }
+        else
+        {
+            Error = true;
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CitSciMobile"
+                                                            message:@"Illegal data sheet; no observation is possible"
+                                                           delegate:nil cancelButtonTitle:@"OK"
+                                                  otherButtonTitles: nil];
+            [alert show];
+            
+            [appDelegate displayView:OBSERVATIONSVIEW];
+        }
+        
+        if(!Error)
+        {
+            [TheOptions SetCurrentViewValue:PICKLISTVIEW];
+            [TheOptions SetGoingForward:true];
+            [TheOptions SetViewType:TheNextView];
+            [appDelegate displayView:TheNextView];
+        }
     }
     else
     {
-        ////[TheOptions DumpAttributeData];
-        AppDelegate  *appDelegate = [[UIApplication sharedApplication] delegate];
-        int NextView = [TheOptions GetViewAfterPicklist];
         [appDelegate displayView:NextView];
     }
+}
+
+//--------------------------//
+// SkipButton               //
+//--------------------------//
+// skips the current organism
+//
+-(IBAction)SkipButton:(int)intNewView
+{
+    [TheOptions SkipOrganism];
+    
+    Boolean Done            = [TheOptions GetIsLast];
+    Boolean Error           = false;
+    NSString *SelectType    = [[NSString alloc] initWithFormat:@"%@", [TheOptions GetCurrentAttributeType]];
+    NSString *Modifier      = [[NSString alloc] initWithFormat:@"%@", [TheOptions GetCurrentAttributeTypeModifier]];
+    SelectType              = [SelectType lowercaseString];
+    Modifier                = [Modifier lowercaseString];
+    int TheNextView         = 0;
+    
+    if([SelectType isEqualToString:@"entered"])
+    {
+        if(Done)
+        {
+            if([Modifier isEqualToString:@"date"])
+            {
+                TheNextView = ADDOBSERVATIONDATEDONE;
+            }
+            else if([Modifier isEqualToString:@"string"])
+            {
+                TheNextView = ADDOBSERVATIONSTRINGDONE;
+            }
+            else
+            {
+                TheNextView = ADDOBSERVATIONENTERDONE;
+            }
+        }
+        else
+        {
+            if([Modifier isEqualToString:@"date"])
+            {
+                TheNextView = ADDOBSERVATIONDATE;
+            }
+            else if([Modifier isEqualToString:@"string"])
+            {
+                TheNextView = ADDOBSERVATIONSTRING;
+            }
+            else
+            {
+                TheNextView = ADDOBSERVATIONENTER;
+            }
+        }
+    }
+    else if([SelectType isEqualToString:@"select"])
+    {
+        if(Done)
+        {
+            TheNextView = ADDOBSERVATIONSELECTDONE;
+        }
+        else
+        {
+            TheNextView = ADDOBSERVATIONSELECT;
+        }
+    }
+    else
+    {
+        Error = true;
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CitSciMobile"
+                                                        message:@"Illegal data sheet; no observation is possible"
+                                                       delegate:nil cancelButtonTitle:@"OK"
+                                              otherButtonTitles: nil];
+        [alert show];
+        
+        AppDelegate  *appDelegate = [[UIApplication sharedApplication] delegate];
+        [appDelegate displayView:OBSERVATIONSVIEW];
+    }
+    
+    if(!Error)
+    {
+        AppDelegate  *appDelegate   = [[UIApplication sharedApplication] delegate];
+        int OrganismIndex           = [TheOptions GetCurrentOrganismIndex];
+        NSMutableArray *pl          = [TheOptions GetOrganismPicklistAtIndex:OrganismIndex];
+        if(([TheOptions GetIsNewOrganism]) && ([pl count] > 0))
+        {
+            
+            [TheOptions SetViewAfterPicklist:TheNextView];
+            [TheOptions SetViewType:TheNextView];
+            [appDelegate displayView:PICKLISTVIEW];
+            
+        }
+        else
+        {
+            [TheOptions SetViewType:TheNextView];
+            [appDelegate displayView:TheNextView];
+        }
+    }
+}
+
+//--------------------------//
+// PreviousButton           //
+//--------------------------//
+// the selected organism is saved in
+// the table functions
+- (IBAction)PreviousButton:(id)sender
+{
+    Boolean CollectingSite  = false;
+    Boolean CollectingOrg   = false;
+    int     PrevView        = [TheOptions GetCurrentViewValue];
+    if([TheOptions GetCollectionType]==COLLECTSITE)
+    {
+        CollectingSite      = true;
+    }
+    
+    int orgindex=[TheOptions GetCurrentOrganismIndex];
+    int curattrnum=[TheOptions GetAttributeNumberForCurrentOrganism];
+
+    [TheOptions SetPreviousMode:true];
+    
+    if ( (orgindex==0) && (curattrnum==0))
+    {
+        // we are going to back up to the authority page
+        [TheOptions SetAttributesSet:false];
+        [TheOptions SetAuthoritySet:false];
+        [TheOptions SetAuthorityHasBeenSet:false];
+        [TheOptions SetCurrentOrganismIndex:0];
+        [TheOptions SetCurrentAttributeChoiceIndex:0];
+        [TheOptions SetCurrentAttributeDataChoicesIndex:0];
+        [TheOptions SetCurrentAttributeChoiceCountIndex:0];
+        [TheOptions SetCurrentOrganismAttributeIndex:0];
+        [TheOptions SetIsNewOrganism:true];
+        
+        //
+        // set up the structures
+        //
+        ////[TheOptions SetCurrentValues];
+    }
+    else
+    {
+        if(PrevView != ADDAUTHORITY)
+        {
+            [TheOptions SetPreviousAttribute];
+        }
+    }
+
+
+    if([TheOptions GetCollectionType]==COLLECTORGANISM)
+    {
+        CollectingOrg       = true;
+    }
+    
+    Boolean     Error               = false;
+    NSString    *SelectType         = [[NSString alloc] init];
+    NSString    *Modifier           = [[NSString alloc] init];
+    int         TheNextView         = 0;
+    
+    if([TheOptions GetAuthoritySet] && (PrevView != ADDAUTHORITY))
+    {
+        SelectType  = [[NSString alloc] initWithFormat:@"%@", [TheOptions GetCurrentAttributeType]];
+        Modifier    = [[NSString alloc] initWithFormat:@"%@", [TheOptions GetCurrentAttributeTypeModifier]];
+        SelectType  = [SelectType lowercaseString];
+        Modifier    = [Modifier lowercaseString];
+    }
+    else
+    {
+        SelectType  = @"AddAuthority";
+    }
+    
+    if([SelectType isEqualToString:@"entered"])
+    {
+        if([Modifier isEqualToString:@"date"])
+        {
+            TheNextView = ADDOBSERVATIONDATE;
+        }
+        else if([Modifier isEqualToString:@"string"])
+        {
+            TheNextView = ADDOBSERVATIONSTRING;
+        }
+        else
+        {
+            TheNextView = ADDOBSERVATIONENTER;
+        }
+    }
+    else if([SelectType isEqualToString:@"select"])
+    {
+        TheNextView = ADDOBSERVATIONSELECT;
+    }
+    else if([SelectType isEqualToString:@"AddAuthority"])
+    {
+        TheNextView = ADDAUTHORITY;
+    }
+    else
+    {
+        Error = true;
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CitSciMobile"
+                                                        message:@"Illegal data sheet; no observation is possible"
+                                                       delegate:nil cancelButtonTitle:@"OK"
+                                              otherButtonTitles: nil];
+        [alert show];
+        
+        AppDelegate  *appDelegate = [[UIApplication sharedApplication] delegate];
+        [appDelegate displayView:OBSERVATIONSVIEW];
+    }
+    
+    if(!Error)
+    {
+        AppDelegate  *appDelegate   = [[UIApplication sharedApplication] delegate];
+        
+        [TheOptions SetViewType:TheNextView];
+        [appDelegate displayView:TheNextView];
+    }
+}
+
+//--------------------------//
+// CancelButton             //
+//--------------------------//
+// captures the lat/lon and sets it for the current
+// observation
+//
+-(IBAction)CancelButton:(id)sender
+{
+    AppDelegate  *appDelegate = [[UIApplication sharedApplication] delegate];
+	[appDelegate displayView:OBSERVATIONSVIEW];
 }
 //--------------------------//
 // end of buttons           //
@@ -146,6 +450,11 @@ static int CurrentOrganism;
 {
     [super viewWillAppear:animated];
     
+    [TheOptions SetCurrentViewValue:PICKLISTVIEW];
+    
+    self.Yikes.translucent          = NO;
+    self.Yikes.barTintColor         = [UIColor blackColor];
+    
     self.PicklistNames              = [[NSMutableArray alloc]init];
     self.PicklistIDs                = [[NSMutableArray alloc]init];
     CurrentOrganism                 = [TheOptions GetCurrentOrganismIndex];
@@ -160,6 +469,30 @@ static int CurrentOrganism;
         [self.PicklistIDs addObject:foo];
         i+=2;
     }
+    
+    NSString *bar = [TheOptions GetCurrentOrganismName];
+    if([bar isEqualToString:NOTYETSET])
+    {
+        self.PreviousTitle.text     = @"";
+        self.PreviousValue.text     = @"";
+    }
+    else
+    {
+        self.PreviousTitle.text     = @"Prior choice:";
+        self.PreviousValue.text     = [TheOptions GetCurrentOrganismName];
+    }
+    /*****
+    if([TheOptions GetPreviousMode])
+    {
+        self.PreviousTitle.text     = @"Prior choice:";
+        self.PreviousValue.text     = [TheOptions GetCurrentOrganismName];
+    }
+    else
+    {
+        self.PreviousTitle.text     = @"";
+        self.PreviousValue.text     = @"";
+    }
+    *****/
 }
 - (void)viewDidLoad
 {

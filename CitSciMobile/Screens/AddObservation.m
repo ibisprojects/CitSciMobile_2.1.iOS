@@ -29,6 +29,7 @@
 @synthesize LonValue;
 @synthesize AccValue;
 @synthesize AltValue;
+@synthesize Yikes;
 
 
 //
@@ -555,6 +556,9 @@ Boolean AddObsDebug         = false;
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
+    
+    self.Yikes.translucent  = NO;
+    self.Yikes.barTintColor = [UIColor blackColor];
     
     OrganismIndex   = [TheOptions GetCurrentOrganismIndex];
     AttributeIndex  = [TheOptions GetCurrentAttributeChoiceIndex];

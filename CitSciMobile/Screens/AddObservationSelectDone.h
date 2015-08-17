@@ -24,6 +24,9 @@
     IBOutlet UITextField    *textField;
     
     NSString                *theComment;
+    
+    // recover from xcode 5.1
+    IBOutlet UIToolbar      *Yikes;
 }
 
 @property (nonatomic, retain) NSMutableArray                *CurrentAttributes;
@@ -33,6 +36,7 @@
 @property (nonatomic, retain) UILabel                       *PreviousValue;
 @property (nonatomic, retain) IBOutlet UITextField          *textField;
 @property (nonatomic, retain) NSString                      *theComment;
+@property (nonatomic, retain) UIToolbar                     *Yikes;
 
 -(IBAction)DoneButton:(int)intNewView;
 -(IBAction)CancelButton:(int)intNewView;

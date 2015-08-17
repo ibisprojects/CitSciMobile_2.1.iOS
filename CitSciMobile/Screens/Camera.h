@@ -18,11 +18,15 @@
     IBOutlet UIImageView        *imageView;
     
     UIDeviceOrientation         orientation;
+    
+    // recover from xcode 5.1
+    IBOutlet UIToolbar          *Yikes;
 }
 
 @property(nonatomic,retain)IBOutlet UIImageView *imageView;
 @property (nonatomic, retain) UIView            *PortraitView;
 @property (nonatomic, retain) UIView            *LandscapeView;
+@property (nonatomic, retain) UIToolbar         *Yikes;
 
 -(IBAction)showCameraAction:(id)sender;
 -(IBAction)doneImageAction:(id)sender;

@@ -32,6 +32,8 @@
 @synthesize VisitToDelete;
 @synthesize GoneVisits;
 @synthesize UploadAllErrors;
+@synthesize Yikes;
+@synthesize BottomYikes;
 
 static Boolean ServerSet=false;
 static Boolean OptionsUserSet=false;
@@ -170,6 +172,7 @@ static Boolean ShowSaved   = false;
 // Cancel any changes without saving
 -(IBAction)AuthenticateButton:(int)intNewView
 {
+    ShowSaved                 = true;
     AppDelegate  *appDelegate = [[UIApplication sharedApplication] delegate];
     [appDelegate displayView:AUTHENTICATEVIEW];
 }
@@ -448,6 +451,11 @@ static Boolean ShowSaved   = false;
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    self.Yikes.translucent              = NO;
+    self.Yikes.barTintColor             = [UIColor blackColor];
+    self.BottomYikes.translucent        = NO;
+    self.BottomYikes.barTintColor       = [UIColor blackColor];
     
     //
     // add myself as an observer in order to stop the

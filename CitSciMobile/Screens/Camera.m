@@ -22,6 +22,7 @@
 @synthesize imageView;
 @synthesize LandscapeView;
 @synthesize PortraitView;
+@synthesize Yikes;
 
 static int jpgcount=0;
 
@@ -180,8 +181,13 @@ Model *TheOptions;
     
     if(Mode == CAMERAORGANISM)
     {
-        NSString *organismid= [[NSString alloc]initWithFormat:@"_%@_",[TheOptions GetCurrentOrganismID]];
+        NSString *organismid= [[NSString alloc]initWithFormat:@"_organsim_%@_",[TheOptions GetCurrentOrganismID]];
         NameOnly            = [NameOnly stringByAppendingString:organismid];
+    }
+    else
+    {
+        NSString *foo       = @"_visit_";
+        NameOnly            = [NameOnly stringByAppendingString:foo];
     }
     NSString *jpgPath       = [CurrentDir stringByAppendingFormat:@"/%@%d%@",NameOnly,jpgcount++,JPGEXTENSION];
     
@@ -266,6 +272,9 @@ Model *TheOptions;
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    self.Yikes.translucent              = NO;
+    self.Yikes.barTintColor             = [UIColor blackColor];
     
     /***************
     //----- SETUP ORIENTATION -----

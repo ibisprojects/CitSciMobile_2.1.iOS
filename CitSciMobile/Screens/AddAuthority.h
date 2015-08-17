@@ -17,6 +17,8 @@
     NSMutableArray          *AuthorityIDs;
     IBOutlet UILabel        *PreviousTitle;
     IBOutlet UILabel        *PreviousValue;
+    // recover from xcode 5.1
+    IBOutlet UIToolbar      *Yikes;
 }
 
 @property (nonatomic, retain) NSMutableArray    *CurrentAuthorities;
@@ -25,6 +27,7 @@
 @property (nonatomic, retain) NSMutableArray    *AuthorityIDs;
 @property (nonatomic, retain) UILabel           *PreviousTitle;
 @property (nonatomic, retain) UILabel           *PreviousValue;
+@property (nonatomic, retain) UIToolbar         *Yikes;
 
 -(IBAction) ContinueButton:(int)intNewView;
 -(IBAction) CancelButton:(int)intNewView;
