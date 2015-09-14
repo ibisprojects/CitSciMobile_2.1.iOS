@@ -35,6 +35,7 @@
 #define ADDOBSERVATIONSTRING                    24
 #define ADDOBSERVATIONSTRINGDONE                25
 #define PICKLISTVIEW                            26
+#define BIOBLITZVIEW                            27
 
 
 @class ViewController;

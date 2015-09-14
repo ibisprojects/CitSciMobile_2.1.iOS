@@ -1,26 +1,24 @@
 //
-//  PicklistView.m
+//  Bioblitz.m
 //  CitSciMobile
 //
-//  Created by lee casuto on 5/8/15.
+//  Created by lee casuto on 8/17/15.
 //  Copyright (c) 2015 lee casuto. All rights reserved.
 //
 
-#import "PicklistView.h"
-#import "../AppDelegate.h"
+#import "Bioblitz.h"
 #import "../Model/Model.h"
-#import "../Utilities/ToastAlert.h"
+#import "../AppDelegate.h"
 
-@interface PicklistView ()
+@interface Bioblitz ()
 
 @end
 
-@implementation PicklistView
-@synthesize PicklistNames;
-@synthesize PicklistIDs;
+@implementation Bioblitz
+@synthesize SelectionEnterInput;
+@synthesize theName;
+@synthesize textField;
 @synthesize Yikes;
-@synthesize PreviousValue;
-@synthesize PreviousTitle;
 
 //
 // get a pointer to all options
@@ -28,33 +26,44 @@
 Model *TheOptions;
 
 //
-// picklist variables
+// Set up the indexes to start an observation
 //
-static int SelectedOrganismRow = -1;
+static int OrganismIndex    = 0;
 static int CurrentOrganism;
 
-#pragma mark - buttons
+#pragma -
+#pragma - mark buttons
 //--------------------------//
 // ContinueButton           //
 //--------------------------//
-// the selected organism is saved in
-// the table functions
-- (IBAction)ContinueButton:(id)sender
+// goes back to ObservationViewController loop
+//
+-(IBAction)ContinueButton:(int)intNewView
 {
     AppDelegate  *appDelegate   = [[UIApplication sharedApplication] delegate];
     int NextView                = [TheOptions GetViewAfterPicklist];
+    OrganismIndex               = [TheOptions GetCurrentOrganismIndex];
     int LocalAttributeIndex     = [TheOptions GetCurrentAttributeChoiceIndex];
     
-    if(SelectedOrganismRow == -1)
+    self.theName                = [[NSString alloc]init];
+    
+    //
+    // save the information
+    //
+    self.theName                = self.SelectionEnterInput.text;
+    
+    if([self.theName length] == 0)
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CitSciMobile"
-                                                        message:@"You must select an organism"
+                                                        message:@"You must enter an organism name!"
                                                        delegate:nil cancelButtonTitle:@"OK"
                                               otherButtonTitles: nil];
         [alert show];
-        
         return;
     }
+    
+    [TheOptions ReplaceOrganismDataNameAtIndex:self.theName :OrganismIndex];
+    [TheOptions ReplaceOrganismDataIDsAtIndex:EMPTYSTRING :OrganismIndex];
     
     // check to see if we're now adding again
     if((LocalAttributeIndex+ATTRIBUTEINDEXOFFSET) >= ([TheOptions GetCurrentAttributeDataValueCount]))
@@ -133,7 +142,7 @@ static int CurrentOrganism;
         
         if(!Error)
         {
-            [TheOptions SetCurrentViewValue:PICKLISTVIEW];
+            [TheOptions SetCurrentViewValue:BIOBLITZVIEW];
             [TheOptions SetGoingForward:true];
             [TheOptions SetViewType:TheNextView];
             [appDelegate displayView:TheNextView];
@@ -223,8 +232,8 @@ static int CurrentOrganism;
     {
         AppDelegate  *appDelegate   = [[UIApplication sharedApplication] delegate];
         int OrganismIndex           = [TheOptions GetCurrentOrganismIndex];
-        NSMutableArray *pl          = [TheOptions GetOrganismPicklistAtIndex:OrganismIndex];
         NSString *orgtype           = [TheOptions GetOrganismDataTypeAtIndex:OrganismIndex];
+        NSMutableArray *pl          = [TheOptions GetOrganismPicklistAtIndex:OrganismIndex];
         if(([TheOptions GetIsNewOrganism]) && ([pl count] > 0))
         {
             [TheOptions SetViewAfterPicklist:TheNextView];
@@ -262,7 +271,7 @@ static int CurrentOrganism;
     
     int orgindex=[TheOptions GetCurrentOrganismIndex];
     int curattrnum=[TheOptions GetAttributeNumberForCurrentOrganism];
-
+    
     [TheOptions SetPreviousMode:true];
     
     if ( (orgindex==0) && (curattrnum==0))
@@ -290,8 +299,8 @@ static int CurrentOrganism;
             [TheOptions SetPreviousAttribute];
         }
     }
-
-
+    
+    
     if([TheOptions GetCollectionType]==COLLECTORGANISM)
     {
         CollectingOrg       = true;
@@ -374,60 +383,6 @@ static int CurrentOrganism;
 // end of buttons           //
 //--------------------------//
 
-#pragma mark - Table view data source
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return [self.PicklistNames count];
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    //
-    // declarations for the method
-    //
-    int SelectedOrganism        = (int)indexPath.row;
-    SelectedOrganismRow         = SelectedOrganism;     // flag to mark selection
-    
-    switch(SelectedOrganism)
-    {
-        default:
-            // replace OrganismDataNames objectAtIndex ThisOrganism
-            // replace OrganismDataIDs objectAtndex ThisOrganism
-            [TheOptions ReplaceOrganismDataNameAtIndex:[self.PicklistNames objectAtIndex:SelectedOrganism] :CurrentOrganism];
-            [TheOptions ReplaceOrganismDataIDsAtIndex:[self.PicklistIDs objectAtIndex:SelectedOrganism] :CurrentOrganism];
-            
-            [TheOptions SetCurrentOrganismID];
-            //[self.view addSubview: [[ToastAlert alloc] initWithText: @"Selected!"]];
-            
-            break;
-    }
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView
-		 cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *kCellID = @"cellID";
-	
-	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellID];
-    
-    if (cell == nil)
-	{
-        cell                    = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kCellID];
-		cell.accessoryType      = UITableViewCellAccessoryNone;
-		cell.selectionStyle     = UITableViewCellSelectionStyleBlue;
-    }
-    
-    cell.textLabel.text         = [self.PicklistNames objectAtIndex:indexPath.row];
-    
-    return cell;
-}
-
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
-    return @"           Select The Organism";
-}
-
-
 #pragma - mark lifecycle
 -(id)init
 {
@@ -439,13 +394,13 @@ static int CurrentOrganism;
     if ([[UIScreen mainScreen] bounds].size.height == 568)
     {
         //this is iphone 5 xib
-        self = [self initWithNibName:@"PicklistView_iphone5" bundle:nil];
+        self = [self initWithNibName:@"Bioblitz_iphone5" bundle:nil];
         
     }
     else
     {
         // this is iphone 4 xib
-        self = [self initWithNibName:@"PicklistView" bundle:nil];
+        self = [self initWithNibName:@"Bioblitz" bundle:nil];
     }
     
     return self;
@@ -462,53 +417,31 @@ static int CurrentOrganism;
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    [super viewWillAppear:animated];
+    [super viewWillAppear:YES];
     
-    [TheOptions SetCurrentViewValue:PICKLISTVIEW];
-    [TheOptions SetNextView:PICKLISTVIEW];          // for camera
+    [TheOptions SetCurrentViewValue:BIOBLITZVIEW];
+    [TheOptions SetNextView:BIOBLITZVIEW];          // for camera
     
-    self.Yikes.translucent          = NO;
-    self.Yikes.barTintColor         = [UIColor blackColor];
+    self.Yikes.translucent  = NO;
+    self.Yikes.barTintColor = [UIColor blackColor];
     
-    self.PicklistNames              = [[NSMutableArray alloc]init];
-    self.PicklistIDs                = [[NSMutableArray alloc]init];
-    CurrentOrganism                 = [TheOptions GetCurrentOrganismIndex];
-    NSMutableArray *CurrentPicklist = [TheOptions GetOrganismPicklistAtIndex:CurrentOrganism];
-    long NumChoices = [CurrentPicklist count];
-    int i = 0;
-    while(i < NumChoices)
-    {
-        NSString *foo = [[NSString alloc] initWithFormat:@"%@",[CurrentPicklist objectAtIndex:i]];
-        [self.PicklistNames addObject:foo];
-        foo = [[NSString alloc]initWithFormat:@"%@",[CurrentPicklist objectAtIndex:i+1]];
-        [self.PicklistIDs addObject:foo];
-        i+=2;
-    }
+    CurrentOrganism         = [TheOptions GetCurrentOrganismIndex];
     
-    NSString *bar = [TheOptions GetCurrentOrganismName];
-    if([bar isEqualToString:NOTYETSET])
-    {
-        self.PreviousTitle.text     = @"";
-        self.PreviousValue.text     = @"";
-    }
-    else
-    {
-        self.PreviousTitle.text     = @"Prior choice:";
-        self.PreviousValue.text     = [TheOptions GetCurrentOrganismName];
-    }
-    /*****
+    //
+    // we need to set up values if we come in backwards or
+    // from a previous view
+    //
     if([TheOptions GetPreviousMode])
     {
-        self.PreviousTitle.text     = @"Prior choice:";
-        self.PreviousValue.text     = [TheOptions GetCurrentOrganismName];
+        // set the values and stay in previous mode until we
+        // tap continue
+        NSString *foo       = [[NSString alloc]initWithFormat:@"%@",[TheOptions GetCurrentOrganismName]];
+        
+        self.SelectionEnterInput.text = foo;
     }
-    else
-    {
-        self.PreviousTitle.text     = @"";
-        self.PreviousValue.text     = @"";
-    }
-    *****/
+    
 }
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -520,6 +453,72 @@ static int CurrentOrganism;
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma -
+#pragma - mark keyboard
+//
+// Text field functions
+//
+- (BOOL)textFieldShouldReturn:(UITextField *)theTextField
+{
+	if(theTextField == self.SelectionEnterInput)
+	{
+		[self.SelectionEnterInput resignFirstResponder];
+	}
+    
+    if(theTextField == self.textField)
+	{
+		[self.textField resignFirstResponder];
+	}
+    
+	return YES;
+}
+
+//
+// deal with the keyboard hiding text fields
+// I picked this solution up off the web.  To use it:
+// 1. set the kOFFSET... define to the desired height
+// 2. follow the instructions here:
+//// http://www.iphonedevsdk.com/forum/iphone-sdk-tutorials/32204-moving-uitextfield-when-keyboard-pops-up.html
+//
+#define kOFFSET_FOR_KEYBOARD 0.0    // not needed, but ready if it becomes required
+
+-(void) animateTextField: (UITextField*) textField up: (BOOL) up
+{
+    const int movementDistance = kOFFSET_FOR_KEYBOARD; // tweak as needed
+    const float movementDuration = 0.3f; // tweak as needed
+    
+    int movement = (up ? -movementDistance : movementDistance);
+    
+    [UIView beginAnimations: @"anim" context: nil];
+    [UIView setAnimationBeginsFromCurrentState: YES];
+    [UIView setAnimationDuration: movementDuration];
+    self.view.frame = CGRectOffset(self.view.frame, 0, movement);
+    [UIView commitAnimations];
+}
+
+-(void)textFieldDidBeginEditing:(UITextField *)sender
+{
+    if ([sender isEqual:self.SelectionEnterInput])
+    {
+        [self animateTextField: sender up:YES];
+    }
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)sender
+{
+    if ([sender isEqual:self.SelectionEnterInput])
+    {
+        [self animateTextField: sender up:NO];
+    }
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    // puts the screen back if it's touched anywhere
+	[self.SelectionEnterInput resignFirstResponder];
+    [self.textField resignFirstResponder];
 }
 
 @end

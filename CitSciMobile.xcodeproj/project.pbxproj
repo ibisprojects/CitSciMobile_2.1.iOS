@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4217636D1B8298AD0020C08C /* Bioblitz.m in Sources */ = {isa = PBXBuildFile; fileRef = 4217636B1B8298AD0020C08C /* Bioblitz.m */; };
+		4217636E1B8298AD0020C08C /* Bioblitz.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4217636C1B8298AD0020C08C /* Bioblitz.xib */; };
+		421763701B82990F0020C08C /* Bioblitz_iphone5.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4217636F1B82990F0020C08C /* Bioblitz_iphone5.xib */; };
 		4223C8E418B2C1EA00983C44 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4223C8E318B2C1EA00983C44 /* Icon@2x.png */; };
 		427747091AEAF82900BAB6F7 /* AddObservationDate.m in Sources */ = {isa = PBXBuildFile; fileRef = 427747071AEAF82900BAB6F7 /* AddObservationDate.m */; };
 		4277470A1AEAF82900BAB6F7 /* AddObservationDate.xib in Resources */ = {isa = PBXBuildFile; fileRef = 427747081AEAF82900BAB6F7 /* AddObservationDate.xib */; };
@@ -151,6 +154,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4217636A1B8298AD0020C08C /* Bioblitz.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Bioblitz.h; path = CitSciMobile/Screens/Bioblitz.h; sourceTree = "<group>"; };
+		4217636B1B8298AD0020C08C /* Bioblitz.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Bioblitz.m; path = CitSciMobile/Screens/Bioblitz.m; sourceTree = "<group>"; };
+		4217636C1B8298AD0020C08C /* Bioblitz.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = Bioblitz.xib; path = CitSciMobile/Screens/Bioblitz.xib; sourceTree = "<group>"; };
+		4217636F1B82990F0020C08C /* Bioblitz_iphone5.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = Bioblitz_iphone5.xib; path = CitSciMobile/Screens/Bioblitz_iphone5.xib; sourceTree = "<group>"; };
 		4223C8E318B2C1EA00983C44 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon@2x.png"; path = "CitSciMobile/Resources/Icon@2x.png"; sourceTree = "<group>"; };
 		427747061AEAF82900BAB6F7 /* AddObservationDate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddObservationDate.h; path = CitSciMobile/Screens/AddObservationDate.h; sourceTree = "<group>"; };
 		427747071AEAF82900BAB6F7 /* AddObservationDate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddObservationDate.m; path = CitSciMobile/Screens/AddObservationDate.m; sourceTree = "<group>"; };
@@ -452,6 +459,10 @@
 				42E3F88D18888D7F00EF990B /* ObservationsViewController.m */,
 				42E3F88E18888D7F00EF990B /* ObservationsViewController.xib */,
 				42E3F88B18888D7F00EF990B /* ObservationsViewController_iphone5.xib */,
+				4217636A1B8298AD0020C08C /* Bioblitz.h */,
+				4217636B1B8298AD0020C08C /* Bioblitz.m */,
+				4217636C1B8298AD0020C08C /* Bioblitz.xib */,
+				4217636F1B82990F0020C08C /* Bioblitz_iphone5.xib */,
 				42E3F85418888D7E00EF990B /* AboutUs.h */,
 				42E3F85518888D7E00EF990B /* AboutUs.m */,
 				42E3F85618888D7E00EF990B /* AboutUs.xib */,
@@ -701,6 +712,7 @@
 				42E3F8C818888D7F00EF990B /* Help.xib in Resources */,
 				42E3F8A318888D7F00EF990B /* AddAuthority_iphone5.xib in Resources */,
 				42E3F90C18888DBC00EF990B /* Upload.png in Resources */,
+				421763701B82990F0020C08C /* Bioblitz_iphone5.xib in Resources */,
 				427747331AEDB0B600BAB6F7 /* AddObservationDateDoneSkipAndCamera_iphone5.xib in Resources */,
 				42E3F90118888DBC00EF990B /* Icon-72.png in Resources */,
 				42E3F90918888DBC00EF990B /* Russ.png in Resources */,
@@ -738,6 +750,7 @@
 				42E3F8FE18888DBC00EF990B /* CitSci.png in Resources */,
 				42B6D53B1AFD93C300E555C1 /* PicklistView.xib in Resources */,
 				42E3F8C618888D7F00EF990B /* Help_iphone5.xib in Resources */,
+				4217636E1B8298AD0020C08C /* Bioblitz.xib in Resources */,
 				42E3F8A218888D7F00EF990B /* AboutUs.xib in Resources */,
 				42E3F81E1888584A00EF990B /* Main.storyboard in Resources */,
 				42D8B3991A1BEA8700615F23 /* Authenticate.xib in Resources */,
@@ -800,6 +813,7 @@
 				42D2AAE01AC372C300A91FF4 /* AddPredefinedObservation.m in Sources */,
 				427747091AEAF82900BAB6F7 /* AddObservationDate.m in Sources */,
 				42B6D53A1AFD93C300E555C1 /* PicklistView.m in Sources */,
+				4217636D1B8298AD0020C08C /* Bioblitz.m in Sources */,
 				42E3F8B718888D7F00EF990B /* AddObservationSelectDone.m in Sources */,
 				42E3F8171888584A00EF990B /* main.m in Sources */,
 				42E3F8AD18888D7F00EF990B /* AddObservationEnterDone.m in Sources */,

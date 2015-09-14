@@ -31,6 +31,7 @@
 #import "Screens/AddObservationString.h"
 #import "Screens/AddObservationStringDone.h"
 #import "Screens/PicklistView.h"
+#import "Screens/Bioblitz.h"
 #import "Model/Model.h"
 
 @interface ViewController ()
@@ -161,6 +162,10 @@ Model *TheOptions;
             
         case PICKLISTVIEW:
             self.currentView = [[PicklistView alloc] init];
+            break;
+            
+        case BIOBLITZVIEW:
+            self.currentView = [[Bioblitz alloc] init];
             break;
     }
     

@@ -28,6 +28,7 @@
 @synthesize Yikes;
 @synthesize PreviousTitle;
 @synthesize PreviousValue;
+@synthesize SelectedDate;
 
 //
 // get a pointer to all options
@@ -106,19 +107,18 @@ static int AttributeNumber  = 0;
         //
         // prepare for the next view - get the date and convert it in temp
         //
-        NSDate *pickerDate = [self.DatePicker date];
-        
+        self.SelectedDate = self.DatePicker.date;
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
         dateFormatter.dateFormat = @"MM/dd/yyyy";
         
-        NSString *dateString = [dateFormatter stringFromDate: pickerDate];
+        NSString *dateString = [dateFormatter stringFromDate: self.SelectedDate];
         
         NSDateFormatter *timeFormatter = [[NSDateFormatter alloc]init];
         timeFormatter.dateFormat = @"HH";
-        NSString *HourString = [timeFormatter stringFromDate: pickerDate];
+        NSString *HourString = [timeFormatter stringFromDate: self.SelectedDate];
         
         timeFormatter.dateFormat = @"mm";
-        NSString *MinuteString = [timeFormatter stringFromDate:pickerDate];
+        NSString *MinuteString = [timeFormatter stringFromDate:self.SelectedDate];
         NSString *Meridian     = [[NSString alloc] init];
         
         long h = [HourString integerValue];
@@ -220,13 +220,18 @@ static int AttributeNumber  = 0;
             AppDelegate  *appDelegate   = [[UIApplication sharedApplication] delegate];
             int OrganismIndex           = [TheOptions GetCurrentOrganismIndex];
             NSMutableArray *pl          = [TheOptions GetOrganismPicklistAtIndex:OrganismIndex];
+            NSString *orgtype           = [TheOptions GetOrganismDataTypeAtIndex:OrganismIndex];
             if(([TheOptions GetIsNewOrganism]) && ([pl count] > 0))
             {
-                
                 [TheOptions SetViewAfterPicklist:TheNextView];
                 [TheOptions SetViewType:TheNextView];
                 [appDelegate displayView:PICKLISTVIEW];
-                
+            }
+            else if(([TheOptions GetIsNewOrganism]) && ([orgtype isEqualToString:@"bioblitz"]))
+            {
+                [TheOptions SetViewAfterPicklist:TheNextView];
+                [TheOptions SetViewType:TheNextView];
+                [appDelegate displayView:BIOBLITZVIEW];
             }
             else
             {
@@ -328,13 +333,18 @@ static int AttributeNumber  = 0;
         AppDelegate  *appDelegate   = [[UIApplication sharedApplication] delegate];
         int OrganismIndex           = [TheOptions GetCurrentOrganismIndex];
         NSMutableArray *pl          = [TheOptions GetOrganismPicklistAtIndex:OrganismIndex];
+        NSString *orgtype           = [TheOptions GetOrganismDataTypeAtIndex:OrganismIndex];
         if(([TheOptions GetIsNewOrganism]) && ([pl count] > 0))
         {
-            
             [TheOptions SetViewAfterPicklist:TheNextView];
             [TheOptions SetViewType:TheNextView];
             [appDelegate displayView:PICKLISTVIEW];
-            
+        }
+        else if(([TheOptions GetIsNewOrganism]) && ([orgtype isEqualToString:@"bioblitz"]))
+        {
+            [TheOptions SetViewAfterPicklist:TheNextView];
+            [TheOptions SetViewType:TheNextView];
+            [appDelegate displayView:BIOBLITZVIEW];
         }
         else
         {
@@ -395,8 +405,6 @@ static int AttributeNumber  = 0;
 //
 -(IBAction)PreviousButton:(int)intNewView
 {
-    //NSLog(@"===== addobservationDate: previous");
-    //[TheOptions DumpAttributeData];
     Boolean CollectingSite          = false;
     Boolean CollectingOrg           = false;
     int     PreviousNumber          = [TheOptions GetAttributeNumberForCurrentOrganism];
@@ -471,8 +479,6 @@ static int AttributeNumber  = 0;
                                                        delegate:nil cancelButtonTitle:@"OK"
                                               otherButtonTitles: nil];
         [alert show];
-        
-        ////AppDelegate  *appDelegate = [[UIApplication sharedApplication] delegate];
         [appDelegate displayView:OBSERVATIONSVIEW];
     }
     
@@ -492,17 +498,23 @@ static int AttributeNumber  = 0;
             AtNum                   = [TheOptions GetCurrentOrganismAttributeCount]+1;
         }
         [TheOptions SetCurrentAttributeNumber:AtNum];
-        ////AppDelegate  *appDelegate   = [[UIApplication sharedApplication] delegate];
         int OrganismIndex           = [TheOptions GetCurrentOrganismIndex];
         int AttrIndex               = [TheOptions GetAttributeNumberForCurrentOrganism];
         NSMutableArray *pl          = [TheOptions GetOrganismPicklistAtIndex:OrganismIndex];
-        //if(([TheOptions GetIsNewOrganism]) && ([pl count] > 0))
+        NSString *orgtype           = [TheOptions GetOrganismDataTypeAtIndex:OrganismIndex];
         Boolean ShowPicklist        = ([pl count]>0 && (AttrIndex==0) && (PreviousNumber==0));
+        Boolean ShowBioblitz        = ([orgtype isEqualToString:@"bioblitz"] && (AttrIndex==0) && (PreviousNumber==0));
         if(ShowPicklist)
         {
             [TheOptions SetViewAfterPicklist:TheNextView];
             [TheOptions SetViewType:TheNextView];
             [appDelegate displayView:PICKLISTVIEW];
+        }
+        else if(ShowBioblitz)
+        {
+            [TheOptions SetViewAfterPicklist:TheNextView];
+            [TheOptions SetViewType:TheNextView];
+            [appDelegate displayView:BIOBLITZVIEW];
         }
         else
         {
@@ -526,10 +538,17 @@ static int AttributeNumber  = 0;
     Boolean NewOrganism = [TheOptions GetIsNewOrganism];
     Boolean SiteType    = [TheOptions GetCollectionType];
     
+    Boolean ShowBox = false;
+    if ([TheOptions GetAttributeNumberForCurrentOrganism] == 0 &&
+        ([TheOptions GetCollectionType] == COLLECTORGANISM))
+    {
+        ShowBox = true;
+    }
+    
     if ([[UIScreen mainScreen] bounds].size.height == 568)
     {
         //this is iphone 5 xib
-        if(NewOrganism && (SiteType == COLLECTORGANISM))
+        if((NewOrganism && (SiteType == COLLECTORGANISM)) || (ShowBox))
         {
             self = [self initWithNibName:@"AddObservationDateSkipAndCamera_iphone5" bundle:nil];
         }
@@ -582,6 +601,9 @@ static int AttributeNumber  = 0;
     self.Yikes.translucent  = NO;
     self.Yikes.barTintColor = [UIColor blackColor];
     
+    //self.DatePicker.datePickerMode = UIDatePickerModeDate;
+    self.SelectedDate       = [self.DatePicker date];
+    
     [self.DatePicker setBackgroundColor:[UIColor whiteColor]];
     
     [self.CurrentAttributes removeAllObjects];
@@ -620,9 +642,61 @@ static int AttributeNumber  = 0;
         // tap continue
         if(TheIndex < CurrentAttributeCount)
         {
-            self.PreviousTitle.text  = @"Prior choice:";
-            NSString *foo       = [[NSString alloc]initWithFormat:@"%@",[TheOptions GetCurrentAttributeDataValueAtIndex:TheIndex]];
-            self.PreviousValue.text  = foo;
+            //
+            // set the date to the previously selected
+            // date by parsing foo and reconstructing
+            // SelectedDate
+            //
+            // Initialize date components with date values
+            NSDateComponents *dateComponents = [[NSDateComponents alloc] init];
+            NSUInteger       x               = 0;
+            NSString         *foo            = [[NSString alloc]initWithFormat:@"%@",[TheOptions GetCurrentAttributeDataValueAtIndex:TheIndex]];
+            
+            NSArray *bits = [foo componentsSeparatedByString: @" "];
+            NSString *bar = [[NSString alloc]initWithFormat:@"%@",[bits objectAtIndex:0]];
+            NSArray *thedate = [bar componentsSeparatedByString:@"/"];
+            
+            // month
+            bar = [[NSString alloc]initWithFormat:@"%@",[thedate objectAtIndex:0]];
+            x   = [bar integerValue];
+            [dateComponents setMonth:(unsigned long)x];
+            
+            // day
+            bar = [[NSString alloc]initWithFormat:@"%@",[thedate objectAtIndex:1]];
+            x   = [bar integerValue];
+            [dateComponents setDay:(unsigned long)x];
+            
+            // year
+            bar = [[NSString alloc]initWithFormat:@"%@",[thedate objectAtIndex:2]];
+            x   = [bar integerValue];
+            [dateComponents setYear:(unsigned long)x];
+            
+            // hours and minutes
+            NSString *meridian = [[NSString alloc]initWithFormat:@"%@",[bits objectAtIndex:2]];
+            Boolean plus12     = false;
+            if([meridian isEqualToString:@"PM"])
+            {
+                plus12 = true;
+            }
+            bar = [[NSString alloc]initWithFormat:@"%@",[bits objectAtIndex:1]];
+            NSArray *thetime = [bar componentsSeparatedByString:@":"];
+            
+            // hour
+            bar = [[NSString alloc]initWithFormat:@"%@",[thetime objectAtIndex:0]];
+            x   = [bar integerValue];
+            if(plus12)
+            {
+                x+=(unsigned long)12;
+            }
+            [dateComponents setHour:(unsigned long)x];
+            
+            // minute
+            bar = [[NSString alloc]initWithFormat:@"%@",[thetime objectAtIndex:1]];
+            x   = [bar integerValue];
+            [dateComponents setMinute:(unsigned long)x];
+            
+            NSCalendar *calendar  = [[NSCalendar alloc]  initWithCalendarIdentifier:NSGregorianCalendar];
+            self.SelectedDate     = [calendar dateFromComponents:dateComponents];
             
             self.SelectionEnterInput.text = foo;
         }
@@ -726,6 +800,8 @@ static int AttributeNumber  = 0;
     AttributeNumber++;
     [TheOptions SetCurrentAttributeNumber:AttributeNumber];
     
+    // set the date picker
+    self.DatePicker.date = self.SelectedDate;
 }
 
 - (void)didReceiveMemoryWarning

@@ -28,6 +28,7 @@
 #define NOTYETSET               @"not yet set"
 #define NOWSET                  @"now set"
 #define NOTYETSETNUM            @"0.0"
+#define BIOBLITZORGANISM        @"-99"
 
 // defines for debugging
 #define CONTRIVEDDATA           0
@@ -83,6 +84,8 @@
 #define EQUALSTRING             @"&#61;"
 #define COMMACHAR               @","
 #define COMMASTRING             @"&#44;"
+#define SPACESTRING             @" "
+#define EMPTYSTRING             @""
 
 // Attribute indexes
 #define MYDATE                  0
@@ -156,6 +159,7 @@
     int                 OrganismCameraSelectRow;        // the selected row
     NSString            *OrganismCameraSelectValue;     // the selected choice
     NSString            *OrganismCameraEnterValue;      // the typed value
+    Boolean             GoToAuthenticate;               // controls the flow
     
     // core location variables
     double              TheDelay;                       // how long to wait for GPS
@@ -231,6 +235,7 @@
     // arrays to hold attribute data variables
     NSMutableArray      *OrganismDataName;              // list of organism names
     NSMutableArray      *OrganismDataIDs;               // list of organism IDs
+    NSMutableArray      *OrganismDataType;              // how organism is specified
     NSMutableArray      *OrganismDataComment;           // list of organism comments
     NSMutableArray      *OrganismPicklist;              // list of organism choices
     NSMutableArray      *OrganismNumberOfAttributes;    // number of attributes for each organism
@@ -370,6 +375,7 @@
 @property (nonatomic, retain) NSTimer                           *theTimer;
 @property (nonatomic, retain) NSString                          *XMLServerString;
 @property (nonatomic, retain) NSMutableArray                    *OrganismDataName;
+@property (nonatomic, retain) NSMutableArray                    *OrganismDataType;
 @property (nonatomic, retain) NSMutableArray                    *OrganismPicklist;
 @property (nonatomic, retain) NSMutableArray                    *OrganismDataIDs;
 @property (nonatomic, retain) NSMutableArray                    *OrganismDataComment;
@@ -499,7 +505,9 @@
 -(void)SetVisitComment:(NSString *)TheComment;
 -(NSString *)GetVisitComment;
 -(Boolean)DoesThisNameExist:(NSString *)TheName;
+-(Boolean)IsThisNameLegal:(NSString *)TheName;
 -(void)UploadVisit:(NSString *)TheVisit;
+-(void)DoUploadVisit;
 -(void)UploadObservation:(NSString *)TheObservation;
 -(void)AddPicturesToRequest:(NSString *)TheVisit;
 
@@ -555,6 +563,8 @@
 -(void)SkipOrganism;
 -(void)SetOrganismCameraCalled:(Boolean)TheValue;
 -(Boolean)GetOrganismCameraCalled;
+-(void)SetGoToAuthenticate:(Boolean)TheValue;
+-(Boolean)GetGoToAuthenticate;
 -(void)SetOrganismCameraComment:(NSString *)AComment;
 -(NSString*)GetOrganismCameraComment;
 -(void)SetOrganismCameraParent:(int)TheValue;
@@ -621,6 +631,7 @@
 -(void)ReplaceOrganismCommentAtIndex:(NSString *)TheComment : (int)TheIndex;
 -(void)ReplaceOrganismDataNameAtIndex:(NSString *)TheName : (int)TheIndex;
 -(void)ReplaceOrganismDataIDsAtIndex:(NSString *)TheID : (int)TheIndex;
+-(NSString *)GetOrganismDataTypeAtIndex:(int)TheIndex;
 -(void)SetOrganismAttributeCount;
 -(int)GetOrganismAttributeCount;
 -(int)GetTotalAttributeCount;

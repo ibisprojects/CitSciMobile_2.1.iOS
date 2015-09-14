@@ -55,8 +55,6 @@ static int AttributeNumber  = 0;
 //
 -(IBAction)ContinueButton:(int)intNewView
 {
-    //NSLog(@"===== addobservationENTER: enter continue");
-    //[TheOptions DumpAttributeData];
     Boolean PreviousMode = [TheOptions GetPreviousMode];
     self.theComment      = [[NSString alloc]init];
     self.theName         = [[NSString alloc]init];
@@ -72,21 +70,6 @@ static int AttributeNumber  = 0;
     {
         self.theComment = @"";
     }
-    
-    /************
-    if([self.theName length] == 0)
-    {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CitSciMobile"
-                                                        message:@"You must enter a value!"
-                                                       delegate:nil cancelButtonTitle:@"OK"
-                                              otherButtonTitles: nil];
-		[alert show];
-		[alert release];
-        Success = false;
-    }
-    ***********/
-    
-    ////NSLog(@"entered value: %@",self.theName);
     
     if(Success)
     {
@@ -114,18 +97,7 @@ static int AttributeNumber  = 0;
             [TheOptions SetCurrentAttributeDataValue:temp];
         }
         
-        //if(PreviousMode)
-        //{
-            //NSLog(@"===== addobservationENTER: previousmode continue before setnextattr");
-            //[TheOptions ShowIndexes];
-        //}
-        [TheOptions SetNextAttribute];
-        
-        //if(PreviousMode)
-        //{
-            //NSLog(@"===== addobservationENTER: previousmode continue after setnextattr");
-            //[TheOptions ShowIndexes];
-        //}
+        [TheOptions SetNextAttribute];  // possibly changes organism index
         
         Boolean Done            = [TheOptions GetIsLast];
         Boolean Error           = false;
@@ -198,12 +170,16 @@ static int AttributeNumber  = 0;
             AppDelegate  *appDelegate   = [[UIApplication sharedApplication] delegate];
             int OrganismIndex           = [TheOptions GetCurrentOrganismIndex];
             NSMutableArray *pl          = [TheOptions GetOrganismPicklistAtIndex:OrganismIndex];
+            NSString *orgtype           = [TheOptions GetOrganismDataTypeAtIndex:OrganismIndex];
             if(([TheOptions GetIsNewOrganism]) && ([pl count] > 0))
             {
-                
                 [TheOptions SetViewAfterPicklist:TheNextView];
                 [appDelegate displayView:PICKLISTVIEW];
-                
+            }
+            else if(([TheOptions GetIsNewOrganism]) && ([orgtype isEqualToString:@"bioblitz"]))
+            {
+                [TheOptions SetViewAfterPicklist:TheNextView];
+                [appDelegate displayView:BIOBLITZVIEW];
             }
             else
             {
@@ -304,12 +280,16 @@ static int AttributeNumber  = 0;
         AppDelegate  *appDelegate   = [[UIApplication sharedApplication] delegate];
         int OrganismIndex           = [TheOptions GetCurrentOrganismIndex];
         NSMutableArray *pl          = [TheOptions GetOrganismPicklistAtIndex:OrganismIndex];
+        NSString *orgtype           = [TheOptions GetOrganismDataTypeAtIndex:OrganismIndex];
         if(([TheOptions GetIsNewOrganism]) && ([pl count] > 0))
         {
-            
             [TheOptions SetViewAfterPicklist:TheNextView];
             [appDelegate displayView:PICKLISTVIEW];
-            
+        }
+        else if(([TheOptions GetIsNewOrganism]) && ([orgtype isEqualToString:@"bioblitz"]))
+        {
+            [TheOptions SetViewAfterPicklist:TheNextView];
+            [appDelegate displayView:BIOBLITZVIEW];
         }
         else
         {
@@ -362,9 +342,6 @@ static int AttributeNumber  = 0;
 //
 -(IBAction)PreviousButton:(int)intNewView
 {
-    //NSLog(@"===== addobservationENTER: enter previous before setprevious");
-    //[TheOptions ShowIndexes];
-    //[TheOptions DumpAttributeData];
     Boolean CollectingSite  = false;
     Boolean CollectingOrg   = false;
     int     PreviousNumber  = [TheOptions GetAttributeNumberForCurrentOrganism];
@@ -374,9 +351,6 @@ static int AttributeNumber  = 0;
     }
     [TheOptions SetPreviousMode:true];
     [TheOptions SetPreviousAttribute];
-    
-    //NSLog(@"===== addobservationENTER: enter previous after setprevious");
-    //[TheOptions ShowIndexes];
     
     if([TheOptions GetCollectionType]==COLLECTORGANISM)
     {
@@ -456,12 +430,19 @@ static int AttributeNumber  = 0;
         int OrganismIndex           = [TheOptions GetCurrentOrganismIndex];
         int AttrIndex               = [TheOptions GetAttributeNumberForCurrentOrganism];
         NSMutableArray *pl          = [TheOptions GetOrganismPicklistAtIndex:OrganismIndex];
-        
+        NSString *orgtype           = [TheOptions GetOrganismDataTypeAtIndex:OrganismIndex];
         Boolean ShowPicklist        = ([pl count]>0 && (AttrIndex==0) && (PreviousNumber==0));
+        Boolean ShowBioblitz        = ([orgtype isEqualToString:@"bioblitz"] && (AttrIndex==0) && (PreviousNumber==0));
         if(ShowPicklist)
         {
             [TheOptions SetViewAfterPicklist:TheNextView];
             [appDelegate displayView:PICKLISTVIEW];
+        }
+        else if(ShowBioblitz)
+        {
+            [TheOptions SetViewAfterPicklist:TheNextView];
+            [TheOptions SetViewType:TheNextView];
+            [appDelegate displayView:BIOBLITZVIEW];
         }
         else
         {

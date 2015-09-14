@@ -122,6 +122,9 @@ Model *TheOptions;
 {
     NSString *picpath       = [[NSString alloc]initWithFormat:@"%@",[TheOptions GetPicturePath]];
     NSString *CurrentName   = [picpath stringByAppendingPathComponent:[TheOptions GetCurrentAttributeDataValueAtIndex:NAMEINDEX]];
+    
+    //NSLog(@"currentname: %@",CurrentName);
+    //[TheOptions DumpAttributeDataValues];
     NSString *CurrentDir    = [[NSString alloc]initWithFormat:@"%@%@",CurrentName,JPGSDIRNAME];
     
     NSFileManager *filemgr  = [NSFileManager defaultManager];
@@ -157,7 +160,6 @@ Model *TheOptions;
     }
     
     [alert show];
-    ////[alert release];
 }
 
 #pragma mark - When Finish Shoot
@@ -181,7 +183,7 @@ Model *TheOptions;
     
     if(Mode == CAMERAORGANISM)
     {
-        NSString *organismid= [[NSString alloc]initWithFormat:@"_organsim_%@_",[TheOptions GetCurrentOrganismID]];
+        NSString *organismid= [[NSString alloc]initWithFormat:@"_organism_%@_",[TheOptions GetCurrentOrganismID]];
         NameOnly            = [NameOnly stringByAppendingString:organismid];
     }
     else
@@ -245,19 +247,6 @@ Model *TheOptions;
 - (void)viewDidLoad
 {
     //
-    // orientation stuff
-    //
-    /***********
-    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didRotate:) name:@"UIDeviceOrientationDidChangeNotification"  object:nil];
-    orientation = (UIDeviceOrientation)[[UIDevice currentDevice] orientation];
-    if (orientation == UIDeviceOrientationUnknown || orientation == UIDeviceOrientationFaceUp || orientation == UIDeviceOrientationFaceDown)
-    {
-        orientation = UIDeviceOrientationPortrait;
-    }
-    ***************/
-    
-    //
     // application specific stuff
     //
     TheOptions = [Model SharedModel];
@@ -275,100 +264,7 @@ Model *TheOptions;
     
     self.Yikes.translucent              = NO;
     self.Yikes.barTintColor             = [UIColor blackColor];
-    
-    /***************
-    //----- SETUP ORIENTATION -----
-    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didRotate:) name:@"UIDeviceOrientationDidChangeNotification"  object:nil];
-    //orientation = [[UIDevice currentDevice] orientation];
-    orientation = (UIDeviceOrientation)[UIApplication sharedApplication].statusBarOrientation;    //This is more reliable than (self.interfaceOrientation) and [[UIDevice currentDevice] orientation] (which may give a faceup type value)
-    if (orientation == UIDeviceOrientationUnknown || orientation == UIDeviceOrientationFaceUp || orientation == UIDeviceOrientationFaceDown)
-    {
-        orientation = UIDeviceOrientationPortrait;
-    }
-    
-    // Do orientation logic
-    if ((orientation == UIDeviceOrientationLandscapeLeft || orientation == UIDeviceOrientationLandscapeRight))
-    {
-        // Clear the current view and insert the orientation specific view.
-        [self clearCurrentView];
-        [self.view insertSubview:self.LandscapeView atIndex:0];
-    }
-    else if (orientation == UIDeviceOrientationPortrait || orientation == UIDeviceOrientationPortraitUpsideDown)
-    {
-        // Clear the current view and insert the orientation specific view.
-        [self clearCurrentView];
-        [self.view insertSubview:self.PortraitView atIndex:0];
-    }
-    **************/
 }
-
-/************
--(void)didRotate:(NSNotification *)notification
-{
-    UIDeviceOrientation newOrientation = [[UIDevice currentDevice] orientation];
-    if (newOrientation != UIDeviceOrientationUnknown && newOrientation != UIDeviceOrientationFaceUp && newOrientation != UIDeviceOrientationFaceDown)
-    {
-        if (newOrientation == UIDeviceOrientationPortraitUpsideDown)
-        {
-            [self clearCurrentView];
-            [self.view insertSubview:self.PortraitView atIndex:0];
-            orientation = newOrientation;
-        }
-        else
-        {
-            if (orientation != newOrientation)
-            {
-                //NSLog(@"orientation=%d",orientation);
-                //NSLog(@"neworientation=%d",newOrientation);
-                //ORIENTATION HAS CHANGED
-                //NSLog(@"Changed Orientation");
-                
-                // Do orientation logic
-                if (
-                    ((newOrientation == UIDeviceOrientationLandscapeLeft || newOrientation == UIDeviceOrientationLandscapeRight)) &&
-                    ((orientation == UIDeviceOrientationPortrait || orientation == UIDeviceOrientationPortraitUpsideDown))
-                    )
-                {
-                    //NSLog(@"Changed Orientation To Landscape");
-                    // Clear the current view and insert the orientation specific view.
-                    [self clearCurrentView];
-                    [self.view insertSubview:self.LandscapeView atIndex:0];
-                    
-                    //Copy object states between views
-                    //SomeTextControlL.text = SomeTextControlP.text;
-                }
-                else if (
-                         ((newOrientation == UIDeviceOrientationPortrait || newOrientation == UIDeviceOrientationPortraitUpsideDown)) &&
-                         ((orientation == UIDeviceOrientationLandscapeLeft || orientation == UIDeviceOrientationLandscapeRight))
-                         )
-                {
-                    //NSLog(@"Changed Orientation To Portrait");
-                    // Clear the current view and insert the orientation specific view.
-                    [self clearCurrentView];
-                    [self.view insertSubview:self.PortraitView atIndex:0];
-                    
-                    //Copy object states between views
-                    //SomeTextControlP.text = SomeTextControlL.text;
-                }
-                orientation = newOrientation;
-            }
-        }
-    }
-}
-
-- (void) clearCurrentView
-{
-    if (self.LandscapeView.superview)
-    {
-        [self.LandscapeView removeFromSuperview];
-    }
-    else if (self.PortraitView.superview)
-    {
-        [self.PortraitView removeFromSuperview];
-    }
-}
-**********/
 
 - (void)viewDidAppear:(BOOL)animated
 {
@@ -388,18 +284,6 @@ Model *TheOptions;
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return NO;
-    /***********
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-    {
-        BOOL x = interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown;
-        return (x);
-        //return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
-    }
-    else
-    {
-        return YES;
-    }
-    **************/
 }
 
 @end

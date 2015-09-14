@@ -66,6 +66,7 @@ static Boolean DoCamera         = false;
     //
     Boolean Success         = true;
     Boolean DuplicateName   = true;
+    Boolean LegalName       = true;
     Boolean PreviousMode    = [TheOptions GetPreviousMode];
     self.theName            = self.ObservationNameInput.text;
     self.theComment         = self.CommentInput.text;
@@ -83,11 +84,22 @@ static Boolean DoCamera         = false;
     
     // check the name and post an alert if necessary
     DuplicateName = [TheOptions DoesThisNameExist:self.theName];
+    LegalName     = [TheOptions IsThisNameLegal:self.theName];
     
     if(DuplicateName)
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CitSciMobile"
                                                         message:@"An observation with this name already exists.  The options available are:\n1. choose a different name\n2. cancel this observation and delete the observation with this name and start over"
+                                                       delegate:nil cancelButtonTitle:@"OK"
+                                              otherButtonTitles: nil];
+        [alert show];
+        Success = false;
+    }
+    
+    if(!LegalName)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CitSciMobile"
+                                                        message:@"The extension \".xml\" is a reserved word in CitSciMobile and specifies an illegal name.  You must choose a different name"
                                                        delegate:nil cancelButtonTitle:@"OK"
                                               otherButtonTitles: nil];
         [alert show];

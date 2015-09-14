@@ -125,6 +125,7 @@
 @synthesize UnitAbbreviation;
 @synthesize JSONObject;
 @synthesize TranslatingDatasheetName;
+@synthesize OrganismDataType;
 
 
 #pragma mark - singleton definition
@@ -230,6 +231,7 @@ static NSString            *TheVisitName;
         self.UploadAllErrors                 = [[NSMutableArray alloc] init];
         self.PredefinedLocationNames         = [[NSMutableArray alloc] init];
         self.PredefinedLocationIDs           = [[NSMutableArray alloc] init];
+        self.OrganismDataType                = [[NSMutableArray alloc] init];
         self.SelectedPredefinedName          = [[NSString alloc] init];
         self.SelectedPredefinedID            = [[NSString alloc] init];
         self.CurrentOrganismName             = [[NSString alloc] initWithFormat:@"empty"];
@@ -288,6 +290,7 @@ static NSString            *TheVisitName;
         self.VisitComment                    = @"";
         self.ServerName                      = [[NSString alloc]initWithString:LiveName];
         [self SetBadNetworkConnection:false];
+        [self SetGoToAuthenticate:false];
         ////[self SetServerNameString:LiveName];
         
         TheLocation = [GetLocationViewController SharedLocation];
@@ -607,6 +610,31 @@ static NSString            *TheVisitName;
             break;
         }
         i++;
+    }
+    
+    return Result;
+}
+
+//
+// check to see if the string ".xml" is in the
+// actual name.  In the path is okay.
+//
+-(Boolean)IsThisNameLegal:(NSString *)TheName
+{
+    Boolean     Result          = true;       // assume success
+    
+    NSString *lastpathcomponent = [TheName lastPathComponent];
+    NSString *extension         = [lastpathcomponent pathExtension];
+    
+    while(![extension isEqualToString:@""])
+    {
+        if([extension isEqualToString:@"xml"])
+        {
+            Result              = false;
+            break;
+        }
+        lastpathcomponent       = [lastpathcomponent stringByDeletingPathExtension];
+        extension               = [lastpathcomponent pathExtension];
     }
     
     return Result;
@@ -1704,16 +1732,47 @@ static NSString            *TheVisitName;
 }
 
 //
+// this method exists to refresh the access token.
+// it mirrors the behavior of GetProjectsAndForms
+// and DoGetProjectsAndForms
+//
+-(void)UploadVisit:(NSString *)TheVisit
+{
+    NSString        *LocalExpires   = [self GetExpires];
+    NSTimeInterval  RightNow        = NSDate.date.timeIntervalSince1970;
+    double          TheLimit        = [LocalExpires doubleValue];
+    
+    [self SetCurrentVisitName:TheVisit];
+    
+    if(RightNow >= TheLimit)
+    {
+        //NSLog(@"genrefreshtoken for upload");
+        //NSLog(@"RightNow: %f",RightNow);
+        //NSLog(@"TheLimit: %f",TheLimit);
+        // get a new token via refresh token
+        // and wait for it to complete
+        [self GenRefreshToken];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(DoUploadVisit) name:@"genrefreshtoken" object:nil];
+    }
+    else
+    {
+        [self DoUploadVisit];
+    }
+}
+
+//
 // this method has been modified to upload a visit
 // using open authentication.  The original version
 // of this method is in UploadObservation and it not
 // called.  Ever.
 //
--(void)UploadVisit:(NSString *)TheVisit
+-(void)DoUploadVisit
 {
+    NSString        *TheVisit   = [[NSString alloc]initWithFormat:@"%@",[self GetCurrentVisitName]];
+    
     ConnectionType              = UPLOADOBSERVATION;
     NSString        *NumFiles   = [[NSString alloc]init];
-    NSString        *TheToken   = [self GetAccessToken];
+    NSString        *TheToken   = [[NSString alloc]initWithFormat:@"%@",[self GetAccessToken]];
     //TheToken                    = [self GetRefreshToken];  // force error
     
     TheVisitName                = [[NSString alloc]initWithFormat:@"%@",[TheVisit lastPathComponent]];
@@ -1922,6 +1981,15 @@ static NSString            *TheVisitName;
 -(Boolean)GetOrganismCameraCalled
 {
     return OrganismCameraCalled;
+}
+
+-(void)SetGoToAuthenticate:(Boolean)TheValue
+{
+    GoToAuthenticate = TheValue;
+}
+-(Boolean)GetGoToAuthenticate
+{
+    return GoToAuthenticate;
 }
 
 -(void)SetOrganismCameraComment:(NSString *)AComment
@@ -2440,6 +2508,29 @@ static NSString            *TheVisitName;
     {
         [self.OrganismDataIDs replaceObjectAtIndex:TheIndex withObject:TheID];
     }
+}
+
+//
+// there are 3 possible values for the organism type
+// (so far)
+// 1. traditional
+// 2. picklist
+// 3. bioblitz
+//
+-(NSString *)GetOrganismDataTypeAtIndex:(int)TheIndex
+{
+    NSString *foo;
+    long DataTypeCount = [self.OrganismDataType count];
+    
+    if(TheIndex < DataTypeCount)
+    {
+        foo = [[NSString alloc]initWithFormat:@"%@",[self.OrganismDataType objectAtIndex:TheIndex]];
+    }
+    else
+    {
+        foo = @"";
+    }
+    return foo;
 }
 
 -(NSString *)GetOrganismCommentAtIndex:(int)TheIndex
@@ -3167,12 +3258,24 @@ static NSString            *TheVisitName;
     int orgindex                = [self GetCurrentOrganismIndex];
     int attrnum                 = [self GetAttributeNumberForCurrentOrganism];
     NSMutableArray *pl          = [self GetOrganismPicklistAtIndex:orgindex];
+    NSString *orgtype           = [self GetOrganismDataTypeAtIndex:orgindex];
     
+    // deal with a picklist
     if(CurView != PICKLISTVIEW)
     {
         if( (attrnum == 0) && ([pl count] > 0))
         {
             // we are done, go back for a picklist
+            return;
+        }
+    }
+    
+    // deal with a bioblitz
+    if(CurView != BIOBLITZVIEW)
+    {
+        if( (attrnum == 0) && ([orgtype isEqualToString:@"bioblitz"]))
+        {
+            // we are done, go back for a bioblitz
             return;
         }
     }
@@ -3990,8 +4093,11 @@ static NSString            *TheVisitName;
 {
     // if the picklist count is 0 we have no organisms
     NSMutableArray *foo;
+    long PicklistCount = [self.OrganismPicklist count];
     
-    if([self.OrganismPicklist count] <= TheIndex)
+    //if([self.OrganismPicklist count] <= TheIndex)
+    
+    if( (PicklistCount <= TheIndex) || (TheIndex >= PicklistCount))
     {
         foo = [[NSMutableArray alloc]init];
     }
@@ -4288,6 +4394,7 @@ Boolean JSONWrite = false;
     {
         NSString *curprojname   = [[NSString alloc]initWithFormat:@"%@",[dsProjectName objectAtIndex:projindex]];
         NSString *curprojid     = [[NSString alloc]initWithFormat:@"%@",[dsProjectID objectAtIndex:projindex]];
+        curprojname             = [self FixXML:curprojname];
         curprojid               = [self FixXML:curprojid];
         
         tempstring              = [[NSString alloc]initWithFormat:@"\t<GODMProject Name='%@' ID='%@'>\n",curprojname,curprojid];
@@ -4813,6 +4920,10 @@ Boolean JSONWrite = false;
                 strvalue = @"";
             }
             
+            if([UnitType isEqual:[NSNull null]])
+            {
+                UnitType = @"";
+            }
             if([UnitType length] == 0)
             {
                 UnitType = @"";
@@ -5736,6 +5847,7 @@ Boolean JSONWrite = false;
     [self.OrganismDataIDs removeAllObjects];
     [self.OrganismNumberOfAttributes removeAllObjects];
     [self.OrganismPicklist removeAllObjects];
+    [self.OrganismDataType removeAllObjects];
     
     // attribute data structures
     [self.AttributeDataName removeAllObjects];
@@ -5884,13 +5996,15 @@ Boolean JSONWrite = false;
                         [temp addObject:OrganismID];
                     }
                     [self.OrganismPicklist addObject:temp];
+                    [self.OrganismDataType addObject:@"picklist"];
                 }
                 else if ([HowSpecified isEqualToString:@"entered"])
                 {
                     [self.OrganismDataName addObject:NOTYETSET];
-                    [self.OrganismDataIDs addObject:@" "];
+                    [self.OrganismDataIDs addObject:BIOBLITZORGANISM];
                     temp = [[NSMutableArray alloc]init];
                     [self.OrganismPicklist addObject:temp];
+                    [self.OrganismDataType addObject:@"bioblitz"];
                 }
                 else
                 {
@@ -5903,6 +6017,7 @@ Boolean JSONWrite = false;
                         [self.OrganismDataIDs addObject:OrganismID];
                         temp = [[NSMutableArray alloc]init];
                         [self.OrganismPicklist addObject:temp];
+                        [self.OrganismDataType addObject:@"traditional"];
                     }
                 }
             }
@@ -6189,11 +6304,12 @@ Boolean JSONWrite = false;
     NSRange         range;
     
     [self SetBadNetworkConnection:false];
+    [self SetGoToAuthenticate:false];
     switch(ConnectionType)
     {
         case GENREFRESHTOKEN:
             jsonResponseData        = [NSJSONSerialization JSONObjectWithData:self.WebData options:kNilOptions error:nil];
-            //NSLog(@"jsonResponseData: %@",jsonResponseData);
+            //NSLog(@"jsonResponseData genrefreshtoken: %@",jsonResponseData);
             
             // the response is returned as a dictionary
             self.JSONDictionary     = [[NSMutableDictionary alloc]init];
@@ -6206,12 +6322,16 @@ Boolean JSONWrite = false;
             range                   = [SValue  rangeOfString: @"error" options: NSCaseInsensitiveSearch];
             if (range.location >= 1)
             {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CitSciMobile"
-                                                                message:SMessage
+                NSString *foo       = [SMessage stringByAppendingString:@"\r\nYou are not currently logged in to the server"];
+                UIAlertView *alert  = [[UIAlertView alloc] initWithTitle:@"CitSciMobile"
+                                                                message:foo
                                                                delegate:nil cancelButtonTitle:@"OK"
                                                       otherButtonTitles: nil];
                 [alert show];
                 [self SetBadNetworkConnection:true];
+                [self SetGoToAuthenticate:true];
+                AppDelegate  *appDelegate = [[UIApplication sharedApplication] delegate];
+                [appDelegate displayView:AUTHENTICATEVIEW];
             }
             else
             {
@@ -6227,7 +6347,7 @@ Boolean JSONWrite = false;
             
         case UPLOADOBSERVATION:
             jsonResponseData        = [NSJSONSerialization JSONObjectWithData:self.WebData options:kNilOptions error:nil];
-            //NSLog(@"jsonResponseData: %@",jsonResponseData);
+            //NSLog(@"jsonResponseData upload: %@",jsonResponseData);
             
             // the response is returned as a dictionary
             self.JSONDictionary     = [[NSMutableDictionary alloc]init];
@@ -6246,11 +6366,28 @@ Boolean JSONWrite = false;
             else
             {
                 // problem so show the message
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CitSciMobile"
+                NSString *x        = [[NSString alloc]initWithString:[SMessage lowercaseString]];
+                range              = [x rangeOfString: @"invalid" options: NSCaseInsensitiveSearch];
+                if(range.location == NSNotFound)
+                {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CitSciMobile"
                                                                 message:SMessage
                                                                delegate:nil cancelButtonTitle:@"OK"
                                                       otherButtonTitles: nil];
-                [alert show];
+                    [alert show];
+                }
+                else
+                {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CitSciMobile"
+                                                                    message:@"\r\nYou are not currently logged in to the server"
+                                                                   delegate:nil cancelButtonTitle:@"OK"
+                                                          otherButtonTitles: nil];
+                    [alert show];
+                    [self SetGoToAuthenticate:true];
+                    AppDelegate  *appDelegate = [[UIApplication sharedApplication] delegate];
+                    [appDelegate displayView:AUTHENTICATEVIEW];
+                }
+                
                 [self SetBadNetworkConnection:true];
                 [self SetUploadError:true];
             }
@@ -6558,7 +6695,7 @@ Boolean JSONWrite = false;
     // 5. altitude
     // 6. accuracy
     //
-    ////[self DumpAttributeDataValues];
+    //[self DumpAttributeDataValues];
     DoAuthority         = [self GetAuthorityCount]>0;
     TheDate             = [[NSString alloc]initWithFormat:@"%@",[self GetCurrentAttributeDataValueAtIndex:0]];
     ObservationStartDate= [[NSString alloc]initWithFormat:@"%@",[self GetCurrentAttributeDataValueAtIndex:1]];
@@ -6841,8 +6978,12 @@ Boolean JSONWrite = false;
             //
             NumberOfOrganisms   = (int)[self.OrganismDataName count];
             LocalAttributeIndex = 0;
+            //NSLog(@"OrganismDataName:  %@",self.OrganismDataName);
+            //NSLog(@"AttributeDataName: %@",self.AttributeDataName);
+            //NSLog(@"AttributeDataValue:%@",self.AttributeDataValue);
             for(int i=0; i<NumberOfOrganisms; i++)
             {
+                //NSLog(@"working on organism: %d of %d",i,NumberOfOrganisms);
                 // OrganismData open tag 3 tabs
                 line        = [[NSString alloc]initWithFormat:@"%@%@%@%@OrganismData%@",tab,tab,tab,opentag,closetag];
                 tempstring  = [NSString stringWithFormat:@"%@%@",line,cr];
@@ -6860,6 +7001,7 @@ Boolean JSONWrite = false;
                 
                 // organsim name
                 NSString            *thefield = [[NSString alloc]initWithFormat:@"%@",[self.OrganismDataName objectAtIndex:i]];
+                //NSLog(@"\torganism name: %@",thefield);
                 thefield            = [self FixXML:thefield];
                 line                = [[NSString alloc]initWithFormat:@"OrganismName=%@%@%@/%@",tick,thefield,tick,closetag];
                 tempstring          = [NSString stringWithFormat:@"%@%@",line,cr];
@@ -6874,6 +7016,10 @@ Boolean JSONWrite = false;
                 
                 // organsim id
                 thefield            = [[NSString alloc]initWithFormat:@"%@",[self.OrganismDataIDs objectAtIndex:i]];
+                if([thefield isEqualToString:BIOBLITZORGANISM])
+                {
+                    thefield = EMPTYSTRING;
+                }
                 thefield            = [self FixXML:thefield];
                 line                = [[NSString alloc]initWithFormat:@"OrganismInfoID=%@%@%@/%@",tick,thefield,tick,closetag];
                 tempstring          = [NSString stringWithFormat:@"%@%@",line,cr];
@@ -6908,11 +7054,16 @@ Boolean JSONWrite = false;
                 adci                    = 0;
                 for(int j=0; j<NumberOfAttributes; j++)
                 {
+                    //NSLog(@"\tworking on attribute: %d of %d",j,NumberOfAttributes);
+                    //NSLog(@"\tLocalAttributeIndex:  %d",LocalAttributeIndex);
+                    //NSLog(@"\tTheIndexOffset:       %d",TheIndexOffset);
                     // AttributeDataOptionID 6 tabs
                     theID       = [[NSString alloc]initWithFormat:@"%@",[self.AttributeDataTypeIDs objectAtIndex:LocalAttributeIndex]];
-                    theValue    = [[NSString alloc]initWithFormat:@"%@",[self.UnitIDs objectAtIndex:j]];
-                    theName     = [[NSString alloc]initWithFormat:@"%@",[self.AttributeDataName objectAtIndex:j]];
+                    theValue    = [[NSString alloc]initWithFormat:@"%@",[self.UnitIDs objectAtIndex:LocalAttributeIndex]];
+                    theName     = [[NSString alloc]initWithFormat:@"%@",[self.AttributeDataName objectAtIndex:LocalAttributeIndex]];
                     thefield    = [[NSString alloc]initWithFormat:@"%@",[self.AttributeDataValue objectAtIndex:LocalAttributeIndex+TheIndexOffset]];
+                    //NSLog(@"\t\tattrname: %@",theName);
+                    //NSLog(@"\t\tattrdatavalue: %@",thefield);
                     
                     // if this attributedataoption is not "entered", map the
                     // selection to the associated id
@@ -6976,6 +7127,7 @@ Boolean JSONWrite = false;
             
             UnitIDIndex             = NumberOfAttributes;
             int AttributeStart      = UnitIDIndex;
+            //NSLog(@"LocalAttributeIndex: %d",LocalAttributeIndex);
             //
             // SiteCharacteristics if there are any attributes left over, they
             // are site characteristic attributes
@@ -6984,6 +7136,7 @@ Boolean JSONWrite = false;
             ////NumberOfAttributes--;
             if(NumberOfAttributes > 0)
             {
+                //NSLog(@"NumberOfAttributes: %d",NumberOfAttributes);
                 // sitecharacteristics 3 tabs
                 line                = nil;
                 line                = [[NSString alloc]initWithFormat:@"%@%@%@<SiteCharacteristics>",tab,tab,tab];
@@ -6994,11 +7147,13 @@ Boolean JSONWrite = false;
                 // write out each attributes
                 for(int i=0;i<NumberOfAttributes;i++)
                 {
+                    //NSLog(@"i=%d, NumberOfAttributes=%d",i,NumberOfAttributes);
                     // AttributeDataOptionID 6 tabs
                     theID       = [[NSString alloc]initWithFormat:@"%@",[self.AttributeDataTypeIDs objectAtIndex:LocalAttributeIndex]];
                     thefield    = [[NSString alloc]initWithFormat:@"%@",[self.AttributeDataValue objectAtIndex:LocalAttributeIndex+TheIndexOffset]];
                     theValue    = [[NSString alloc]initWithFormat:@"%@",[self.UnitIDs objectAtIndex:UnitIDIndex]];
-                    theName     = [[NSString alloc]initWithFormat:@"%@",[self.AttributeDataName objectAtIndex:UnitIDIndex]];
+                    theName     = [[NSString alloc]initWithFormat:@"%@",[self.AttributeDataName objectAtIndex:LocalAttributeIndex]];
+                    //NSLog(@"theName: %@",theName);
                     UnitIDIndex++;
                     // if this attributedataoption is not "entered", map the
                     // selection to the associated id

@@ -25,11 +25,13 @@
     NSString                                                *theName;
     NSString                                                *theComment;
     
+    NSDate                                                  *SelectedDate;
+    
     // recover from xcode 5.1
     IBOutlet UIToolbar                                      *Yikes;
 }
 
-@property(nonatomic,retain) UIDatePicker                    *DatePicker;
+@property (nonatomic,retain) UIDatePicker                    *DatePicker;
 @property (nonatomic, retain) NSString                      *theName;
 @property (nonatomic, retain) NSString                      *theComment;
 @property (nonatomic, retain) IBOutlet UITextField          *SelectionEnterInput;
@@ -40,6 +42,7 @@
 @property (nonatomic, retain) UILabel                       *PreviousTitle;
 @property (nonatomic, retain) UILabel                       *PreviousValue;
 @property (nonatomic, retain) NSMutableArray                *CurrentAttributes;
+@property (nonatomic, retain) NSDate                        *SelectedDate;
 @property (nonatomic, retain) UIToolbar                     *Yikes;
 
 -(IBAction) GetSelectedDate;

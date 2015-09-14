@@ -67,6 +67,8 @@ Model *TheOptions;
 //
 -(IBAction)UploadButton:(int)intNewView
 {
+    AppDelegate  *appDelegate = [[UIApplication sharedApplication] delegate];
+    
     for(int i=0; i<[TheOptions GetNumberOfVisitFiles]; i++)
     {
         NSString *filename  = [TheOptions GetVisitFileNameAtIndex:i];
@@ -78,8 +80,15 @@ Model *TheOptions;
         {
             [TheOptions RemVisitFile:filename];
         }
+        
+        /*****
+        if([TheOptions GetGoToAuthenticate])
+        {
+            [appDelegate displayView:AUTHENTICATEVIEW];
+        }
+        ******/
     }
-    AppDelegate  *appDelegate = [[UIApplication sharedApplication] delegate];
+    
 	[appDelegate displayView:PROJECTSTABLE];
 }
 

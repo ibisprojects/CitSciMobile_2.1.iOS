@@ -265,6 +265,8 @@ NSString *ShutUp;
         AppDelegate  *appDelegate   = [[UIApplication sharedApplication] delegate];
         int OrganismIndex           = [TheOptions GetCurrentOrganismIndex];
         NSMutableArray *pl          = [TheOptions GetOrganismPicklistAtIndex:OrganismIndex];
+        NSString *orgtype           = [TheOptions GetOrganismDataTypeAtIndex:OrganismIndex];
+        //NSLog(@"Authority(continue): orgtype: %@",orgtype);
         if(([TheOptions GetIsNewOrganism]) && ([pl count] > 0))
         {
             [TheOptions SetKeepAuthoritySet:true];
@@ -272,6 +274,13 @@ NSString *ShutUp;
             [TheOptions SetViewType:TheNextView];
             [appDelegate displayView:PICKLISTVIEW];
             
+        }
+        else if(([TheOptions GetIsNewOrganism]) && ([orgtype isEqualToString:@"bioblitz"]))
+        {
+            [TheOptions SetKeepAuthoritySet:true];
+            [TheOptions SetViewAfterPicklist:TheNextView];
+            [TheOptions SetViewType:TheNextView];
+            [appDelegate displayView:BIOBLITZVIEW];
         }
         else
         {

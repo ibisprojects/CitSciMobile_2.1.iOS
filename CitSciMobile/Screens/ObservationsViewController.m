@@ -114,6 +114,13 @@ static int CurrentVisitIndex;
     //
     ////NSLog(@"finishupload");
     [TheActivity stopAnimating];
+    /*******
+    if([TheOptions GetGoToAuthenticate])
+    {
+        AppDelegate  *appDelegate = [[UIApplication sharedApplication] delegate];
+        [appDelegate displayView:AUTHENTICATEVIEW];
+    }
+    **********/
 }
 
 -(void)DoTheSlow
@@ -639,7 +646,12 @@ static int CurrentVisitIndex;
             if([[NSFileManager defaultManager]fileExistsAtPath:visitpicdir isDirectory:&IsDir])
             {
                 NSString *lastpathcomponent = [visitpicdir lastPathComponent];
-                lastpathcomponent   = [lastpathcomponent stringByDeletingPathExtension];
+                lastpathcomponent   = [lastpathcomponent lowercaseString];
+                NSString *extension = [lastpathcomponent pathExtension];
+                if([extension isEqualToString:@"xml"])
+                {
+                    lastpathcomponent   = [lastpathcomponent stringByDeletingPathExtension];
+                }
                 NSString *visitname = [[NSString alloc]initWithFormat:@"%@",[TheOptions GetVisitNameAtIndex:i]];
                 
                 if([lastpathcomponent isEqualToString:visitname])
