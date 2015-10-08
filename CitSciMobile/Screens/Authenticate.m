@@ -254,6 +254,8 @@ UIActivityIndicatorView *activityView;
                                                    delegate:nil cancelButtonTitle:@"OK"
                                           otherButtonTitles: nil];
     [alert show];
+    
+    NSLog(@"webview error: %@",error);
 }
 
 - (void)webViewDidStartLoad:(UIWebView *)webView

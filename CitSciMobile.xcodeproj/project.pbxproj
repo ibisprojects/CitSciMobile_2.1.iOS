@@ -7,10 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4211C57E1BB205E90084F165 /* AddPredefinedObservation_iphone5.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4211C57D1BB205E90084F165 /* AddPredefinedObservation_iphone5.xib */; };
 		4217636D1B8298AD0020C08C /* Bioblitz.m in Sources */ = {isa = PBXBuildFile; fileRef = 4217636B1B8298AD0020C08C /* Bioblitz.m */; };
 		4217636E1B8298AD0020C08C /* Bioblitz.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4217636C1B8298AD0020C08C /* Bioblitz.xib */; };
 		421763701B82990F0020C08C /* Bioblitz_iphone5.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4217636F1B82990F0020C08C /* Bioblitz_iphone5.xib */; };
+		421FCE111BB0D705003F828C /* Greg2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 421FCE101BB0D705003F828C /* Greg2.jpg */; };
+		422036711BC5E6F000F29147 /* manoj.png in Resources */ = {isa = PBXBuildFile; fileRef = 422036701BC5E6F000F29147 /* manoj.png */; settings = {ASSET_TAGS = (); }; };
 		4223C8E418B2C1EA00983C44 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4223C8E318B2C1EA00983C44 /* Icon@2x.png */; };
+		4242052C1BB3BDB300A7EF00 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4242052B1BB3BDB300A7EF00 /* Default-568h@2x.png */; settings = {ASSET_TAGS = (); }; };
 		427747091AEAF82900BAB6F7 /* AddObservationDate.m in Sources */ = {isa = PBXBuildFile; fileRef = 427747071AEAF82900BAB6F7 /* AddObservationDate.m */; };
 		4277470A1AEAF82900BAB6F7 /* AddObservationDate.xib in Resources */ = {isa = PBXBuildFile; fileRef = 427747081AEAF82900BAB6F7 /* AddObservationDate.xib */; };
 		4277470E1AEAF96000BAB6F7 /* AddObservationDate_iphone5.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4277470D1AEAF96000BAB6F7 /* AddObservationDate_iphone5.xib */; };
@@ -36,7 +40,6 @@
 		42B6D53B1AFD93C300E555C1 /* PicklistView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42B6D5391AFD93C300E555C1 /* PicklistView.xib */; };
 		42D2AAE01AC372C300A91FF4 /* AddPredefinedObservation.m in Sources */ = {isa = PBXBuildFile; fileRef = 42D2AADE1AC372C300A91FF4 /* AddPredefinedObservation.m */; };
 		42D2AAE11AC372C300A91FF4 /* AddPredefinedObservation.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42D2AADF1AC372C300A91FF4 /* AddPredefinedObservation.xib */; };
-		42D2AAE31AC3730400A91FF4 /* AddPredefinedObservation_iphone5.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42D2AAE21AC3730400A91FF4 /* AddPredefinedObservation_iphone5.xib */; };
 		42D8B3981A1BEA8700615F23 /* Authenticate.m in Sources */ = {isa = PBXBuildFile; fileRef = 42D8B3961A1BEA8700615F23 /* Authenticate.m */; };
 		42D8B3991A1BEA8700615F23 /* Authenticate.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42D8B3971A1BEA8700615F23 /* Authenticate.xib */; };
 		42D8B39B1A1BEBAA00615F23 /* Authenticate_iphone5.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42D8B39A1A1BEBAA00615F23 /* Authenticate_iphone5.xib */; };
@@ -154,11 +157,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4211C57D1BB205E90084F165 /* AddPredefinedObservation_iphone5.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddPredefinedObservation_iphone5.xib; path = CitSciMobile/Screens/AddPredefinedObservation_iphone5.xib; sourceTree = "<group>"; };
 		4217636A1B8298AD0020C08C /* Bioblitz.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Bioblitz.h; path = CitSciMobile/Screens/Bioblitz.h; sourceTree = "<group>"; };
 		4217636B1B8298AD0020C08C /* Bioblitz.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Bioblitz.m; path = CitSciMobile/Screens/Bioblitz.m; sourceTree = "<group>"; };
 		4217636C1B8298AD0020C08C /* Bioblitz.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = Bioblitz.xib; path = CitSciMobile/Screens/Bioblitz.xib; sourceTree = "<group>"; };
 		4217636F1B82990F0020C08C /* Bioblitz_iphone5.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = Bioblitz_iphone5.xib; path = CitSciMobile/Screens/Bioblitz_iphone5.xib; sourceTree = "<group>"; };
+		421FCE101BB0D705003F828C /* Greg2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = Greg2.jpg; path = CitSciMobile/Resources/Greg2.jpg; sourceTree = "<group>"; };
+		422036701BC5E6F000F29147 /* manoj.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = manoj.png; path = CitSciMobile/Resources/manoj.png; sourceTree = "<group>"; };
 		4223C8E318B2C1EA00983C44 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon@2x.png"; path = "CitSciMobile/Resources/Icon@2x.png"; sourceTree = "<group>"; };
+		4242052B1BB3BDB300A7EF00 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "CitSciMobile/Resources/Default-568h@2x.png"; sourceTree = "<group>"; };
 		427747061AEAF82900BAB6F7 /* AddObservationDate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddObservationDate.h; path = CitSciMobile/Screens/AddObservationDate.h; sourceTree = "<group>"; };
 		427747071AEAF82900BAB6F7 /* AddObservationDate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddObservationDate.m; path = CitSciMobile/Screens/AddObservationDate.m; sourceTree = "<group>"; };
 		427747081AEAF82900BAB6F7 /* AddObservationDate.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddObservationDate.xib; path = CitSciMobile/Screens/AddObservationDate.xib; sourceTree = "<group>"; };
@@ -190,7 +197,6 @@
 		42D2AADD1AC372C300A91FF4 /* AddPredefinedObservation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddPredefinedObservation.h; path = CitSciMobile/Screens/AddPredefinedObservation.h; sourceTree = "<group>"; };
 		42D2AADE1AC372C300A91FF4 /* AddPredefinedObservation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddPredefinedObservation.m; path = CitSciMobile/Screens/AddPredefinedObservation.m; sourceTree = "<group>"; };
 		42D2AADF1AC372C300A91FF4 /* AddPredefinedObservation.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddPredefinedObservation.xib; path = CitSciMobile/Screens/AddPredefinedObservation.xib; sourceTree = "<group>"; };
-		42D2AAE21AC3730400A91FF4 /* AddPredefinedObservation_iphone5.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddPredefinedObservation_iphone5.xib; sourceTree = "<group>"; };
 		42D8B3951A1BEA8700615F23 /* Authenticate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Authenticate.h; path = CitSciMobile/Screens/Authenticate.h; sourceTree = "<group>"; };
 		42D8B3961A1BEA8700615F23 /* Authenticate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Authenticate.m; path = CitSciMobile/Screens/Authenticate.m; sourceTree = "<group>"; };
 		42D8B3971A1BEA8700615F23 /* Authenticate.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = Authenticate.xib; path = CitSciMobile/Screens/Authenticate.xib; sourceTree = "<group>"; };
@@ -474,7 +480,7 @@
 				42D2AADD1AC372C300A91FF4 /* AddPredefinedObservation.h */,
 				42D2AADE1AC372C300A91FF4 /* AddPredefinedObservation.m */,
 				42D2AADF1AC372C300A91FF4 /* AddPredefinedObservation.xib */,
-				42D2AAE21AC3730400A91FF4 /* AddPredefinedObservation_iphone5.xib */,
+				4211C57D1BB205E90084F165 /* AddPredefinedObservation_iphone5.xib */,
 				42E3F85C18888D7E00EF990B /* AddObservation.h */,
 				42E3F85D18888D7E00EF990B /* AddObservation.m */,
 				42E3F85E18888D7E00EF990B /* AddObservation.xib */,
@@ -593,10 +599,13 @@
 		42E3F8451888598000EF990B /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				422036701BC5E6F000F29147 /* manoj.png */,
+				4242052B1BB3BDB300A7EF00 /* Default-568h@2x.png */,
 				4223C8E318B2C1EA00983C44 /* Icon@2x.png */,
 				42E3F8EE18888DBC00EF990B /* CitSci.png */,
 				42E3F8EF18888DBC00EF990B /* colorado_state_university_logo.png */,
 				42E3F8F018888DBC00EF990B /* Greg.png */,
+				421FCE101BB0D705003F828C /* Greg2.jpg */,
 				42E3F8F118888DBC00EF990B /* Icon-72.png */,
 				42E3F8F218888DBC00EF990B /* Icon-120.png */,
 				42E3F8F318888DBC00EF990B /* Icon.png */,
@@ -658,8 +667,8 @@
 		42E3F7FF1888584A00EF990B /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0510;
-				ORGANIZATIONNAME = "lee casuto";
+				LastUpgradeCheck = 0700;
+				ORGANIZATIONNAME = "leeway software design";
 				TargetAttributes = {
 					42E3F8061888584A00EF990B = {
 						DevelopmentTeam = L3FF28DFFN;
@@ -713,6 +722,7 @@
 				42E3F8A318888D7F00EF990B /* AddAuthority_iphone5.xib in Resources */,
 				42E3F90C18888DBC00EF990B /* Upload.png in Resources */,
 				421763701B82990F0020C08C /* Bioblitz_iphone5.xib in Resources */,
+				422036711BC5E6F000F29147 /* manoj.png in Resources */,
 				427747331AEDB0B600BAB6F7 /* AddObservationDateDoneSkipAndCamera_iphone5.xib in Resources */,
 				42E3F90118888DBC00EF990B /* Icon-72.png in Resources */,
 				42E3F90918888DBC00EF990B /* Russ.png in Resources */,
@@ -725,6 +735,7 @@
 				42E3F8D818888D7F00EF990B /* UploadViewController.xib in Resources */,
 				42E3F8231888584A00EF990B /* Images.xcassets in Resources */,
 				42E3F8AF18888D7F00EF990B /* AddObservationEnterDoneSkipAndCamera_iphone5.xib in Resources */,
+				4211C57E1BB205E90084F165 /* AddPredefinedObservation_iphone5.xib in Resources */,
 				42E3F84718888C0200EF990B /* ViewController_iphone5.xib in Resources */,
 				42E3F8FF18888DBC00EF990B /* colorado_state_university_logo.png in Resources */,
 				4277470A1AEAF82900BAB6F7 /* AddObservationDate.xib in Resources */,
@@ -737,6 +748,7 @@
 				42E3F8B618888D7F00EF990B /* AddObservationSelectDone_iphone5.xib in Resources */,
 				42E3F8BC18888D7F00EF990B /* AddObservationSelectSkipAndCamera.xib in Resources */,
 				42E3F8CB18888D7F00EF990B /* Information.xib in Resources */,
+				4242052C1BB3BDB300A7EF00 /* Default-568h@2x.png in Resources */,
 				42E3F90618888DBC00EF990B /* natural_resource_logo.png in Resources */,
 				4277470E1AEAF96000BAB6F7 /* AddObservationDate_iphone5.xib in Resources */,
 				42E3F8B018888D7F00EF990B /* AddObservationEnterDoneSkipAndCamera.xib in Resources */,
@@ -769,9 +781,9 @@
 				42E3F8B218888D7F00EF990B /* AddObservationEnterSkipAndCamera.xib in Resources */,
 				42E3F8CE18888D7F00EF990B /* ObservationsViewController.xib in Resources */,
 				427747251AEB3F5200BAB6F7 /* AddObservationDateSkipAndCamera.xib in Resources */,
-				42D2AAE31AC3730400A91FF4 /* AddPredefinedObservation_iphone5.xib in Resources */,
 				42E3F8B818888D7F00EF990B /* AddObservationSelectDone.xib in Resources */,
 				427747271AEB413900BAB6F7 /* AddObservationDateSkipAndCamera_iphone5.xib in Resources */,
+				421FCE111BB0D705003F828C /* Greg2.jpg in Resources */,
 				42E3F8D018888D7F00EF990B /* ProjectsTableViewController_iphone5.xib in Resources */,
 				42E3F8A818888D7F00EF990B /* AddObservation.xib in Resources */,
 				427747231AEAFCE900BAB6F7 /* AddObservationString_iphone5.xib in Resources */,
@@ -900,6 +912,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -963,6 +976,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CitSciMobile/CitSciMobile-Prefix.pch";
 				INFOPLIST_FILE = "CitSciMobile/CitSciMobile-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "LeewaySoftwareDesign.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
@@ -979,6 +993,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CitSciMobile/CitSciMobile-Prefix.pch";
 				INFOPLIST_FILE = "CitSciMobile/CitSciMobile-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "LeewaySoftwareDesign.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
@@ -1001,6 +1016,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "CitSciMobileTests/CitSciMobileTests-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "LeewaySoftwareDesign.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
@@ -1019,6 +1035,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CitSciMobile/CitSciMobile-Prefix.pch";
 				INFOPLIST_FILE = "CitSciMobileTests/CitSciMobileTests-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "LeewaySoftwareDesign.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
@@ -1069,6 +1086,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CitSciMobile/CitSciMobile-Prefix.pch";
 				INFOPLIST_FILE = "CitSciMobile/CitSciMobile-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "LeewaySoftwareDesign.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
@@ -1087,6 +1105,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CitSciMobile/CitSciMobile-Prefix.pch";
 				INFOPLIST_FILE = "CitSciMobileTests/CitSciMobileTests-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "LeewaySoftwareDesign.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;

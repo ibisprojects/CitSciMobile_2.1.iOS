@@ -366,12 +366,32 @@ static Boolean DoCamera         = false;
 //
 // table functions
 //
+- (UITableViewCell *)tableView:(UITableView *)tableView
+         cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSString    *MyIdentifier   = [NSString stringWithFormat:@"MyIdentifier %li", (long)indexPath.row];
+    UITableViewCell *cell       = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
+    NSString    *str            = [[NSString alloc]init];
+    
+    if (cell == nil)
+    {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                      reuseIdentifier:MyIdentifier];
+        [cell setSelectionStyle:UITableViewCellSelectionStyleBlue];
+        str=[self.LocationNames objectAtIndex:indexPath.row];
+        cell.textLabel.text = str;
+        [TheOptions GetNextVisitNode];
+    }
+    
+    return cell;
+    
+}
 //--------------------------//
 // cellForRowAtIndexPath    //
 //--------------------------//
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView
-		 cellForRowAtIndexPath:(NSIndexPath *)indexPath
+		 cellForRowAtIndexPathOrig:(NSIndexPath *)indexPath
 {
     NSString    *MyIdentifier = [NSString stringWithFormat:@"MyIdentifier %li", (long)indexPath.row];
 	MyTableCell *cell = (MyTableCell *)[tableView dequeueReusableCellWithIdentifier:MyIdentifier];
@@ -411,7 +431,7 @@ static Boolean DoCamera         = false;
 //--------------------------//
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    return @"         Predefined Location Names";
+    return @"     Predefined Location Names";
 }
 
 //--------------------------//

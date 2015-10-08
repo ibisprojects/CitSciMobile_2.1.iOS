@@ -291,6 +291,7 @@ static NSString            *TheVisitName;
         self.ServerName                      = [[NSString alloc]initWithString:LiveName];
         [self SetBadNetworkConnection:false];
         [self SetGoToAuthenticate:false];
+        [self SetInvalidTokenMessageCount:0];
         ////[self SetServerNameString:LiveName];
         
         TheLocation = [GetLocationViewController SharedLocation];
@@ -1291,7 +1292,11 @@ static NSString            *TheVisitName;
         }
         else if([VariableName isEqualToString:@"server"])
         {
-            if([VariableValue isEqualToString:nil])
+            if(VariableValue == nil)
+            {
+                VariableValue = @"";
+            }
+            if([VariableValue isEqualToString:@""])
             {
                 [self SetServerName:1];
             }
@@ -1990,6 +1995,18 @@ static NSString            *TheVisitName;
 -(Boolean)GetGoToAuthenticate
 {
     return GoToAuthenticate;
+}
+
+-(void)SetInvalidTokenMessageCount:(int)TheCount
+{
+    int i = TheCount;
+    // keep the count from ever getting too big
+    if(i == 100) i = 0;
+    InvalidTokenMessageCount = i;
+}
+-(int)GetInvalidTokenMessageCount
+{
+    return InvalidTokenMessageCount;
 }
 
 -(void)SetOrganismCameraComment:(NSString *)AComment
@@ -6327,7 +6344,13 @@ Boolean JSONWrite = false;
                                                                 message:foo
                                                                delegate:nil cancelButtonTitle:@"OK"
                                                       otherButtonTitles: nil];
-                [alert show];
+                int k = [self GetInvalidTokenMessageCount];
+                if((k % 2) == 0)
+                {
+                    [alert show];
+                }
+                k++;
+                [self SetInvalidTokenMessageCount:k];
                 [self SetBadNetworkConnection:true];
                 [self SetGoToAuthenticate:true];
                 AppDelegate  *appDelegate = [[UIApplication sharedApplication] delegate];
@@ -6347,7 +6370,9 @@ Boolean JSONWrite = false;
             
         case UPLOADOBSERVATION:
             jsonResponseData        = [NSJSONSerialization JSONObjectWithData:self.WebData options:kNilOptions error:nil];
-            //NSLog(@"jsonResponseData upload: %@",jsonResponseData);
+            ////NSLog(@"jsonResponseData upload: %@",jsonResponseData);
+            ////self.loginStatus = [[NSString alloc] initWithBytes: [self.WebData mutableBytes] length:[self.WebData length] encoding:NSASCIIStringEncoding];
+            ////NSLog(@"loginstatus: %@", self.loginStatus);
             
             // the response is returned as a dictionary
             self.JSONDictionary     = [[NSMutableDictionary alloc]init];
@@ -6365,6 +6390,10 @@ Boolean JSONWrite = false;
             }
             else
             {
+                if (SMessage == nil)
+                {
+                    SMessage = @"Unknown server problem during the upload";
+                }
                 // problem so show the message
                 NSString *x        = [[NSString alloc]initWithString:[SMessage lowercaseString]];
                 range              = [x rangeOfString: @"invalid" options: NSCaseInsensitiveSearch];
@@ -6382,10 +6411,14 @@ Boolean JSONWrite = false;
                                                                     message:@"\r\nYou are not currently logged in to the server"
                                                                    delegate:nil cancelButtonTitle:@"OK"
                                                           otherButtonTitles: nil];
-                    [alert show];
+                    int k = [self GetInvalidTokenMessageCount];
+                    if((k % 2) == 0)
+                    {
+                        [alert show];
+                    }
+                    k++;
+                    [self SetInvalidTokenMessageCount:k];
                     [self SetGoToAuthenticate:true];
-                    AppDelegate  *appDelegate = [[UIApplication sharedApplication] delegate];
-                    [appDelegate displayView:AUTHENTICATEVIEW];
                 }
                 
                 [self SetBadNetworkConnection:true];
@@ -6437,7 +6470,9 @@ Boolean JSONWrite = false;
             JsonResponseData                = [NSData dataWithData:self.WebData];
             JsonResponse                    = [NSJSONSerialization JSONObjectWithData:JsonResponseData options:kNilOptions error:nil];
             
-            //NSLog(@"response: %@",JsonResponse);
+            ////NSLog(@"response: %@",JsonResponse);
+            ////self.loginStatus = [[NSString alloc] initWithBytes: [self.WebData mutableBytes] length:[self.WebData length] encoding:NSASCIIStringEncoding];
+            ////NSLog(@"loginstatus: %@", self.loginStatus);
             
             SValue                  = [jsonResponseData valueForKeyPath:@"error"];
             SMessage                = [jsonResponseData valueForKeyPath:@"error_description"];

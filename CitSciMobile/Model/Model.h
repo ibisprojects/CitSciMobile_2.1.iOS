@@ -160,6 +160,7 @@
     NSString            *OrganismCameraSelectValue;     // the selected choice
     NSString            *OrganismCameraEnterValue;      // the typed value
     Boolean             GoToAuthenticate;               // controls the flow
+    int                 InvalidTokenMessageCount;       // used to display messages
     
     // core location variables
     double              TheDelay;                       // how long to wait for GPS
@@ -565,6 +566,8 @@
 -(Boolean)GetOrganismCameraCalled;
 -(void)SetGoToAuthenticate:(Boolean)TheValue;
 -(Boolean)GetGoToAuthenticate;
+-(void)SetInvalidTokenMessageCount:(int)TheCount;
+-(int)GetInvalidTokenMessageCount;
 -(void)SetOrganismCameraComment:(NSString *)AComment;
 -(NSString*)GetOrganismCameraComment;
 -(void)SetOrganismCameraParent:(int)TheValue;

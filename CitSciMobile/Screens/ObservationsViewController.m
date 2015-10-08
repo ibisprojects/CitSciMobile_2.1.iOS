@@ -113,14 +113,14 @@ static int CurrentVisitIndex;
     // it does nothing
     //
     ////NSLog(@"finishupload");
-    [TheActivity stopAnimating];
-    /*******
+    ////[TheActivity stopAnimating];
+    /*******/
     if([TheOptions GetGoToAuthenticate])
     {
         AppDelegate  *appDelegate = [[UIApplication sharedApplication] delegate];
         [appDelegate displayView:AUTHENTICATEVIEW];
     }
-    **********/
+    /**********/
 }
 
 -(void)DoTheSlow
@@ -402,9 +402,11 @@ static int CurrentVisitIndex;
         
         self.VisitToDelete  = [[NSString alloc]initWithString:[filename lastPathComponent]];
         
-        NSTimer *theTimer   = [[NSTimer alloc]init];
+        ////NSTimer *theTimer   = [[NSTimer alloc]init];
         
-        theTimer = [NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(FinishUpload) userInfo:nil repeats:NO];
+        ////theTimer = [NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(FinishUpload) userInfo:nil repeats:NO];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(FinishUpload) name:@"NSURLConnectionDidFinish" object:nil];
     }
 }
 
@@ -432,40 +434,24 @@ static int CurrentVisitIndex;
 - (UITableViewCell *)tableView:(UITableView *)tableView
 		 cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString    *MyIdentifier = [NSString stringWithFormat:@"MyIdentifier %li", (long)indexPath.row];
-	MyTableCell *cell = (MyTableCell *)[tableView dequeueReusableCellWithIdentifier:MyIdentifier];
-    NSString    *str  = [[NSString alloc]init];
+    NSString    *MyIdentifier   = [NSString stringWithFormat:@"MyIdentifier %li", (long)indexPath.row];
+    UITableViewCell *cell       = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
+    NSString    *str            = [[NSString alloc]init];
     
     if (cell == nil)
 	{
-        cell = [[MyTableCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                   reuseIdentifier:MyIdentifier];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                  reuseIdentifier:MyIdentifier];
         
-        ////[cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         [cell setSelectionStyle:UITableViewCellSelectionStyleBlue];
-		
-        // first column (AOI name)
-		UILabel *label = [[UILabel	alloc] initWithFrame:CGRectMake(0.0, 0, 200.0,//was 0, 0, 120
-                                                                    tableView.rowHeight)];
         str=[TheOptions GetVisitName];
-		[cell addColumn:130];       // was 130
-		label.tag = LABEL_TAG;
-		label.font = [UIFont systemFontOfSize:15.0];
-        label.textColor = [UIColor blueColor];
-        
-        label.text = [NSString stringWithFormat:@"   %@", str];
-        
-        label.textAlignment = NSTextAlignmentLeft;
-		label.autoresizingMask = UIViewAutoresizingFlexibleRightMargin |
-		UIViewAutoresizingFlexibleHeight;
-		[cell.contentView addSubview:label];
-         
+        cell.textLabel.text = str;
         [TheOptions GetNextVisitNode];        
     }
     
     return cell;
     
-    }
+}
 
 //--------------------------//
 // titleForHeaderInSection  //
