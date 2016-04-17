@@ -12,9 +12,9 @@
 		4217636E1B8298AD0020C08C /* Bioblitz.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4217636C1B8298AD0020C08C /* Bioblitz.xib */; };
 		421763701B82990F0020C08C /* Bioblitz_iphone5.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4217636F1B82990F0020C08C /* Bioblitz_iphone5.xib */; };
 		421FCE111BB0D705003F828C /* Greg2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 421FCE101BB0D705003F828C /* Greg2.jpg */; };
-		422036711BC5E6F000F29147 /* manoj.png in Resources */ = {isa = PBXBuildFile; fileRef = 422036701BC5E6F000F29147 /* manoj.png */; settings = {ASSET_TAGS = (); }; };
+		422036711BC5E6F000F29147 /* manoj.png in Resources */ = {isa = PBXBuildFile; fileRef = 422036701BC5E6F000F29147 /* manoj.png */; };
 		4223C8E418B2C1EA00983C44 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4223C8E318B2C1EA00983C44 /* Icon@2x.png */; };
-		4242052C1BB3BDB300A7EF00 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4242052B1BB3BDB300A7EF00 /* Default-568h@2x.png */; settings = {ASSET_TAGS = (); }; };
+		4242052C1BB3BDB300A7EF00 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4242052B1BB3BDB300A7EF00 /* Default-568h@2x.png */; };
 		427747091AEAF82900BAB6F7 /* AddObservationDate.m in Sources */ = {isa = PBXBuildFile; fileRef = 427747071AEAF82900BAB6F7 /* AddObservationDate.m */; };
 		4277470A1AEAF82900BAB6F7 /* AddObservationDate.xib in Resources */ = {isa = PBXBuildFile; fileRef = 427747081AEAF82900BAB6F7 /* AddObservationDate.xib */; };
 		4277470E1AEAF96000BAB6F7 /* AddObservationDate_iphone5.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4277470D1AEAF96000BAB6F7 /* AddObservationDate_iphone5.xib */; };

@@ -99,11 +99,18 @@ CLLocation *SavedLocation;
     [TheActivity setCenter:CGPointMake(kScreenWidth/2.0, kScreenHeight/2.0)]; // in landscape mode
     [self.view addSubview:TheActivity]; // spinner is not visible until started
     [TheActivity startAnimating];
-    /////[TheActivity release];
     
     // Create the manager object 
     self.locationManager = [[CLLocationManager alloc] init];
     locationManager.delegate = self;
+    
+    // iOS 8 changes and check.  If this isn't there, the app will crash on devices
+    // running an os prior to iOS 8.
+    if ([self.locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)])
+    {
+        [self.locationManager requestWhenInUseAuthorization];
+    }
+    
     // This is the most important property to set for the manager. It ultimately determines 
     // how the manager will  attempt to acquire location and thus, the amount of power that 
     // will be consumed.
@@ -114,11 +121,11 @@ CLLocation *SavedLocation;
     //NSLog(@"SetupLocationManager: Acquired = %d",Acquired);
     
     // Once configured, the location manager must be "started".
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [locationManager startUpdatingLocation];
-    });
+    ////dispatch_async(dispatch_get_main_queue(), ^{
+    ////    [locationManager startUpdatingLocation];
+    ////});
     
-    //[locationManager startUpdatingLocation];
+    [locationManager startUpdatingLocation];
     
     if(!Acquired)
     {

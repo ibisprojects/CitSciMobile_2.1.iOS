@@ -184,6 +184,7 @@ static int CurrentVisitIndex;
         [TheOptions SetPredefinedLocationMode:PredefinedLocations];
         
         [TheOptions InitializeAttributes];
+        [TheOptions RemoveOrganismComments];
         AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
         
         if(PredefinedLocations)
@@ -363,7 +364,18 @@ static int CurrentVisitIndex;
     }
     
     CurrentVisitIndex = 0;
-    [self UploadThisVisit:CurrentVisitIndex];
+    if(NumFiles != 0)
+    {
+        [self UploadThisVisit:CurrentVisitIndex];
+    }
+    else
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CitSciMobile"
+                                                        message:@"There are no observations to upload"
+                                                       delegate:nil cancelButtonTitle:@"OK"
+                                              otherButtonTitles: nil];
+        [alert show];
+    }
 }
 
 //--------------------------//

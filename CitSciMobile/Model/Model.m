@@ -331,6 +331,7 @@ static NSString            *TheVisitName;
         {
             [self SetAuthoritySet:false];
         }
+        [self SetAuthorityObsolete:false];
         [self SetKeepAuthoritySet:false];
         [self SetAuthorityRowNumber:0];
         [self SetUploadError:false];
@@ -2442,6 +2443,15 @@ static NSString            *TheVisitName;
     return AuthoritySelection;
 }
 
+-(void)SetAuthorityObsolete:(Boolean)TheValue
+{
+    AuthorityObsolete = TheValue;
+}
+-(Boolean)GetAuthorityObsolete
+{
+    return AuthorityObsolete;
+}
+
 -(void)SetCurrentOrganismName
 {
     int localindex = [self GetCurrentOrganismIndex];
@@ -2501,6 +2511,10 @@ static NSString            *TheVisitName;
     {
         [self.OrganismDataComment replaceObjectAtIndex:TheIndex withObject:TheComment];
     }
+}
+-(void)RemoveOrganismComments
+{
+    [self.OrganismDataComment removeAllObjects];
 }
 
 -(void)ReplaceOrganismDataNameAtIndex:(NSString *)TheName :(int)TheIndex
@@ -4029,7 +4043,17 @@ static NSString            *TheVisitName;
 }
 -(int)GetAuthorityCount
 {
-    return (int)[self.AuthorityFirstName count];
+    int retcount = -1;
+    if([self GetAuthorityObsolete])
+    {
+        retcount = 0;
+    }
+    else
+    {
+        retcount = (int)[self.AuthorityFirstName count];
+    }
+    //return (int)[self.AuthorityFirstName count];
+    return retcount;
 }
 
 -(void)SetKeepAuthoritySet:(Boolean)TheValue
@@ -5986,6 +6010,7 @@ Boolean JSONWrite = false;
             //[recid release];
         }
     }
+
     ////NSLog(@"    authoritycount = %d",authoritycount);
     
     // 5.organismdata
@@ -6377,6 +6402,8 @@ Boolean JSONWrite = false;
             // the response is returned as a dictionary
             self.JSONDictionary     = [[NSMutableDictionary alloc]init];
             self.JSONDictionary     = (NSMutableDictionary *)jsonResponseData;
+            
+            ////NSLog(@"jsondict: %@",self.JSONDictionary);
             
             SValue                  = [jsonResponseData valueForKeyPath:@"status"];
             SMessage                = [jsonResponseData valueForKeyPath:@"message"];

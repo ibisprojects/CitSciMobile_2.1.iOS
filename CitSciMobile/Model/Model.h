@@ -279,6 +279,7 @@
     Boolean             LastAttribute;                  // key for "Done" views
     Boolean             AttributesSet;                  // first call to SetNextAttribute
     Boolean             AuthoritySet;                   // defines getting authority
+    Boolean             AuthorityObsolete;              // try taking it out
     Boolean             KeepAuthoritySet;               // for picklist
     Boolean             AuthorityHasBeenSet;            // defines getting authority
     int                 SiteCharacteristicCount;        // number of site characteristics
@@ -620,6 +621,8 @@
 -(int)GetSiteCharacteristicsCount;
 -(void)SetAuthorityRowNumber:(int)TheRow;
 -(int)GetAuthorityRowNumber;
+-(void)SetAuthorityObsolete:(Boolean)TheValue;
+-(Boolean)GetAuthorityObsolete;
 -(void)DumpArraySizes;
 -(void)DumpAttributeData;
 -(void)DumpAttributeDataValues;
@@ -632,6 +635,7 @@
 -(NSString *)GetOrganismNameAtIndex:(int)TheIndex;
 -(NSString *)GetOrganismCommentAtIndex:(int)TheIndex;
 -(void)ReplaceOrganismCommentAtIndex:(NSString *)TheComment : (int)TheIndex;
+-(void)RemoveOrganismComments;
 -(void)ReplaceOrganismDataNameAtIndex:(NSString *)TheName : (int)TheIndex;
 -(void)ReplaceOrganismDataIDsAtIndex:(NSString *)TheID : (int)TheIndex;
 -(NSString *)GetOrganismDataTypeAtIndex:(int)TheIndex;
