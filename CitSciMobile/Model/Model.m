@@ -7777,6 +7777,7 @@ Boolean JSONWrite = false;
     
     [self SetValidApp:false];
     [self SetCheckAppRevisionRunning:true];
+    [self SetBadNetworkConnection:false];
     
     [self DoAppRevisionGood];
     
@@ -7790,7 +7791,9 @@ Boolean JSONWrite = false;
             // times up so bail
             // we're done and failed so quit checking and ensure failure is noted
             // but don't send the incompatible message
-            [self SetValidApp:true];
+            [self SetValidApp:false];
+            [self SetCheckAppRevisionRunning:false];
+            [self SetBadNetworkConnection:true];
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CitSciMobile"
                                                             message:@"Network timeout.  Try again later."
                                                            delegate:nil cancelButtonTitle:@"OK"

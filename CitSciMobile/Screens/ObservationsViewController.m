@@ -349,8 +349,22 @@ static int CurrentVisitIndex;
 -(IBAction)UploadButton:(int)intNewView
 {
     [TheOptions SetMinCheckCalled:false];
+    [TheOptions SetCheckAppRevisionRunning:true];
     Boolean LegalRevision = [TheOptions AppRevisionGood];
     
+    while([TheOptions GetCheckAppRevisionRunning])
+    {
+        // wait for AppRevisionGood to complete
+        CFRunLoopRunInMode(kCFRunLoopDefaultMode, .05, false);
+    }
+    
+    if([TheOptions GetBadNetworkConection])
+    {
+        // message already displayed nad we can't do anything so return
+        return;
+    }
+    
+    // we came back without a timeout so check the status
     if (!LegalRevision)
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CitSciMobile"
@@ -398,8 +412,22 @@ static int CurrentVisitIndex;
 -(IBAction)UploadOneButton:(int)intNewView
 {
     [TheOptions SetMinCheckCalled:false];
+    [TheOptions SetCheckAppRevisionRunning:true];
     Boolean LegalRevision = [TheOptions AppRevisionGood];
     
+    while([TheOptions GetCheckAppRevisionRunning])
+    {
+        // wait for AppRevisionGood to complete
+        CFRunLoopRunInMode(kCFRunLoopDefaultMode, .05, false);
+    }
+    
+    if([TheOptions GetBadNetworkConection])
+    {
+        // message already displayed nad we can't do anything so return
+        return;
+    }
+    
+    // we came back without a timeout so check the status
     if (!LegalRevision)
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CitSciMobile"
