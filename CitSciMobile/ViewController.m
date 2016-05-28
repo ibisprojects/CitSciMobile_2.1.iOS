@@ -188,8 +188,21 @@ Model *TheOptions;
     
     if([FirstTime isEqualToString:NOTYETSET])
     {
+        [TheOptions SetMinCheckCalled:false];
+        Boolean LegalRevision   = [TheOptions AppRevisionGood];
+        int GoToView            = AUTHENTICATEVIEW;
+        
+        if (!LegalRevision)
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CitSciMobile"
+                                                            message:@"The initial invocation of this app normally presents the CitSci server login screen.  However, the version of CitSciMobile and the server are incompatible.  You must update your app to interact with the CitSci server."
+                                                           delegate:nil cancelButtonTitle:@"OK"
+                                                  otherButtonTitles: nil];
+            [alert show];
+            GoToView            = OBSERVATIONSVIEW;
+        }
         ////[TheOptions SetFirstInvocationRev21:NOTYETSET];
-        [appDelegate displayView:AUTHENTICATEVIEW];
+        [appDelegate displayView:GoToView];
         //[TheOptions SetFirstInvocation:NOWSET];
     }
     else

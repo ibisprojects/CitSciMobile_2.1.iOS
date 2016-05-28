@@ -137,7 +137,7 @@ static ProjectNode  *ProjectHead;
 static FormNode     *LocalFormHead;
 static int          ServerMode;
 
-static NSString            *TheVisitName;
+static NSString     *TheVisitName;
 
 
 //
@@ -292,6 +292,10 @@ static NSString            *TheVisitName;
         [self SetBadNetworkConnection:false];
         [self SetGoToAuthenticate:false];
         [self SetInvalidTokenMessageCount:0];
+        [self SetCurrentAppRevision:CURRENTAPPREVISION];
+        [self SetMinimumAppRevision:CURRENTAPPREVISION];
+        [self SetMinCheckCalled:false];
+        [self SetValidApp:true];
         ////[self SetServerNameString:LiveName];
         
         TheLocation = [GetLocationViewController SharedLocation];
@@ -950,6 +954,59 @@ static NSString            *TheVisitName;
 -(void) SayHello
 {
 	NSLog(@"hello Sally!");
+}
+
+//
+// app revision functions
+//
+-(void)SetCurrentAppRevision:(NSString *)TheVersion
+{
+    if([self ValidFloat:TheVersion])
+    {
+        CurrentAppRevision = [TheVersion doubleValue];
+    }
+    else
+    {
+        CurrentAppRevision = 0.0;
+    }
+}
+-(double)GetCurrentAppRevision
+{
+    return CurrentAppRevision;
+}
+
+-(void)SetMinimumAppRevision:(NSString *)TheVersion
+{
+    if([self ValidFloat:TheVersion])
+    {
+        MinimumAppRevision = [TheVersion doubleValue];
+    }
+    else
+    {
+        MinimumAppRevision = 1000.0;
+    }
+}
+-(double)GetMinimumAppRevision
+{
+    return MinimumAppRevision;
+}
+
+-(void)SetMinCheckCalled:(Boolean)TheValue
+{
+    MinCheckCalled = TheValue;
+}
+-(Boolean)GetMinCheckCalled
+{
+    return MinCheckCalled;
+}
+
+-(void)SetValidApp:(Boolean)TheValue
+{
+    ValidApp = TheValue;
+}
+-(Boolean)GetValidApp
+{
+    return ValidApp;
 }
 
 //
@@ -1865,8 +1922,6 @@ static NSString            *TheVisitName;
         [alert show];
 	}
 }
-
-
 
 -(NSString *)GetSystemName
 {
@@ -4482,10 +4537,15 @@ Boolean JSONWrite = false;
         // write out the predefined locations
         for(int i=0; i<[predefinedvalue count]; i++)
         {
-            NSArray *foo = [predefinedvalue objectAtIndex:i];
+            NSArray *foo    = [predefinedvalue objectAtIndex:i];
             //NSLog(@"foo[1]=%@",[foo valueForKey:@"AreaName"]);
             //NSLog(@"foo[0]=%@",[foo valueForKey:@"AreaID"]);
-            tempstring = [[NSString alloc]initWithFormat:@"\t\t\t<LocationOption Name='%@' AreaID='%@'/>\n",[foo valueForKey:@"AreaName"],[foo valueForKey:@"AreaID"]];
+            NSString *t1    = [[NSString alloc] initWithFormat:@"%@",[foo valueForKey:@"AreaName"]];
+            NSString *t2    = [[NSString alloc] initWithFormat:@"%@",[foo valueForKey:@"AreaID"]];
+            t1              = [self FixXML:t1];
+            t2              = [self FixXML:t2];
+            //tempstring = [[NSString alloc]initWithFormat:@"\t\t\t<LocationOption Name='%@' AreaID='%@'/>\n",[foo valueForKey:@"AreaName"],[foo valueForKey:@"AreaID"]];
+            tempstring = [[NSString alloc]initWithFormat:@"\t\t\t<LocationOption Name='%@' AreaID='%@'/>\n",t1,t2];
             [self BuildLoginStatus:tempstring];
         }
         
@@ -4522,6 +4582,9 @@ Boolean JSONWrite = false;
         NSString *sfn = [[NSString alloc]initWithFormat:@"%@",[f objectAtIndex:acount]];
         NSString *sln = [[NSString alloc]initWithFormat:@"%@",[l objectAtIndex:acount]];
         NSString *sid = [[NSString alloc]initWithFormat:@"%@",[d objectAtIndex:acount]];
+        sfn           = [self FixXML:sfn];
+        sln           = [self FixXML:sln];
+        sid           = [self FixXML:sid];
         tempstring    = [[NSString alloc]initWithFormat:@"\t\t\t<AuthorityOption FirstName='%@' LastName='%@' ID='%@' />\n",sfn,sln,sid];
         [self BuildLoginStatus:tempstring];
     }
@@ -4585,6 +4648,13 @@ Boolean JSONWrite = false;
             UnitType = @"";
         }
         
+        strname             = [self FixXML:strname];
+        ValueType           = [self FixXML:ValueType];
+        strname2            = [self FixXML:strname2];
+        strvalue            = [self FixXML:strvalue];
+        strvalue2           = [self FixXML:strvalue2];
+        UnitType            = [self FixXML:UnitType];
+        
         tempstring          = [[NSString alloc]initWithFormat:@"\t\t\t\t\t<AttributeDataEntry HowSpecified='%@' Name='%@' UnitID='%@' AttributeTypeID='%@' Units='%@'>\n",strname,strname2,strvalue2,strvalue,UnitType];
         [self BuildLoginStatus:tempstring];
         NSArray *temp       = [CurrentSiteChar valueForKey:@"AttributeValuesPossible"];
@@ -4595,7 +4665,9 @@ Boolean JSONWrite = false;
             NSArray *attributevalues = [temp objectAtIndex:attrcount];
             //if(show) NSLog(@"attrvals: %@",attributevalues);
             strname         = [attributevalues valueForKey:@"Name"];
+            strname         = [self FixXML:strname];
             strvalue        = [attributevalues valueForKey:@"ID"];
+            strvalue        = [self FixXML:strvalue];
             tempstring      = [[NSString alloc]initWithFormat:@"\t\t\t\t\t\t<AttributeDataOption Name='%@' ID='%@'/>\n",strname,strvalue];
             [self BuildLoginStatus:tempstring];
         }
@@ -4761,6 +4833,8 @@ Boolean JSONWrite = false;
         // rest of the attributes until we get the next organism
         //
         
+        ////NSLog(@"child: %@",child);
+        
         // check to see if we have an organismdetails or pick list
         IsOrganismList      = false;
         IsOrganismDetails   = false;
@@ -4897,6 +4971,9 @@ Boolean JSONWrite = false;
                     {
                         OrgID           = @"";
                     }
+                    
+                    OrgName             = [self FixXML:OrgName];
+                    OrgID               = [self FixXML:OrgID];
                     tempstring          = [[NSString alloc]initWithFormat:@"\t\t\t\t\t<OrganismInfoOption Name='%@' OrganismInfoID='%@' />\n",OrgName,OrgID];
                     
                     [self BuildLoginStatus:tempstring];
@@ -4912,6 +4989,9 @@ Boolean JSONWrite = false;
                 {
                     strvalue           = @"";
                 }
+                
+                strname                 = [self FixXML:strname];
+                strvalue                = [self FixXML:strvalue];
                 
                 tempstring              = [[NSString alloc]initWithFormat:@"\t\t\t\t\t<OrganismInfoOption Name='%@' OrganismInfoID='%@' />\n",strname,strvalue];
                 [self BuildLoginStatus:tempstring];
@@ -4970,6 +5050,12 @@ Boolean JSONWrite = false;
                 UnitType = @"";
             }
             
+            strname             = [self FixXML:strname];
+            strname2            = [self FixXML:strname2];
+            strvalue            = [self FixXML:strvalue];
+            strvalue2           = [self FixXML:strvalue2];
+            UnitType            = [self FixXML:UnitType];
+            
             tempstring          = [[NSString alloc]initWithFormat:@"\t\t\t\t\t<AttributeDataEntry HowSpecified='%@' Name='%@' UnitID='%@' AttributeTypeID='%@' Units='%@'>\n",strname,strname2,strvalue2,strvalue,UnitType];
             [self BuildLoginStatus:tempstring];
             
@@ -4982,6 +5068,8 @@ Boolean JSONWrite = false;
                 NSArray *attributevalues = [temp objectAtIndex:attrcount];
                 strname         = [attributevalues valueForKey:@"Name"];
                 strvalue        = [attributevalues valueForKey:@"ID"];
+                strname         = [self FixXML:strname];
+                strvalue        = [self FixXML:strvalue];
                 tempstring      = [[NSString alloc]initWithFormat:@"\t\t\t\t\t\t<AttributeDataOption Name='%@' ID='%@'/>\n",strname,strvalue];
                 [self BuildLoginStatus:tempstring];
             }
@@ -5020,7 +5108,7 @@ Boolean JSONWrite = false;
     NSString    *MaximumValue;
     NSString    *MinimumValue;
     NSString    *Name;
-    NSString    *OrderNumber;
+    ////NSString    *OrderNumber;
     NSString    *OrganismInfoID;
     NSString    *Picklist;
     NSString    *SubplotTypeID;
@@ -5036,7 +5124,7 @@ Boolean JSONWrite = false;
     MaximumValue            = [TheObject valueForKeyPath:@"MaximumValue"];
     MinimumValue            = [TheObject valueForKeyPath:@"MinimumValue"];
     Name                    = [TheObject valueForKeyPath:@"Name"];
-    OrderNumber             = [TheObject valueForKeyPath:@"OrderNumber"];
+    ////OrderNumber             = [TheObject valueForKeyPath:@"OrderNumber"];
     OrganismInfoID          = [TheObject valueForKeyPath:@"OrganismInfoID"];
     Picklist                = [TheObject valueForKeyPath:@"Picklist"];
     SubplotTypeID           = [TheObject valueForKeyPath:@"SubplotTypeID"];
@@ -5053,7 +5141,7 @@ Boolean JSONWrite = false;
            ([MaximumValue        isEqual:[NSNull null]])       &&
            ([MinimumValue        isEqual:[NSNull null]])       &&
            ([Name                isEqualToString:@""])         &&
-           ([OrderNumber         isEqual:[NSNull null]])       &&
+           ////([OrderNumber         isEqual:[NSNull null]])       &&
            ([OrganismInfoID      isEqual:[NSNull null]])       &&
            ([Picklist            isEqual:[NSNull null]])       &&
            ([SubplotTypeID       isEqual:[NSNull null]])       &&
@@ -5262,6 +5350,10 @@ Boolean JSONWrite = false;
             {
                 strvalue2 = @"";
             }
+            strname             = [self FixXML:strname];
+            strname2            = [self FixXML:strname2];
+            strvalue            = [self FixXML:strvalue];
+            strvalue2           = [self FixXML:strvalue2];
             
             tempstring          = [[NSString alloc]initWithFormat:@"\t\t\t\t\t<AttributeDataEntry HowSpecified='%@' Name='%@' UnitID='%@' AttributeTypeID='%@'>\n",strname,strname2,strvalue2,strvalue];
             if(OrganismStarted)
@@ -5280,6 +5372,8 @@ Boolean JSONWrite = false;
                 NSArray *attributevalues = [temp objectAtIndex:attrcount];
                 strname         = [attributevalues valueForKey:@"Name"];
                 strvalue        = [attributevalues valueForKey:@"ID"];
+                strname         = [self FixXML:strname];
+                strvalue        = [self FixXML:strvalue];
                 tempstring      = [[NSString alloc]initWithFormat:@"\t\t\t\t\t\t<AttributeDataOption Name='%@' ID='%@'/>\n",strname,strvalue];
                 if(OrganismStarted)
                 {
@@ -5347,6 +5441,7 @@ Boolean JSONWrite = false;
             {
                 strname2                = @"Select";
             }
+            strname2                    = [self FixXML:strname2];
             tempstring                  = [[NSString alloc]initWithFormat:@"\t\t\t\t<OrganismInfos HowSpecified='%@'>\n",strname2];
             [self BuildLoginStatus:tempstring];
             
@@ -5365,6 +5460,8 @@ Boolean JSONWrite = false;
                 {
                     NSString *OrgName   = [[NSString alloc]initWithFormat:@"%@",[TheNames objectAtIndex:orgcount]];
                     NSString *OrgID     = [[NSString alloc]initWithFormat:@"%@",[TheIDs objectAtIndex:orgcount]];
+                    OrgName             = [self FixXML:OrgName];
+                    OrgID               = [self FixXML:OrgID];
                     tempstring          = [[NSString alloc]initWithFormat:@"\t\t\t\t\t<OrganismInfoOption Name='%@' OrganismInfoID='%@' />\n",OrgName,OrgID];
                     [self BuildLoginStatus:tempstring];
                     ////NSLog(@"tempstring: %@",tempstring);
@@ -5375,6 +5472,7 @@ Boolean JSONWrite = false;
                 strname                 = [child valueForKeyPath:@"OrganismDetails.Name"];
                 strname                 = [self FixXML:strname];
                 strvalue                = [child valueForKey:@"OrganismInfoID"];
+                strvalue                = [self FixXML:strvalue];
                 tempstring              = [[NSString alloc]initWithFormat:@"\t\t\t\t\t<OrganismInfoOption Name='%@' OrganismInfoID='%@' />\n",strname,strvalue];
                 [self BuildLoginStatus:tempstring];
             }
@@ -6349,6 +6447,47 @@ Boolean JSONWrite = false;
     [self SetGoToAuthenticate:false];
     switch(ConnectionType)
     {
+        case MINIMUMAPPREVISION:
+            jsonResponseData        = [NSJSONSerialization JSONObjectWithData:self.WebData options:kNilOptions error:nil];
+            //NSLog(@"jsonResponseData minapp revision: %@",jsonResponseData);
+            //self.loginStatus = [[NSString alloc] initWithBytes: [self.WebData mutableBytes] length:[self.WebData length] encoding:NSASCIIStringEncoding];
+            //NSLog(@"loginstatus: %@", self.loginStatus);
+            // the response is returned as a dictionary
+            
+            SValue                  = [jsonResponseData valueForKeyPath:@"status"];
+            SMessage                = [jsonResponseData valueForKeyPath:@"message"];
+            SValue                  = [SValue lowercaseString];
+            
+            if([SValue isEqualToString:@"success"])
+            {
+                // set the required revision
+                ////SMessage = @"2.2";
+                [self SetMinimumAppRevision:SMessage];
+                double x = [SMessage doubleValue];
+                double y = [self GetCurrentAppRevision];
+                if(y >= x)
+                {
+                    [self SetValidApp:true];
+                }
+                else
+                {
+                    [self SetValidApp:false];
+                }
+            }
+            else
+            {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CitSciMobile"
+                                                                message:@"Unable to connect to the server at this time.  Try later."
+                                                               delegate:nil cancelButtonTitle:@"OK"
+                                                      otherButtonTitles: nil];
+                [alert show];
+                [self SetValidApp:true];
+            }
+                
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"minapprevision" object:nil];
+            [self SetCheckAppRevisionRunning:false];
+            break;
+            
         case GENREFRESHTOKEN:
             jsonResponseData        = [NSJSONSerialization JSONObjectWithData:self.WebData options:kNilOptions error:nil];
             //NSLog(@"jsonResponseData genrefreshtoken: %@",jsonResponseData);
@@ -7623,6 +7762,93 @@ Boolean JSONWrite = false;
                                               otherButtonTitles: nil];
         [alert show];
 	}
+}
+
+//
+// verify the minimum app revsion
+// also, create a counter to stop the
+// check after 20 seconds.
+//
+-(Boolean)AppRevisionGood
+{
+    double      TheCounter          = 0.0;          // keep track of the elapsed time
+    double      TheIncrement        = 0.1;          // amount to increment for the next loop
+    double      TheLimit            = 20.0;         // the total length of taime to wait
+    
+    [self SetValidApp:false];
+    [self SetCheckAppRevisionRunning:true];
+    
+    [self DoAppRevisionGood];
+    
+    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(DoNothing) name:@"minapprevision" object:nil];
+    TheCounter                      = 0.0;          // ensure a fresh start
+    while([self GetCheckAppRevisionRunning])
+    {
+        TheCounter = TheCounter + TheIncrement;
+        if(TheCounter >= TheLimit)
+        {
+            // times up so bail
+            // we're done and failed so quit checking and ensure failure is noted
+            // but don't send the incompatible message
+            [self SetValidApp:true];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CitSciMobile"
+                                                            message:@"Network timeout.  Try again later."
+                                                           delegate:nil cancelButtonTitle:@"OK"
+                                                  otherButtonTitles: nil];
+            [alert show];
+            break;
+        }
+        
+        CFRunLoopRunInMode(kCFRunLoopDefaultMode, .05, false);
+    }
+    
+    return [self GetValidApp];
+}
+-(void)DoNothing
+{
+    
+}
+
+-(void)SetCheckAppRevisionRunning:(Boolean)TheValue
+{
+    CheckAppRevisionRunning = TheValue;
+}
+-(Boolean)GetCheckAppRevisionRunning
+{
+    return CheckAppRevisionRunning;
+}
+
+-(void)DoAppRevisionGood
+{
+    [self SetMinCheckCalled:true];
+    ConnectionType                  = MINIMUMAPPREVISION;
+    NSString *url                   = MINAPPREVISION_URL;
+    
+    NSMutableURLRequest *theRequest = [[NSMutableURLRequest alloc] init];
+    
+    [theRequest setURL:[NSURL URLWithString:url]];
+    [theRequest setHTTPMethod:@"POST"];
+    [theRequest setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Length"];
+    [theRequest setTimeoutInterval:20];
+    
+    // this starts the networking activities.
+    theConnection = [[NSURLConnection alloc] initWithRequest:theRequest delegate:self];
+    
+    // timeout
+    theTimer = [NSTimer scheduledTimerWithTimeInterval:75.0 target:self selector:@selector(cancelURLConnection:) userInfo:nil repeats:NO];
+    
+    if( theConnection )
+    {
+        self.WebData = [NSMutableData data];
+    }
+    else
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CitSciMobile"
+                                                        message:@"Network timeout in checking the minimum app revision!"
+                                                       delegate:nil cancelButtonTitle:@"OK"
+                                              otherButtonTitles: nil];
+        [alert show];
+    }
 }
 
 //

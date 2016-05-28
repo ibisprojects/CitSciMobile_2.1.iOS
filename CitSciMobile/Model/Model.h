@@ -29,6 +29,7 @@
 #define NOWSET                  @"now set"
 #define NOTYETSETNUM            @"0.0"
 #define BIOBLITZORGANISM        @"-99"
+#define CURRENTAPPREVISION      @"2.1"
 
 // defines for debugging
 #define CONTRIVEDDATA           0
@@ -127,6 +128,7 @@
 #define PROJECTSANDDATASHEETS   @"https://ibis-apis-test.nrel.colostate.edu/app.php/API/GetProjectsAndDatasheets?Token="
 #define UPLOAD_URL              @"https://ibis-apis-test.nrel.colostate.edu/app.php/API/UploadData"
 #define OAUTH_SCOPE             @"user"
+#define MINAPPREVISION_URL      @"https://ibis-apis-test.nrel.colostate.edu/app.php/API/GetMinAppRevision"
 #define GETACCESSTOKEN          0
 #define GETPROJECTS             1
 #define GETFORMS                2
@@ -135,6 +137,7 @@
 #define OLDLOGIN                5
 #define GENREFRESHTOKEN         6
 #define UPLOADOBSERVATION       7
+#define MINIMUMAPPREVISION      8
 
 // defines for file sizes
 #define LOGINSTRINGLIMIT        100000
@@ -215,6 +218,11 @@
     NSString            *loginStatus;                   // don't lose this value
     Boolean             BadNetworkConnection;           // error from service
     Boolean             BioblitzDisplay;                // display bioblitz attribute
+    double              CurrentAppRevision;             // used for minimum allowable server access
+    double              MinimumAppRevision;             // returned from the server
+    Boolean             MinCheckCalled;                 // used in testing
+    Boolean             ValidApp;                       // this revision >= minimum revsions
+    Boolean             CheckAppRevisionRunning;        // loop variable
     
     // forms variables
     NSString            *CurrentFormName;               // name of active form
@@ -777,6 +785,18 @@
 -(void)DoGetProjectsAndForms;
 -(Boolean)GetDataFromServerStatus;
 -(void)SetDataFromServerStatus:(Boolean)TheStatus;
+-(void)SetCurrentAppRevision:(NSString *)TheVersion;
+-(double)GetCurrentAppRevision;
+-(Boolean)AppRevisionGood;
+-(void)DoAppRevisionGood;
+-(void)SetMinimumAppRevision:(NSString *)TheVersion;
+-(double)GetMinimumAppRevision;
+-(void)SetMinCheckCalled:(Boolean)TheValue;
+-(Boolean)GetMinCheckCalled;
+-(void)SetValidApp:(Boolean)TheValue;
+-(Boolean)GetValidApp;
+-(void)SetCheckAppRevisionRunning:(Boolean)TheValue;
+-(Boolean)GetCheckAppRevisionRunning;
 
 // token setters and getters
 -(NSString *)GetAccessToken;

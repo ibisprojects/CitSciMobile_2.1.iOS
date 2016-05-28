@@ -172,9 +172,23 @@ static Boolean ShowSaved   = false;
 // Cancel any changes without saving
 -(IBAction)AuthenticateButton:(int)intNewView
 {
-    ShowSaved                 = true;
-    AppDelegate  *appDelegate = [[UIApplication sharedApplication] delegate];
-    [appDelegate displayView:AUTHENTICATEVIEW];
+    [TheOptions SetMinCheckCalled:false];
+    Boolean LegalRevision = [TheOptions AppRevisionGood];
+    
+    if (!LegalRevision)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CitSciMobile"
+                                                        message:@"The version of CitSciMobile and the server are incompatible.  You must update your app to interact with the CitSci server."
+                                                       delegate:nil cancelButtonTitle:@"OK"
+                                              otherButtonTitles: nil];
+        [alert show];
+    }
+    else
+    {
+        ShowSaved                 = true;
+        AppDelegate  *appDelegate = [[UIApplication sharedApplication] delegate];
+        [appDelegate displayView:AUTHENTICATEVIEW];
+    }
 }
 
 //--------------------------//
@@ -200,13 +214,27 @@ static Boolean ShowSaved   = false;
 // Get the project data from the server
 -(void)GetProjects
 {
-    // start activity monitor
-    TheActivity = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-    [TheActivity setCenter:CGPointMake(kScreenWidth/2.0, kScreenHeight/2.0)]; // in landscape mode
-    [self.view addSubview:TheActivity]; // spinner is not visible until started
-    [TheActivity startAnimating];
+    [TheOptions SetMinCheckCalled:false];
+    Boolean LegalRevision = [TheOptions AppRevisionGood];
     
-    [self performSelector:@selector(DoTheSlow) withObject:@"Timed Out" afterDelay:0.0];
+    if (!LegalRevision)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CitSciMobile"
+                                                        message:@"The version of CitSciMobile and the server are incompatible.  You must update your app to interact with the CitSci server."
+                                                       delegate:nil cancelButtonTitle:@"OK"
+                                              otherButtonTitles: nil];
+        [alert show];
+    }
+    else
+    {
+        // start activity monitor
+        TheActivity = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+        [TheActivity setCenter:CGPointMake(kScreenWidth/2.0, kScreenHeight/2.0)]; // in landscape mode
+        [self.view addSubview:TheActivity]; // spinner is not visible until started
+        [TheActivity startAnimating];
+        
+        [self performSelector:@selector(DoTheSlow) withObject:@"Timed Out" afterDelay:0.0];
+    }
 }
 
 //--------------------------//
@@ -215,19 +243,33 @@ static Boolean ShowSaved   = false;
 // Save the options (user, password and server)
 -(IBAction)SaveButton:(int)intNewView
 {
-    [TheOptions SetWriteOptionsFile:true];
-    // replace the old save button
-    NSTimer *theTimer = [[NSTimer alloc]init];
-    [TheOptions ReadOptionsFromFile];
-    ShowSaved         = false;
+    [TheOptions SetMinCheckCalled:false];
+    Boolean LegalRevision = [TheOptions AppRevisionGood];
     
-    //
-    // Get the projects and forms from the server
-    //
-    [self GetProjects];
-    
-    // timeout of busy circle
-    theTimer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(CancelBusyWait:) userInfo:nil repeats:NO];
+    if (!LegalRevision)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CitSciMobile"
+                                                        message:@"The version of CitSciMobile and the server are incompatible.  You must update your app to interact with the CitSci server."
+                                                       delegate:nil cancelButtonTitle:@"OK"
+                                              otherButtonTitles: nil];
+        [alert show];
+    }
+    else
+    {
+        [TheOptions SetWriteOptionsFile:true];
+        // replace the old save button
+        NSTimer *theTimer = [[NSTimer alloc]init];
+        [TheOptions ReadOptionsFromFile];
+        ShowSaved         = false;
+        
+        //
+        // Get the projects and forms from the server
+        //
+        [self GetProjects];
+        
+        // timeout of busy circle
+        theTimer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(CancelBusyWait:) userInfo:nil repeats:NO];
+    }
 }
 
 //--------------------------//

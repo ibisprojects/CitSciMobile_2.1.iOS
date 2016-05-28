@@ -348,33 +348,47 @@ static int CurrentVisitIndex;
 //
 -(IBAction)UploadButton:(int)intNewView
 {
-    OBSUploadALL            = true;
-    self.GoneVisits         = [[NSMutableArray alloc]init];
-    self.UploadAllErrors    = [[NSMutableArray alloc]init];
-    int NumFiles            = [TheOptions GetNumberOfVisitFiles];
-    MyNumberOfVisits        = NumFiles;
+    [TheOptions SetMinCheckCalled:false];
+    Boolean LegalRevision = [TheOptions AppRevisionGood];
     
-    //
-    // get all of the visit names
-    //
-    for(int i=0; i<NumFiles; i++)
-    {
-        NSString *filename  = [TheOptions GetVisitFileNameAtIndex:i];
-        [self.GoneVisits addObject:filename];
-    }
-    
-    CurrentVisitIndex = 0;
-    if(NumFiles != 0)
-    {
-        [self UploadThisVisit:CurrentVisitIndex];
-    }
-    else
+    if (!LegalRevision)
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CitSciMobile"
-                                                        message:@"There are no observations to upload"
+                                                        message:@"The version of CitSciMobile and the server are incompatible.  You must update your app to interact with the CitSci server."
                                                        delegate:nil cancelButtonTitle:@"OK"
                                               otherButtonTitles: nil];
         [alert show];
+    }
+    else
+    {
+        OBSUploadALL            = true;
+        self.GoneVisits         = [[NSMutableArray alloc]init];
+        self.UploadAllErrors    = [[NSMutableArray alloc]init];
+        int NumFiles            = [TheOptions GetNumberOfVisitFiles];
+        MyNumberOfVisits        = NumFiles;
+        
+        //
+        // get all of the visit names
+        //
+        for(int i=0; i<NumFiles; i++)
+        {
+            NSString *filename  = [TheOptions GetVisitFileNameAtIndex:i];
+            [self.GoneVisits addObject:filename];
+        }
+        
+        CurrentVisitIndex = 0;
+        if(NumFiles != 0)
+        {
+            [self UploadThisVisit:CurrentVisitIndex];
+        }
+        else
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CitSciMobile"
+                                                            message:@"There are no observations to upload"
+                                                           delegate:nil cancelButtonTitle:@"OK"
+                                                  otherButtonTitles: nil];
+            [alert show];
+        }
     }
 }
 
@@ -383,7 +397,18 @@ static int CurrentVisitIndex;
 //--------------------------//
 -(IBAction)UploadOneButton:(int)intNewView
 {
-    if (SelectedRow == -1)
+    [TheOptions SetMinCheckCalled:false];
+    Boolean LegalRevision = [TheOptions AppRevisionGood];
+    
+    if (!LegalRevision)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CitSciMobile"
+                                                        message:@"The version of CitSciMobile and the server are incompatible.  You must update your app to interact with the CitSci server."
+                                                       delegate:nil cancelButtonTitle:@"OK"
+                                              otherButtonTitles: nil];
+        [alert show];
+    }
+    else if (SelectedRow == -1)
 	{
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CitSciMobile"
                                                         message:@"You must select an Observation"
