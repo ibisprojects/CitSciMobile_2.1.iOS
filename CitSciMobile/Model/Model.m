@@ -7779,6 +7779,7 @@ Boolean JSONWrite = false;
     [self SetCheckAppRevisionRunning:true];
     [self SetBadNetworkConnection:false];
     
+    
     [self DoAppRevisionGood];
     
     //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(DoNothing) name:@"minapprevision" object:nil];
@@ -7804,7 +7805,7 @@ Boolean JSONWrite = false;
         
         CFRunLoopRunInMode(kCFRunLoopDefaultMode, .05, false);
     }
-    
+        
     return [self GetValidApp];
 }
 -(void)DoNothing
