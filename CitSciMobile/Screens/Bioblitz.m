@@ -264,6 +264,9 @@ static int CurrentOrganism;
     Boolean CollectingSite  = false;
     Boolean CollectingOrg   = false;
     int     PrevView        = [TheOptions GetCurrentViewValue];
+    
+    ////NSLog(@"ENTER: bioblitz previous");
+    ////[TheOptions DumpAttributeDataValues];
     if([TheOptions GetCollectionType]==COLLECTSITE)
     {
         CollectingSite      = true;
@@ -359,6 +362,9 @@ static int CurrentOrganism;
         [appDelegate displayView:OBSERVATIONSVIEW];
     }
     
+    ////NSLog(@"EXIT:  bioblitz previous");
+    ////[TheOptions DumpAttributeDataValues];
+    
     if(!Error)
     {
         AppDelegate  *appDelegate   = [[UIApplication sharedApplication] delegate];
@@ -439,6 +445,9 @@ static int CurrentOrganism;
         
         self.SelectionEnterInput.text = foo;
     }
+    
+    ////NSLog(@"EXIT:  bioblitz viewWillAppear");
+    ////[TheOptions DumpAttributeDataValues];
     
 }
 

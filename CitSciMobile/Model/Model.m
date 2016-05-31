@@ -1295,9 +1295,15 @@ static NSString     *TheVisitName;
         NSString *ThisLine=[[NSString alloc] initWithFormat:@"%@",[EachLine objectAtIndex:i]];
         NSArray *LineComponents=[ThisLine componentsSeparatedByString:@":"];
         int componentcount=(int)[LineComponents count];
-        if(componentcount!=2)continue;
+        if(componentcount<2)continue;
         NSString *VariableName=[[NSString alloc] initWithFormat:@"%@",[LineComponents objectAtIndex:0]];
         NSString *VariableValue=[[NSString alloc] initWithFormat:@"%@",[LineComponents objectAtIndex:1]];
+        for(int j=2; j < componentcount; j++)
+        {
+            VariableValue = [VariableValue stringByAppendingString:@":"];
+            NSString *foo = [[NSString alloc] initWithFormat:@"%@",[LineComponents objectAtIndex:j]];
+            VariableValue = [VariableValue stringByAppendingString:foo];
+        }
         
         if ([VariableName isEqualToString:@"user"])
         {

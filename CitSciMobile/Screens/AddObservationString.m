@@ -340,6 +340,8 @@ static int AttributeNumber  = 0;
 //
 -(IBAction)PreviousButton:(int)intNewView
 {
+    ////NSLog(@"ENTER:  String: bioblitz previous");
+    ////[TheOptions DumpAttributeDataValues];
     Boolean CollectingSite  = false;
     Boolean CollectingOrg   = false;
     int     PreviousNumber  = [TheOptions GetAttributeNumberForCurrentOrganism];
@@ -410,6 +412,8 @@ static int AttributeNumber  = 0;
     
     if(!Error)
     {
+        ////NSLog(@"EXIT:  String: bioblitz previous");
+        ////[TheOptions DumpAttributeDataValues];
         [TheOptions SetGoingForward:false];
         int         AtNum           = [TheOptions GetCurrentAttributeNumber];
         AtNum                       = AtNum - 1;

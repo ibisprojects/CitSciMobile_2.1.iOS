@@ -145,18 +145,22 @@ Model *TheOptions;
             break;
             
         case ADDOBSERVATIONDATE:
+            [TheOptions SetNextView:ADDOBSERVATIONDATE];
             self.currentView = [[AddObservationDate alloc] init];
             break;
             
         case ADDOBSERVATIONDATEDONE:
+            [TheOptions SetNextView:ADDOBSERVATIONDATEDONE];
             self.currentView = [[AddObservationDateDone alloc] init];
             break;
             
         case ADDOBSERVATIONSTRING:
+            [TheOptions SetNextView:ADDOBSERVATIONSTRING];
             self.currentView = [[AddObservationString alloc] init];
             break;
             
         case ADDOBSERVATIONSTRINGDONE:
+            [TheOptions SetNextView:ADDOBSERVATIONSTRINGDONE];
             self.currentView = [[AddObservationStringDone alloc] init];
             break;
             

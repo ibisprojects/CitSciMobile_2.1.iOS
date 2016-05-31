@@ -405,6 +405,8 @@ static int AttributeNumber  = 0;
 //
 -(IBAction)PreviousButton:(int)intNewView
 {
+    ////NSLog(@"ENTER:  Date: bioblitz previous");
+    ////[TheOptions DumpAttributeDataValues];
     Boolean CollectingSite          = false;
     Boolean CollectingOrg           = false;
     int     PreviousNumber          = [TheOptions GetAttributeNumberForCurrentOrganism];
@@ -484,6 +486,8 @@ static int AttributeNumber  = 0;
     
     if(!Error)
     {
+        ////NSLog(@"EXIT:  Date: bioblitz previous");
+        ////[TheOptions DumpAttributeDataValues];
         int         AtNum           = [TheOptions GetCurrentAttributeNumber];
         AtNum                       = AtNum - 1;
         [TheOptions SetGoingForward:false];
@@ -656,47 +660,50 @@ static int AttributeNumber  = 0;
             NSString *bar = [[NSString alloc]initWithFormat:@"%@",[bits objectAtIndex:0]];
             NSArray *thedate = [bar componentsSeparatedByString:@"/"];
             
-            // month
-            bar = [[NSString alloc]initWithFormat:@"%@",[thedate objectAtIndex:0]];
-            x   = [bar integerValue];
-            [dateComponents setMonth:(unsigned long)x];
-            
-            // day
-            bar = [[NSString alloc]initWithFormat:@"%@",[thedate objectAtIndex:1]];
-            x   = [bar integerValue];
-            [dateComponents setDay:(unsigned long)x];
-            
-            // year
-            bar = [[NSString alloc]initWithFormat:@"%@",[thedate objectAtIndex:2]];
-            x   = [bar integerValue];
-            [dateComponents setYear:(unsigned long)x];
-            
-            // hours and minutes
-            NSString *meridian = [[NSString alloc]initWithFormat:@"%@",[bits objectAtIndex:2]];
-            Boolean plus12     = false;
-            if([meridian isEqualToString:@"PM"])
+            if([thedate count] > 2)     // it wasn't skipped
             {
-                plus12 = true;
+                // month
+                bar = [[NSString alloc]initWithFormat:@"%@",[thedate objectAtIndex:0]];
+                x   = [bar integerValue];
+                [dateComponents setMonth:(unsigned long)x];
+                
+                // day
+                bar = [[NSString alloc]initWithFormat:@"%@",[thedate objectAtIndex:1]];
+                x   = [bar integerValue];
+                [dateComponents setDay:(unsigned long)x];
+                
+                // year
+                bar = [[NSString alloc]initWithFormat:@"%@",[thedate objectAtIndex:2]];
+                x   = [bar integerValue];
+                [dateComponents setYear:(unsigned long)x];
+                
+                // hours and minutes
+                NSString *meridian = [[NSString alloc]initWithFormat:@"%@",[bits objectAtIndex:2]];
+                Boolean plus12     = false;
+                if([meridian isEqualToString:@"PM"])
+                {
+                    plus12 = true;
+                }
+                bar = [[NSString alloc]initWithFormat:@"%@",[bits objectAtIndex:1]];
+                NSArray *thetime = [bar componentsSeparatedByString:@":"];
+                
+                // hour
+                bar = [[NSString alloc]initWithFormat:@"%@",[thetime objectAtIndex:0]];
+                x   = [bar integerValue];
+                if(plus12)
+                {
+                    x+=(unsigned long)12;
+                }
+                [dateComponents setHour:(unsigned long)x];
+                
+                // minute
+                bar = [[NSString alloc]initWithFormat:@"%@",[thetime objectAtIndex:1]];
+                x   = [bar integerValue];
+                [dateComponents setMinute:(unsigned long)x];
+                
+                NSCalendar *calendar  = [[NSCalendar alloc]  initWithCalendarIdentifier:NSGregorianCalendar];
+                self.SelectedDate     = [calendar dateFromComponents:dateComponents];
             }
-            bar = [[NSString alloc]initWithFormat:@"%@",[bits objectAtIndex:1]];
-            NSArray *thetime = [bar componentsSeparatedByString:@":"];
-            
-            // hour
-            bar = [[NSString alloc]initWithFormat:@"%@",[thetime objectAtIndex:0]];
-            x   = [bar integerValue];
-            if(plus12)
-            {
-                x+=(unsigned long)12;
-            }
-            [dateComponents setHour:(unsigned long)x];
-            
-            // minute
-            bar = [[NSString alloc]initWithFormat:@"%@",[thetime objectAtIndex:1]];
-            x   = [bar integerValue];
-            [dateComponents setMinute:(unsigned long)x];
-            
-            NSCalendar *calendar  = [[NSCalendar alloc]  initWithCalendarIdentifier:NSGregorianCalendar];
-            self.SelectedDate     = [calendar dateFromComponents:dateComponents];
             
             self.SelectionEnterInput.text = foo;
         }
