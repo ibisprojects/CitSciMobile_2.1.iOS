@@ -1779,13 +1779,16 @@ static NSString     *TheVisitName;
     
     [theRequest setHTTPMethod:@"POST"];
     
+    // cancel any previous requests
+    [self cancelURLConnection:self.theTimer];
+    
     // this starts the networking activities.
-    theConnection = [[NSURLConnection alloc] initWithRequest:theRequest delegate:self];
+    self.theConnection = [[NSURLConnection alloc] initWithRequest:theRequest delegate:self];
     
     // timeout
-    theTimer = [NSTimer scheduledTimerWithTimeInterval:75.0 target:self selector:@selector(cancelURLConnection:) userInfo:nil repeats:NO];
+    self.theTimer = [NSTimer scheduledTimerWithTimeInterval:75.0 target:self selector:@selector(cancelURLConnection:) userInfo:nil repeats:NO];
 	
-	if( theConnection )
+	if( self.theConnection )
 	{
 		self.WebData = [NSMutableData data];
 	}
@@ -1908,13 +1911,16 @@ static NSString     *TheVisitName;
     
     [theRequest setHTTPMethod:@"POST"];
     
+    // cancel any previous requests
+    [self cancelURLConnection:self.theTimer];
+    
     // this starts the networking activities.
-    theConnection = [[NSURLConnection alloc] initWithRequest:theRequest delegate:self];
+    self.theConnection = [[NSURLConnection alloc] initWithRequest:theRequest delegate:self];
     
     // timeout
-    theTimer = [NSTimer scheduledTimerWithTimeInterval:75.0 target:self selector:@selector(cancelURLConnection:) userInfo:nil repeats:NO];
+    self.theTimer = [NSTimer scheduledTimerWithTimeInterval:75.0 target:self selector:@selector(cancelURLConnection:) userInfo:nil repeats:NO];
 	
-	if( theConnection )
+	if( self.theConnection )
 	{
 		self.WebData = [NSMutableData data];
 	}
@@ -6321,7 +6327,12 @@ Boolean JSONWrite = false;
     [alert show];
     sleep(100);
     *****/
-    [self.theConnection cancel];
+    
+    if(self.theConnection != nil)
+    {
+        [self.theConnection cancel];
+        self.theConnection = nil;
+    }
 }
 
 -(NSString *)GetXMLPath
@@ -6387,13 +6398,16 @@ Boolean JSONWrite = false;
     [theRequest setTimeoutInterval:20];
     [theRequest setHTTPBody:postData];
     
+    // cancel any previous requests
+    [self cancelURLConnection:self.theTimer];
+    
 	// this starts the networking activities.
-	theConnection = [[NSURLConnection alloc] initWithRequest:theRequest delegate:self];
+	self.theConnection = [[NSURLConnection alloc] initWithRequest:theRequest delegate:self];
     
     // timeout
-    theTimer = [NSTimer scheduledTimerWithTimeInterval:75.0 target:self selector:@selector(cancelURLConnection:) userInfo:nil repeats:NO];
+    self.theTimer = [NSTimer scheduledTimerWithTimeInterval:75.0 target:self selector:@selector(cancelURLConnection:) userInfo:nil repeats:NO];
 	
-	if( theConnection )
+	if( self.theConnection )
 	{
 		self.WebData = [NSMutableData data];
 	}
@@ -7538,13 +7552,16 @@ Boolean JSONWrite = false;
     
     [theRequest setHTTPMethod:@"POST"];
     
+    // cancel any previous requests
+    [self cancelURLConnection:self.theTimer];
+    
     // set a time out
-    theTimer = [NSTimer scheduledTimerWithTimeInterval:75.0 target:self selector:@selector(cancelURLConnection:) userInfo:nil repeats:NO];
+    self.theTimer = [NSTimer scheduledTimerWithTimeInterval:75.0 target:self selector:@selector(cancelURLConnection:) userInfo:nil repeats:NO];
     
     // call the getaccesstoken URL
-    theConnection                       = [[NSURLConnection alloc] initWithRequest:theRequest delegate:self];
+    self.theConnection                  = [[NSURLConnection alloc] initWithRequest:theRequest delegate:self];
     
-    if(theConnection)
+    if(self.theConnection)
     {
         self.WebData                    = [NSMutableData data];
     }
@@ -7592,13 +7609,16 @@ Boolean JSONWrite = false;
     
     [theRequest setHTTPMethod:@"POST"];
     
+    // cancel any previous requests
+    [self cancelURLConnection:self.theTimer];
+    
     // set a time out
-    theTimer = [NSTimer scheduledTimerWithTimeInterval:75.0 target:self selector:@selector(cancelURLConnection:) userInfo:nil repeats:NO];
+    self.theTimer = [NSTimer scheduledTimerWithTimeInterval:75.0 target:self selector:@selector(cancelURLConnection:) userInfo:nil repeats:NO];
     
     // call the getaccesstoken URL
-    theConnection                       = [[NSURLConnection alloc] initWithRequest:theRequest delegate:self];
+    self.theConnection                  = [[NSURLConnection alloc] initWithRequest:theRequest delegate:self];
     
-    if(theConnection)
+    if(self.theConnection)
     {
         self.WebData                    = [NSMutableData data];
     }
@@ -7687,13 +7707,16 @@ Boolean JSONWrite = false;
     
     [theRequest setHTTPMethod:@"POST"];
     
+    // cancel any previous requests
+    [self cancelURLConnection:self.theTimer];
+    
     // set a time out
-    theTimer = [NSTimer scheduledTimerWithTimeInterval:75.0 target:self selector:@selector(cancelURLConnection:) userInfo:nil repeats:NO];
+    self.theTimer = [NSTimer scheduledTimerWithTimeInterval:75.0 target:self selector:@selector(cancelURLConnection:) userInfo:nil repeats:NO];
     
     // call the getaccesstoken URL
-    theConnection                       = [[NSURLConnection alloc] initWithRequest:theRequest delegate:self];
+    self.theConnection                  = [[NSURLConnection alloc] initWithRequest:theRequest delegate:self];
     
-    if(theConnection)
+    if(self.theConnection)
     {
         self.WebData                    = [NSMutableData data];
     }
@@ -7750,13 +7773,16 @@ Boolean JSONWrite = false;
     [theRequest setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Length"];
     [theRequest setTimeoutInterval:20];
     
+    // cancel any previous requests
+    [self cancelURLConnection:self.theTimer];
+    
     // this starts the networking activities.
-	theConnection = [[NSURLConnection alloc] initWithRequest:theRequest delegate:self];
+	self.theConnection = [[NSURLConnection alloc] initWithRequest:theRequest delegate:self];
     
     // timeout
-    theTimer = [NSTimer scheduledTimerWithTimeInterval:75.0 target:self selector:@selector(cancelURLConnection:) userInfo:nil repeats:NO];
+    self.theTimer = [NSTimer scheduledTimerWithTimeInterval:75.0 target:self selector:@selector(cancelURLConnection:) userInfo:nil repeats:NO];
 	
-	if( theConnection )
+	if( self.theConnection )
 	{
 		self.WebData = [NSMutableData data];
 	}
@@ -7841,13 +7867,16 @@ Boolean JSONWrite = false;
     [theRequest setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Length"];
     [theRequest setTimeoutInterval:20];
     
+    // cancel any previous requests
+    [self cancelURLConnection:self.theTimer];
+    
     // this starts the networking activities.
-    theConnection = [[NSURLConnection alloc] initWithRequest:theRequest delegate:self];
+    self.theConnection = [[NSURLConnection alloc] initWithRequest:theRequest delegate:self];
     
     // timeout
-    theTimer = [NSTimer scheduledTimerWithTimeInterval:75.0 target:self selector:@selector(cancelURLConnection:) userInfo:nil repeats:NO];
+    self.theTimer = [NSTimer scheduledTimerWithTimeInterval:75.0 target:self selector:@selector(cancelURLConnection:) userInfo:nil repeats:NO];
     
-    if( theConnection )
+    if( self.theConnection )
     {
         self.WebData = [NSMutableData data];
     }

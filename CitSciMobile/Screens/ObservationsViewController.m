@@ -76,7 +76,7 @@ static int CurrentVisitIndex;
 
 -(void)UploadCleanup
 {
-    ////NSLog(@"Uplaodcleanup called");
+    //NSLog(@"Uplaodcleanup called");
     NSString *filename  = [[NSString alloc]initWithFormat:@"%@",[self.GoneVisits objectAtIndex:CurrentVisitIndex]];
     
     if([TheOptions GetUploadError] == true)
@@ -100,8 +100,8 @@ static int CurrentVisitIndex;
     ////[TheActivity stopAnimating];
     if(CurrentVisitIndex >= MyNumberOfVisits)
     {
-        AppDelegate  *appDelegate = [[UIApplication sharedApplication] delegate];
-        [appDelegate displayView:OBSERVATIONSVIEW];
+        ////AppDelegate  *appDelegate = [[UIApplication sharedApplication] delegate];
+        ////[appDelegate displayView:OBSERVATIONSVIEW];
     }
 }
 
@@ -114,11 +114,16 @@ static int CurrentVisitIndex;
     //
     ////NSLog(@"finishupload");
     ////[TheActivity stopAnimating];
+    
+    AppDelegate  *appDelegate = [[UIApplication sharedApplication] delegate];
     /*******/
     if([TheOptions GetGoToAuthenticate])
     {
-        AppDelegate  *appDelegate = [[UIApplication sharedApplication] delegate];
         [appDelegate displayView:AUTHENTICATEVIEW];
+    }
+    else
+    {
+        [appDelegate displayView:OBSERVATIONSVIEW];
     }
     /**********/
 }
@@ -347,6 +352,115 @@ static int CurrentVisitIndex;
 // uploads all visits to the server
 //
 -(IBAction)UploadButton:(int)intNewView
+{
+    [TheOptions SetMinCheckCalled:false];
+    [TheOptions SetCheckAppRevisionRunning:true];
+    Boolean LegalRevision   = [TheOptions AppRevisionGood];
+    Boolean UploadError     = false;
+    
+    while([TheOptions GetCheckAppRevisionRunning])
+    {
+        // wait for AppRevisionGood to complete
+        CFRunLoopRunInMode(kCFRunLoopDefaultMode, .05, false);
+    }
+    
+    if([TheOptions GetBadNetworkConection])
+    {
+        // message already displayed nad we can't do anything so return
+        return;
+    }
+    
+    // we came back without a timeout so check the status
+    if (!LegalRevision)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CitSciMobile"
+                                                        message:@"The version of CitSciMobile and the server are incompatible.  You must update your app to interact with the CitSci server."
+                                                       delegate:nil cancelButtonTitle:@"OK"
+                                              otherButtonTitles: nil];
+        [alert show];
+    }
+    else
+    {
+        int     NumFiles        = [TheOptions GetNumberOfVisits];
+        double  countlimit      = 5.0;
+        UploadError             = false;
+        NSString *filename      = [[NSString alloc]init];
+        self.GoneVisits         = [[NSMutableArray alloc]init];
+        TheActivity             = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+        [TheActivity setCenter:CGPointMake(kScreenWidth/2.0, kScreenHeight/2.0)]; // in landscape mode
+        [self.view addSubview:TheActivity]; // spinner is not visible until started
+        [TheActivity startAnimating];
+        
+        for(int i=0; i < NumFiles; i++)
+        {
+            double count        = 0.0;
+            SelectedRow         = i;
+            if(UploadError)
+            {
+                break;
+            }
+            //
+            // upload the Observation file and pictures (if any)
+            // first get the associated directory name, then
+            //
+            filename            = [TheOptions GetVisitFileNameAtIndex:SelectedRow];
+            MyNumberOfVisits    = -1;       // only upload 1
+            
+            [TheOptions SetUploadRunning:true];
+            [TheOptions SetUploadError:false];
+            [self.GoneVisits addObject:filename];
+            CurrentVisitIndex   = 0;
+            [TheOptions UploadVisit:filename];
+            
+            self.VisitToDelete  = [[NSString alloc]initWithString:[filename lastPathComponent]];
+            
+            UploadError = [TheOptions GetUploadError];
+            ////NSLog(@"uploaded %@, error = %d",self.VisitToDelete, UploadError);
+            if(UploadError)
+            {
+                break;
+            }
+            
+            //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(FinishUpload) name:@"NSURLConnectionDidFinish" object:nil];
+            while(count < countlimit)
+            {
+                UploadError = [TheOptions GetUploadError];
+                ////NSLog(@"uploaded %@, error = %d",filename, UploadError);
+                if(UploadError)
+                {
+                    [TheActivity stopAnimating];
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CitSciMobile"
+                                                                    message:@"Upload error.  You are probably not logged in.  Try logging in."
+                                                                   delegate:nil cancelButtonTitle:@"OK"
+                                                          otherButtonTitles: nil];
+                    [alert show];
+                    break;
+                }
+                // wait for uploadone to finish
+                CFRunLoopRunInMode(kCFRunLoopDefaultMode, .05, false);
+                count = count + .25;
+            }
+        }
+    }   // end of for numfiles loop
+    
+    if(!UploadError)
+    {
+        ////NSLog(@"delete all visit files");
+        for(int i=0; i < [self.GoneVisits count]; i++)
+        {
+            NSString *filename  = [[NSString alloc]initWithFormat:@"%@",[self.GoneVisits objectAtIndex:i]];
+            filename            = [filename lastPathComponent];
+            ////NSLog(@"removing %@",filename);
+            [TheOptions RemVisitFile:filename];
+        }
+    }
+    
+    [TheActivity stopAnimating];
+    ////NSLog(@"end of upload all");
+    [self FinishUpload];
+}
+
+-(IBAction)UploadButtonOld:(int)intNewView
 {
     [TheOptions SetMinCheckCalled:false];
     [TheOptions SetCheckAppRevisionRunning:true];
@@ -640,6 +754,7 @@ static int CurrentVisitIndex;
                                                  name:@"NSURLConnectionDidFinish"
                                                object:nil];
 }
+
 
 - (void)viewWillAppear:(BOOL)animated
 {
