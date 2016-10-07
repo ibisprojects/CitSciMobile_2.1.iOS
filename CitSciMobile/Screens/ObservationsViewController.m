@@ -27,6 +27,7 @@
 @synthesize ProjectNamePortrait;
 @synthesize FormNamePortrait;
 @synthesize UserNamePortrait;
+@synthesize DatePortrait;
 @synthesize ServerNamePortrait;
 @synthesize VisitToDelete;
 @synthesize GoneVisits;
@@ -153,6 +154,22 @@ static int CurrentVisitIndex;
     [TheActivity startAnimating];
     AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
     [appDelegate displayView:TheView];
+}
+
+-(NSString *)TheDateNow
+{
+    //
+    // date variables
+    //
+    NSDate *TheDate                 = [NSDate date];
+    NSDateFormatter *DateFormatter  = [[NSDateFormatter alloc]init];
+    [DateFormatter setDateFormat:@"yyyyMMdd"];
+    [DateFormatter setDateFormat:@"MM/dd/yyyy"];
+    NSString *MyDate                = [DateFormatter stringFromDate:TheDate];
+    [DateFormatter setDateFormat:@"yyyy-MM-dd-HH-mm-ss"];
+    //NSString *ObservationDate       = [DateFormatter stringFromDate:TheDate];
+    
+    return MyDate;
 }
 
 #pragma mark - buttons
@@ -357,6 +374,7 @@ static int CurrentVisitIndex;
     [TheOptions SetCheckAppRevisionRunning:true];
     Boolean LegalRevision   = [TheOptions AppRevisionGood];
     Boolean UploadError     = false;
+    Boolean UploadComplete  = false;
     
     while([TheOptions GetCheckAppRevisionRunning])
     {
@@ -370,8 +388,18 @@ static int CurrentVisitIndex;
         return;
     }
     
+    Boolean AcquiredRevision= [TheOptions GetValidAppAcquired];
+    
     // we came back without a timeout so check the status
-    if (!LegalRevision)
+    if (!AcquiredRevision)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CitSciMobile"
+                                                        message:@"Network connection error.  Try again later."
+                                                       delegate:nil cancelButtonTitle:@"OK"
+                                              otherButtonTitles: nil];
+        [alert show];
+    }
+    else if (!LegalRevision)
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CitSciMobile"
                                                         message:@"The version of CitSciMobile and the server are incompatible.  You must update your app to interact with the CitSci server."
@@ -382,7 +410,7 @@ static int CurrentVisitIndex;
     else
     {
         int     NumFiles        = [TheOptions GetNumberOfVisits];
-        double  countlimit      = 5.0;
+        double  countlimit      = 50.0;
         UploadError             = false;
         NSString *filename      = [[NSString alloc]init];
         self.GoneVisits         = [[NSMutableArray alloc]init];
@@ -395,6 +423,7 @@ static int CurrentVisitIndex;
         {
             double count        = 0.0;
             SelectedRow         = i;
+            [TheOptions SetUploadComplete:false];
             if(UploadError)
             {
                 break;
@@ -436,6 +465,13 @@ static int CurrentVisitIndex;
                     [alert show];
                     break;
                 }
+                
+                UploadComplete = [TheOptions GetUploadComplete];
+                if(UploadComplete)
+                {
+                    break;
+                }
+                
                 // wait for uploadone to finish
                 CFRunLoopRunInMode(kCFRunLoopDefaultMode, .05, false);
                 count = count + .25;
@@ -479,7 +515,16 @@ static int CurrentVisitIndex;
     }
     
     // we came back without a timeout so check the status
-    if (!LegalRevision)
+    Boolean AcquiredRevision= [TheOptions GetValidAppAcquired];
+    if (!AcquiredRevision)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CitSciMobile"
+                                                        message:@"Network connection error.  Try again later."
+                                                       delegate:nil cancelButtonTitle:@"OK"
+                                              otherButtonTitles: nil];
+        [alert show];
+    }
+    else if (!LegalRevision)
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CitSciMobile"
                                                         message:@"The version of CitSciMobile and the server are incompatible.  You must update your app to interact with the CitSci server."
@@ -542,7 +587,16 @@ static int CurrentVisitIndex;
     }
     
     // we came back without a timeout so check the status
-    if (!LegalRevision)
+    Boolean AcquiredRevision= [TheOptions GetValidAppAcquired];
+    if (!AcquiredRevision)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CitSciMobile"
+                                                        message:@"Network connection error.  Try again later."
+                                                       delegate:nil cancelButtonTitle:@"OK"
+                                              otherButtonTitles: nil];
+        [alert show];
+    }
+    else if (!LegalRevision)
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CitSciMobile"
                                                         message:@"The version of CitSciMobile and the server are incompatible.  You must update your app to interact with the CitSci server."
@@ -742,6 +796,8 @@ static int CurrentVisitIndex;
     
     self.UserNamePortrait.text    = [TheOptions GetUserName];
     
+    self.DatePortrait.text        = [self TheDateNow];
+    
     self.ServerNamePortrait.text  = [TheOptions GetServerName];
     
     [UIApplication sharedApplication].applicationIconBadgeNumber = visitcount;
@@ -776,6 +832,8 @@ static int CurrentVisitIndex;
     self.ServerNamePortrait.text  = [TheOptions GetServerName];
     
     self.UserNamePortrait.text    = [TheOptions GetUserName];
+    
+    self.DatePortrait.text        = [self TheDateNow];
     
     SelectedRow              = -1;
     

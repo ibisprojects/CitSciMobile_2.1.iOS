@@ -189,7 +189,16 @@ static Boolean ShowSaved   = false;
     }
     
     // we came back without a timeout so check the status
-    if (!LegalRevision)
+    Boolean AcquiredRevision= [TheOptions GetValidAppAcquired];
+    if (!AcquiredRevision)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CitSciMobile"
+                                                        message:@"Network connection error.  Try again later."
+                                                       delegate:nil cancelButtonTitle:@"OK"
+                                              otherButtonTitles: nil];
+        [alert show];
+    }
+    else if (!LegalRevision)
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CitSciMobile"
                                                         message:@"The version of CitSciMobile and the server are incompatible.  You must update your app to interact with the CitSci server."
@@ -245,7 +254,16 @@ static Boolean ShowSaved   = false;
     }
     
     // we came back without a timeout so check the status
-    if (!LegalRevision)
+    Boolean AcquiredRevision= [TheOptions GetValidAppAcquired];
+    if (!AcquiredRevision)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CitSciMobile"
+                                                        message:@"Network connection error.  Try again later."
+                                                       delegate:nil cancelButtonTitle:@"OK"
+                                              otherButtonTitles: nil];
+        [alert show];
+    }
+    else if (!LegalRevision)
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CitSciMobile"
                                                         message:@"The version of CitSciMobile and the server are incompatible.  You must update your app to interact with the CitSci server."
@@ -288,7 +306,16 @@ static Boolean ShowSaved   = false;
     }
     
     // we came back without a timeout so check the status
-    if (!LegalRevision)
+    Boolean AcquiredRevision= [TheOptions GetValidAppAcquired];
+    if (!AcquiredRevision)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CitSciMobile"
+                                                        message:@"Network connection error.  Try again later."
+                                                       delegate:nil cancelButtonTitle:@"OK"
+                                              otherButtonTitles: nil];
+        [alert show];
+    }
+    else if (!LegalRevision)
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CitSciMobile"
                                                         message:@"The version of CitSciMobile and the server are incompatible.  You must update your app to interact with the CitSci server."

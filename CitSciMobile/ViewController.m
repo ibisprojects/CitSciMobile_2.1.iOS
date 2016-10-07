@@ -195,6 +195,7 @@ Model *TheOptions;
         [TheOptions SetMinCheckCalled:false];
         [TheOptions SetCheckAppRevisionRunning:true];
         Boolean LegalRevision   = [TheOptions AppRevisionGood];
+        Boolean AcquiredRevision= [TheOptions GetValidAppAcquired];
         int GoToView            = AUTHENTICATEVIEW;
         
         while([TheOptions GetCheckAppRevisionRunning])
@@ -210,7 +211,16 @@ Model *TheOptions;
         }
         
         // we came back without a timeout so check the status
-        if (!LegalRevision)
+        if (!AcquiredRevision)
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CitSciMobile"
+                                                            message:@"The initial invocation of this app normally presents the CitSci server login screen.  However, the version of CitSciMobile and the server may be incompatible.  You may have to update your app to interact with the CitSci server when you have a network connection."
+                                                           delegate:nil cancelButtonTitle:@"OK"
+                                                  otherButtonTitles: nil];
+            [alert show];
+            GoToView            = OBSERVATIONSVIEW;
+        }
+        else if (!LegalRevision)
         {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CitSciMobile"
                                                             message:@"The initial invocation of this app normally presents the CitSci server login screen.  However, the version of CitSciMobile and the server are incompatible.  You must update your app to interact with the CitSci server."

@@ -113,12 +113,13 @@
 #define CAMERAFROMSELECT        0
 #define CAMERAFROMENTER         1
 
-// open authentication values
-#define CLIENT_ID               @"SE8vUpYjPZ0TFi4q7aeP"
-#define CLIENT_SECRET           @"d0HaKsG7ubvtce0Z4jhQ"
+// live vs test mode
+#define USE_TEST_SERVER         1
+#undef USE_TEST_SERVER
+
+#ifdef USE_TEST_SERVER
+// open authentication URLs
 #define REDIRECT_URI            @"https://ibis-apis-test.nrel.colostate.edu/app.php/oAuth/testRedirectURL"
-#define GRANT_TYPE              @"authorization_code"
-#define REFRESH_TYPE            @"refresh_token"
 #define TOKEN_URL               @"https://ibis-apis-test.nrel.colostate.edu/app.php/oAuth/getAccessToken"
 #define REFRESH_TOKEN_URL       @"https://ibis-apis-test.nrel.colostate.edu/app.php/oAuth/refreshAccessToken"
 #define OAUTH_URL               @"https://ibis-apis-test.nrel.colostate.edu/app.php/oAuth/Auth"
@@ -127,8 +128,21 @@
 #define DATASHEETS_URL          @"https://ibis-apis-test.nrel.colostate.edu/app.php/API/GetDatasheets?Token="
 #define PROJECTSANDDATASHEETS   @"https://ibis-apis-test.nrel.colostate.edu/app.php/API/GetProjectsAndDatasheets?Token="
 #define UPLOAD_URL              @"https://ibis-apis-test.nrel.colostate.edu/app.php/API/UploadData"
-#define OAUTH_SCOPE             @"user"
 #define MINAPPREVISION_URL      @"https://ibis-apis-test.nrel.colostate.edu/app.php/API/GetMinAppRevision"
+#else
+// open authentication URLs
+#define REDIRECT_URI            @"https://ibis-apis.nrel.colostate.edu/app.php/oAuth/testRedirectURL"
+#define TOKEN_URL               @"https://ibis-apis.nrel.colostate.edu/app.php/oAuth/getAccessToken"
+#define REFRESH_TOKEN_URL       @"https://ibis-apis.nrel.colostate.edu/app.php/oAuth/refreshAccessToken"
+#define OAUTH_URL               @"https://ibis-apis.nrel.colostate.edu/app.php/oAuth/Auth"
+#define PROFILE_URL             @"https://ibis-apis.nrel.colostate.edu/app.php/API/GetProfile"
+#define PROJECTLIST_URL         @"https://ibis-apis.nrel.colostate.edu/app.php/API/GetProjectList?Token="
+#define DATASHEETS_URL          @"https://ibis-apis.nrel.colostate.edu/app.php/API/GetDatasheets?Token="
+#define PROJECTSANDDATASHEETS   @"https://ibis-apis.nrel.colostate.edu/app.php/API/GetProjectsAndDatasheets?Token="
+#define UPLOAD_URL              @"https://ibis-apis.nrel.colostate.edu/app.php/API/UploadData"
+#define MINAPPREVISION_URL      @"https://ibis-apis.nrel.colostate.edu/app.php/API/GetMinAppRevision"
+#endif
+
 #define GETACCESSTOKEN          0
 #define GETPROJECTS             1
 #define GETFORMS                2
@@ -138,6 +152,13 @@
 #define GENREFRESHTOKEN         6
 #define UPLOADOBSERVATION       7
 #define MINIMUMAPPREVISION      8
+
+// constants irrespective of server
+#define CLIENT_ID               @"SE8vUpYjPZ0TFi4q7aeP"
+#define CLIENT_SECRET           @"d0HaKsG7ubvtce0Z4jhQ"
+#define GRANT_TYPE              @"authorization_code"
+#define REFRESH_TYPE            @"refresh_token"
+#define OAUTH_SCOPE             @"user"
 
 // defines for file sizes
 #define LOGINSTRINGLIMIT        100000
@@ -201,6 +222,7 @@
     NSMutableArray      *PictureList;                   // list of pictures to send
     Boolean             UploadError;                    // set if files are not uploaded
     Boolean             UploadRunning;                  // used to block and wait
+    Boolean             UploadComplete;                 // flag when we're done
     
     // utility variables
     NSMutableArray      *AllSystemNames;                // places to upload visits
@@ -222,6 +244,7 @@
     double              MinimumAppRevision;             // returned from the server
     Boolean             MinCheckCalled;                 // used in testing
     Boolean             ValidApp;                       // this revision >= minimum revsions
+    Boolean             ValidAppAcquired;               // use this to verify min app revision succeeded
     Boolean             CheckAppRevisionRunning;        // loop variable
     
     // forms variables
@@ -528,6 +551,8 @@
 -(Boolean)GetBadNetworkConection;
 -(void)SetUploadRunning:(Boolean)TheStatus;
 -(Boolean)GetUploadRunning;
+-(void)SetUploadComplete:(Boolean)TheStatus;
+-(Boolean)GetUploadComplete;
 -(void)WriteInstrument:(NSString *)TheString : (Boolean)RemoveIt;
 -(NSString *)FixXML:(NSString* )TheStringToFix;
 -(NSString *)TranslateDefinition:(NSString* )TheStringToFix : (NSString *)ValueType;
@@ -596,6 +621,7 @@
 -(Boolean)ValidLon:(NSString *)TheValue;
 -(void)SetBioblitzDispaly:(Boolean)TheValue;
 -(Boolean)GetBioblitzDisplay;
+-(Boolean)MyWriteData:(NSFileHandle *)TheHandle : (NSData *)TheData;
 
 //
 // form methods
@@ -795,6 +821,8 @@
 -(Boolean)GetMinCheckCalled;
 -(void)SetValidApp:(Boolean)TheValue;
 -(Boolean)GetValidApp;
+-(void)SetValidAppAcquired:(Boolean)TheValue;
+-(Boolean)GetValidAppAcquired;
 -(void)SetCheckAppRevisionRunning:(Boolean)TheValue;
 -(Boolean)GetCheckAppRevisionRunning;
 

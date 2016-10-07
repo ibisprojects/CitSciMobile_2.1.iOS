@@ -152,6 +152,10 @@ static int AttributeNumber  = 0;
 //
 -(IBAction)SkipButton:(int)intNewView
 {
+    [self DoneButton:42];
+}
+-(IBAction)SkipButtonOrig:(int)intNewView
+{
     [TheOptions SkipOrganism];
     
     Boolean Done            = [TheOptions GetIsLast];
@@ -208,12 +212,19 @@ static int AttributeNumber  = 0;
     }
     else
     {
-        Error = true;
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CitSciMobile"
+        if(Done)
+        {
+            [self DoneButton:42];
+        }
+        else
+        {
+            Error = true;
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CitSciMobile"
                                                         message:@"Illegal data sheet; no observation is possible"
                                                        delegate:nil cancelButtonTitle:@"OK"
                                               otherButtonTitles: nil];
-        [alert show];
+            [alert show];
+        }
         
         AppDelegate  *appDelegate = [[UIApplication sharedApplication] delegate];
         [appDelegate displayView:OBSERVATIONSVIEW];

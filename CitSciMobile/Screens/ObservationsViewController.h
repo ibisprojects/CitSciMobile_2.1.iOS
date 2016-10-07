@@ -18,6 +18,7 @@
     UILabel                     *ProjectNamePortrait;
     UILabel                     *FormNamePortrait;
     UILabel                     *UserNamePortrait;
+    UILabel                     *DatePortrait;
     
     // server variables
     UILabel                     *ServerNamePortrait;
@@ -39,6 +40,7 @@
 @property (nonatomic, retain) IBOutlet UILabel                  *ProjectNamePortrait;
 @property (nonatomic, retain) IBOutlet UILabel                  *FormNamePortrait;
 @property (nonatomic, retain) IBOutlet UILabel                  *UserNamePortrait;
+@property (nonatomic, retain) IBOutlet UILabel                  *DatePortrait;
 @property (nonatomic, retain) IBOutlet UILabel                  *ServerNamePortrait;
 @property (nonatomic, retain) IBOutlet NSString                 *VisitToDelete;
 
@@ -56,5 +58,6 @@
 -(void) UploadCleanup;
 -(void) FinishUpload;
 -(void) UploadThisVisit:(int)TheIndex;
+-(NSString *)TheDateNow;
 
 @end

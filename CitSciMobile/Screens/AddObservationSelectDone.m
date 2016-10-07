@@ -147,6 +147,10 @@ Model *TheOptions;
 //
 -(IBAction)SkipButton:(int)intNewView
 {
+    [self DoneButton:42];
+}
+-(IBAction)SkipButtonOrig:(int)intNewView
+{
     [TheOptions SkipOrganism];
     
     Boolean Done            = [TheOptions GetIsLast];

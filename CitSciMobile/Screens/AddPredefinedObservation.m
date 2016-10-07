@@ -188,12 +188,13 @@ static Boolean DoCamera         = false;
             [TheOptions SetCurrentAttributeDataValue:NOTYETSETNUM];
             [TheOptions SetCurrentAttributeDataValue:NOTYETSETNUM];
             [TheOptions SetCurrentAttributeDataValue:NOTYETSETNUM];
-            foo = [[NSString alloc]initWithFormat:@"%@",[LocationNames objectAtIndex:SelectedRow]];
-            [TheOptions SetSelectedPredefinedName:foo];
-            foo = [[NSString alloc]initWithFormat:@"%@",[LocationIDs objectAtIndex:SelectedRow]];
-            [TheOptions SetSelectedPredefinedID:foo];
         }
-                
+        
+        foo = [[NSString alloc]initWithFormat:@"%@",[LocationNames objectAtIndex:SelectedRow]];
+        [TheOptions SetSelectedPredefinedName:foo];
+        foo = [[NSString alloc]initWithFormat:@"%@",[LocationIDs objectAtIndex:SelectedRow]];
+        [TheOptions SetSelectedPredefinedID:foo];
+        
         //
         // set up for next view
         //

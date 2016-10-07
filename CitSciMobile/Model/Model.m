@@ -346,6 +346,8 @@ static NSString     *TheVisitName;
         [self SetSelectIndex:-1];
         [self SetCurrentAttributeNumber:1];
         
+        [self SetUploadComplete:false];
+        
         [self SetWriteOptionsFile:false];
         
         // predefined location mode
@@ -1009,6 +1011,15 @@ static NSString     *TheVisitName;
     return ValidApp;
 }
 
+-(void)SetValidAppAcquired:(Boolean)TheValue
+{
+    ValidAppAcquired = TheValue;
+}
+-(Boolean)GetValidAppAcquired
+{
+    return ValidAppAcquired;
+}
+
 //
 // check for networking errors fronteh server
 //
@@ -1031,6 +1042,15 @@ static NSString     *TheVisitName;
 -(Boolean)GetUploadRunning
 {
     return UploadRunning;
+}
+
+-(void)SetUploadComplete:(Boolean)TheStatus
+{
+    UploadComplete = TheStatus;
+}
+-(Boolean)GetUploadComplete
+{
+    return UploadComplete;
 }
 
 //
@@ -1091,11 +1111,21 @@ static NSString     *TheVisitName;
 -(NSString *)FixXML:(NSString *)TheStringToFix
 {
     NSString *foo = [[NSString alloc]initWithFormat:@"%@",TheStringToFix];
+    NSString *string = [[NSString alloc]initWithFormat:@"%@",TheStringToFix];
+    //NSLog(@"string to fix: %@",TheStringToFix);
+    
     foo           = [foo stringByReplacingOccurrencesOfString:AMPERSANDCHAR withString:AMPERSANDSTRING];
     foo           = [foo stringByReplacingOccurrencesOfString:LESSTHANCHAR withString:LESSTHANSTRING];
     foo           = [foo stringByReplacingOccurrencesOfString:GREATERTHANCHAR withString:GREATERTHANSTRING];
     foo           = [foo stringByReplacingOccurrencesOfString:TICKCHAR withString:TICKSTRING];
     foo           = [foo stringByReplacingOccurrencesOfString:QUOTECHAR withString:QUOTESTRING];
+
+    
+    //foo           = [foo stringByReplacingOccurrencesOfString:LESSTHANCHAR withString:LESSTHANSTRING];
+    //foo           = [foo stringByReplacingOccurrencesOfString:GREATERTHANCHAR withString:GREATERTHANSTRING];
+    //foo           = [foo stringByReplacingOccurrencesOfString:TICKCHAR withString:TICKSTRING];
+    //foo           = [foo stringByReplacingOccurrencesOfString:QUOTECHAR withString:QUOTESTRING];
+    //foo           = [foo stringByReplacingOccurrencesOfString:AMPERSANDCHAR withString:AMPERSANDSTRING];
     //foo           = [foo stringByReplacingOccurrencesOfString:PERCENTCHAR withString:PERCENTSTRING];
     //foo           = [foo stringByReplacingOccurrencesOfString:PLUSCHAR withString:PLUSSTRING];
     //foo           = [foo stringByReplacingOccurrencesOfString:QUESTIONCHAR withString:QUESTIONSTRING];
@@ -1104,8 +1134,22 @@ static NSString     *TheVisitName;
     //foo           = [foo stringByReplacingOccurrencesOfString:SLASHCHAR withString:SLASHSTRING];
     //foo           = [foo stringByReplacingOccurrencesOfString:EQUALCHAR withString:EQUALSTRING];
     //foo           = [foo stringByReplacingOccurrencesOfString:COMMACHAR withString:COMMASTRING];
-    ////NSLog(@"fixing: %@",foo);
-    return foo;
+    //NSLog(@"fixing: %@",foo);
+    
+    
+    string = [[[[[string stringByReplacingOccurrencesOfString: @"&" withString: @"&amp;"]
+                         stringByReplacingOccurrencesOfString: @"\"" withString: @"&quot;"]
+                         stringByReplacingOccurrencesOfString: @"'" withString: @"&#39;"]
+                         stringByReplacingOccurrencesOfString: @">" withString: @"&gt;"]
+                         stringByReplacingOccurrencesOfString: @"<" withString: @"&lt;"];
+    
+    //NSLog(@"singlestring: %@",string);
+    
+    //NSLog(@"fixing: %@",foo);
+    
+    return string;
+    
+    //return foo;
 }
 
 -(NSString *)TranslateDefinition:(NSString *)TheStringToFix : (NSString *)ValueType
@@ -2295,6 +2339,39 @@ static NSString     *TheVisitName;
 -(Boolean)GetBioblitzDisplay
 {
     return BioblitzDisplay;
+}
+
+-(Boolean)MyWriteData:(NSFileHandle *)TheHandle :(NSData *)TheData
+{
+    Boolean ReturnValue = true;         // assume success
+    
+    /****  force write error
+    if(1)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CitSciMobile"
+                                                        message:@"Writing observation file failed."
+                                                       delegate:nil cancelButtonTitle:@"OK"
+                                              otherButtonTitles: nil];
+        [alert show];
+        return false;
+    }
+    ******/
+    
+    @try
+    {
+        [TheHandle writeData:TheData];
+    }
+    @catch (NSException *exception)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CitSciMobile"
+                                                        message:@"Writing observation file failed."
+                                                       delegate:nil cancelButtonTitle:@"OK"
+                                              otherButtonTitles: nil];
+        [alert show];
+        ReturnValue = false;
+    }
+    
+    return ReturnValue;
 }
 
 //
@@ -5002,9 +5079,6 @@ Boolean JSONWrite = false;
                     strvalue           = @"";
                 }
                 
-                strname                 = [self FixXML:strname];
-                strvalue                = [self FixXML:strvalue];
-                
                 tempstring              = [[NSString alloc]initWithFormat:@"\t\t\t\t\t<OrganismInfoOption Name='%@' OrganismInfoID='%@' />\n",strname,strvalue];
                 [self BuildLoginStatus:tempstring];
             }
@@ -5182,336 +5256,6 @@ Boolean JSONWrite = false;
      ValueType = "<null>";
     *****/
     return result;
-}
-
-//
-// the organisms are organized into:
-// 1. an organisminfos header
-// 2. any number of attributes for that organism
-// and there are any number of organisms in a data sheet.
-// so loop through as:
-// for each organism
-// 1. write first/next organisminfos section
-//    for each attribute
-//    1. write first/next attribute section
-//
-//
-// TheObject is the JSON returned from the API.
-// The job is to isolate the current project, denoted by
-// projnum, and get each data sheet, denoted by datasheet
-// for that projnum.  Therefore, this method needs to parse
-// TheObject[projnum].Datasheet[datasheet].
-//
--(void)WriteXMLOrganismDataOld:(id)TheObject :(int)datasheet : (int) projnum : (int)numdatasheets : (int)numprojects
-{
-    NSDictionary    *JsonResponseDictionary;
-    id              dsAttributes;               // data sheet attributes
-    id              CurrentDataSheets;          // all datasheets for this project
-    id              ThisDataSheet;              // the datasheet to be parsed
-    id              AllOrganisms;               // for the current datasheet
-    id              AllDataSheets;              // all data sheets from JSON
-    NSArray         *temp;                      // temporary array
-    NSString        *strvalue;                  // common place holder for a value
-    NSString        *strname;                   // common place holder for a name
-    NSString        *strname2;                  // second common place holder for additional names
-    NSString        *strvalue2;                 // second common place holder for addtional values
-    NSString        *tempstring;                // build loginstatus
-    NSString        *AttributesString;          // holding place for attributes
-    Boolean         OrganismStarted;            // trigger to write either XML open or close
-    Boolean         FoundOrgDetails;            // does organismdetails exist
-    Boolean         AttributesStarted;          // trigger to write the attributedata tag
-    Boolean         IsOrganismList;             // flag for pick list
-    Boolean         IsOrganismDetails;          // flag for single organism
-    
-    JsonResponseDictionary      = TheObject;
-    dsAttributes                = [JsonResponseDictionary valueForKeyPath:@"data.Datasheets.OrgAttributes"];
-    AllDataSheets               = [JsonResponseDictionary valueForKeyPath:@"data.Datasheets"];
-    
-    CurrentDataSheets           = [AllDataSheets objectAtIndex:projnum];
-    ThisDataSheet               = [CurrentDataSheets objectAtIndex:datasheet];
-    AllOrganisms                = [ThisDataSheet valueForKeyPath:@"OrgAttributes"];
-    
-    OrganismStarted             = false;
-    AttributesStarted           = false;
-    AttributesString            = @"";
-    
-    // handle zero attributes by examining only the
-    // first child of AllOrganisms.  If there are no
-    // OrganismDetails, there are no Organisms.
-    FoundOrgDetails             = false;
-    for(id child in AllOrganisms)
-    {
-        // examine all children and stop when OrganismDetails is found
-        id x = [child valueForKeyPath:@"OrganismDetails"];
-        
-        if (x != NULL)
-        {
-            FoundOrgDetails = true;
-            break;
-        }
-        
-        // check for an organism list and stop if it's found
-        x = [child valueForKeyPath:@"OrganismList"];
-        
-        if (x != NULL)
-        {
-            FoundOrgDetails = true;
-            break;
-        }
-    }
-    
-    // if there are neither organisms nor organism picklsits
-    // get out of here
-    if(!FoundOrgDetails)
-    {
-        // no organism details so skip this
-        return;
-    }
-    
-    //
-    // we have at least one organism or organism picklist
-    // so open the OrgasnismData tree.  For each organism
-    // we know there has to be details or there has to be
-    // an organism list.  If there isn't, this data sheet
-    // is illegal that will get caught later
-    //
-    NSLog(@"AllOrganisms count: %lu",(unsigned long)[AllOrganisms count]);
-    for(id child in AllOrganisms)
-    {
-        IsOrganismList      = false;
-        IsOrganismDetails   = false;
-        id x = [child valueForKeyPath:@"OrganismDetails"];
-        if (x == NULL)
-        {
-            x = [child valueForKeyPath:@"OrganismList"];
-            if (x != NULL)
-            {
-                IsOrganismList = true;
-            }
-        }
-        else
-        {
-            IsOrganismDetails = true;
-        }
-        
-        //if(IsOrganismList)
-        //{
-        //    NSLog(@"skipping organism pick list");
-        //    continue;
-        //}
-        
-        //
-        // if x is null at this point, we have an out of order attribute
-        // so deal with it.  That is, save it for writing after the
-        // organism header and body are first written out.  This should
-        // no longer happen.  But...
-        //
-        if (x == NULL)
-        {
-            // this child must be an attribute that we've already done
-            // so skip it.  We'll see..
-            continue;
-        }
-        if (x != NULL)
-        {
-            if(!OrganismStarted)
-            {
-                ////NSLog(@"organism not started and we have an attribute so it's out of order");
-            }
-            //NSLog(@"out of order attribute");
-            //x = [child valueForKeyPath:@"OrganismList"];
-            //if(x != NULL)
-            //{
-            //    NSLog(@"skipping picklist");
-            //    continue;       // skip for now
-            //}
-            
-            //
-            // no organism details but we know it's not a list too
-            // if OrganismDetails ot List is not first and we have
-            // attribute data, it has to be saved and added
-            // to the XML after the OrganismInfos section
-            //
-            //
-            // we have an attribute so write it out
-            //
-            if(OrganismStarted)
-            {
-                if(!AttributesStarted)
-                {
-                    [self BuildLoginStatus:@"\t\t\t\t<AttributeData>\n"];
-                    AttributesStarted = true;
-                }
-            }
-            else
-            {
-                if(!AttributesStarted)
-                {
-                    AttributesString    = [AttributesString stringByAppendingString:@"\t\t\t\t<AttributeData>\n"];
-                    AttributesStarted   = true;
-                }
-            }
-            
-            strname             = [child valueForKey:@"HowSpecifiedString"];
-            NSString *ValueType = [child valueForKey:@"ValueType"];
-            strname             = [self TranslateDefinition:strname:ValueType];
-            strname2            = [child valueForKey:@"Name"];
-            strvalue            = [child valueForKey:@"AttributeTypeID"];
-            strvalue2           = [child valueForKey:@"UnitID"];
-            if([strvalue2 isEqual:[NSNull null]])
-            {
-                strvalue2 = @"";
-            }
-            strname             = [self FixXML:strname];
-            strname2            = [self FixXML:strname2];
-            strvalue            = [self FixXML:strvalue];
-            strvalue2           = [self FixXML:strvalue2];
-            
-            tempstring          = [[NSString alloc]initWithFormat:@"\t\t\t\t\t<AttributeDataEntry HowSpecified='%@' Name='%@' UnitID='%@' AttributeTypeID='%@'>\n",strname,strname2,strvalue2,strvalue];
-            if(OrganismStarted)
-            {
-                [self BuildLoginStatus:tempstring];
-            }
-            else
-            {
-                AttributesString= [AttributesString stringByAppendingString:tempstring];
-            }
-            temp                = [child valueForKey:@"AttributeValuesPossible"];
-            
-            int attributetotal  = (int)[temp count];
-            for(int attrcount=0; attrcount < attributetotal; attrcount++)
-            {
-                NSArray *attributevalues = [temp objectAtIndex:attrcount];
-                strname         = [attributevalues valueForKey:@"Name"];
-                strvalue        = [attributevalues valueForKey:@"ID"];
-                strname         = [self FixXML:strname];
-                strvalue        = [self FixXML:strvalue];
-                tempstring      = [[NSString alloc]initWithFormat:@"\t\t\t\t\t\t<AttributeDataOption Name='%@' ID='%@'/>\n",strname,strvalue];
-                if(OrganismStarted)
-                {
-                    [self BuildLoginStatus:tempstring];
-                }
-                else
-                {
-                    AttributesString = [AttributesString stringByAppendingString:tempstring];
-                }
-            }
-            
-            if(OrganismStarted)
-            {
-                [self BuildLoginStatus:@"\t\t\t\t\t</AttributeDataEntry>\n"];
-                ////[self BuildLoginStatus:@"\t\t\t\t</AttributeData>\n"];
-            }
-            else
-            {
-                AttributesString = [AttributesString stringByAppendingString:@"\t\t\t\t\t</AttributeDataEntry>\n"];
-                ////AttributesString = [AttributesString stringByAppendingString:@"\t\t\t\t</AttributeData>\n"];
-            }
-        }
-        else
-        {
-            //
-            // this is an organism so prepare for the OrganismInfos
-            //
-            //NSString *foo = [[NSString alloc]initWithFormat:@"%@",[child valueForKeyPath:@"OrganismDetails.Name"]];
-            //NSLog(@"organism name: %@",foo);
-            
-            if(OrganismStarted)
-            {
-                //
-                // close off the previous Attributes, OrganismDataEntry and
-                // open the new/next organism
-                //
-                if(AttributesStarted)
-                {
-                    [self BuildLoginStatus:@"\t\t\t\t</AttributeData>\n"];
-                    AttributesStarted   = false;
-                }
-                
-                [self BuildLoginStatus:@"\t\t\t</OrganismDataEntry>\n"];
-                [self BuildLoginStatus:@"\t\t\t<OrganismDataEntry>\n"];
-            }
-            else
-            {
-                //
-                // mark the first OrganismDataEntry
-                //
-                OrganismStarted     = true;
-                [self BuildLoginStatus:@"\t\t\t<OrganismDataEntry>\n"];
-            }
-            
-            //
-            // OrganismDataEntry is complete so generate the OrganismInfos
-            // for this organism.  The HowSpecified String should always be
-            // 'Defined' and ValueType will always be null
-            //
-            // organisminfos (HowSpecifiedString)
-            [self ParseTheAttributes:child :@"HowSpecifiedString"];
-            strname2                    = [[NSString alloc]initWithFormat:@"%@",[self GetParsedAttributeValue]];
-            strname2                    = [self TranslateDefinition:strname2:@""];
-            if(IsOrganismList)
-            {
-                strname2                = @"Select";
-            }
-            strname2                    = [self FixXML:strname2];
-            tempstring                  = [[NSString alloc]initWithFormat:@"\t\t\t\t<OrganismInfos HowSpecified='%@'>\n",strname2];
-            [self BuildLoginStatus:tempstring];
-            
-            //
-            // now the OrganismInfosOption
-            //
-            [self SetParsedAttributeValue:@""];
-            if(IsOrganismList)
-            {
-                NSMutableArray *TheList = [child valueForKeyPath:@"OrganismList"];
-                NSMutableArray *TheNames= [TheList valueForKeyPath:@"Name"];
-                NSMutableArray *TheIDs  = [TheList valueForKeyPath:@"ID"];
-                int TheListCount        = (int)[TheList count];
-                ////NSLog(@"theList: %@",TheList);
-                for(int orgcount=0; orgcount<TheListCount;orgcount++)
-                {
-                    NSString *OrgName   = [[NSString alloc]initWithFormat:@"%@",[TheNames objectAtIndex:orgcount]];
-                    NSString *OrgID     = [[NSString alloc]initWithFormat:@"%@",[TheIDs objectAtIndex:orgcount]];
-                    OrgName             = [self FixXML:OrgName];
-                    OrgID               = [self FixXML:OrgID];
-                    tempstring          = [[NSString alloc]initWithFormat:@"\t\t\t\t\t<OrganismInfoOption Name='%@' OrganismInfoID='%@' />\n",OrgName,OrgID];
-                    [self BuildLoginStatus:tempstring];
-                    ////NSLog(@"tempstring: %@",tempstring);
-                }
-            }
-            else
-            {
-                strname                 = [child valueForKeyPath:@"OrganismDetails.Name"];
-                strname                 = [self FixXML:strname];
-                strvalue                = [child valueForKey:@"OrganismInfoID"];
-                strvalue                = [self FixXML:strvalue];
-                tempstring              = [[NSString alloc]initWithFormat:@"\t\t\t\t\t<OrganismInfoOption Name='%@' OrganismInfoID='%@' />\n",strname,strvalue];
-                [self BuildLoginStatus:tempstring];
-            }
-            //
-            // close the OrganismInfos
-            //
-            [self BuildLoginStatus:@"\t\t\t\t</OrganismInfos>\n"];
-            
-            //
-            // now check to see if AttributesString is empty.
-            // if it is, do nothing otherwise add it to the XML
-            //
-            if(!([AttributesString isEqualToString:@""]))
-            {
-                [self BuildLoginStatus:AttributesString];
-                AttributesString = @"";
-            }
-        }
-    }
-    
-    // close off the first/last organism data entry abd attribute data
-    if(AttributesStarted)
-    {
-        [self BuildLoginStatus:@"\t\t\t\t</AttributeData>\n"];
-        AttributesStarted   = false;
-    }
-    [self BuildLoginStatus:@"\t\t\t</OrganismDataEntry>\n"];
 }
 
 -(void)SetAllDataFileStarted:(Boolean)TheStatus
@@ -6483,6 +6227,7 @@ Boolean JSONWrite = false;
                 // set the required revision
                 ////SMessage = @"2.2";
                 [self SetMinimumAppRevision:SMessage];
+                [self SetValidAppAcquired:true];
                 double x = [SMessage doubleValue];
                 double y = [self GetCurrentAppRevision];
                 if(y >= x)
@@ -6501,7 +6246,8 @@ Boolean JSONWrite = false;
                                                                delegate:nil cancelButtonTitle:@"OK"
                                                       otherButtonTitles: nil];
                 [alert show];
-                [self SetValidApp:true];
+                [self SetValidApp:false];
+                [self SetValidAppAcquired:false];
             }
                 
             [[NSNotificationCenter defaultCenter] postNotificationName:@"minapprevision" object:nil];
@@ -6564,6 +6310,7 @@ Boolean JSONWrite = false;
             
             ////NSLog(@"jsondict: %@",self.JSONDictionary);
             
+            [self SetUploadComplete:true];
             SValue                  = [jsonResponseData valueForKeyPath:@"status"];
             SMessage                = [jsonResponseData valueForKeyPath:@"message"];
             SValue                  = [SValue lowercaseString];
@@ -6657,16 +6404,23 @@ Boolean JSONWrite = false;
             JsonResponse                    = [NSJSONSerialization JSONObjectWithData:JsonResponseData options:kNilOptions error:nil];
             
             ////NSLog(@"response: %@",JsonResponse);
+            
+            jsonResponseData        = [NSJSONSerialization JSONObjectWithData:self.WebData options:kNilOptions error:nil];
+            
+            // the response is returned as a dictionary
+            self.JSONDictionary     = [[NSMutableDictionary alloc]init];
+            self.JSONDictionary     = (NSMutableDictionary *)jsonResponseData;
             ////self.loginStatus = [[NSString alloc] initWithBytes: [self.WebData mutableBytes] length:[self.WebData length] encoding:NSASCIIStringEncoding];
             ////NSLog(@"loginstatus: %@", self.loginStatus);
             
-            SValue                  = [jsonResponseData valueForKeyPath:@"error"];
-            SMessage                = [jsonResponseData valueForKeyPath:@"error_description"];
+            SValue                  = [jsonResponseData valueForKeyPath:@"status"];
+            SMessage                = [jsonResponseData valueForKeyPath:@"message"];
             SValue                  = [SValue lowercaseString];
+            range                   = [SValue  rangeOfString: @"failed" options: NSCaseInsensitiveSearch];
             
-            range                   = [SValue  rangeOfString: @"error" options: NSCaseInsensitiveSearch];
-            if (range.location >= 1)
+            if(!([SValue isEqualToString:@"success"]))
             {
+                SMessage          = [SMessage stringByAppendingString:@".  Try logging in again."];
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CitSciMobile"
                                                                 message:SMessage
                                                                delegate:nil cancelButtonTitle:@"OK"
@@ -7007,21 +6761,43 @@ Boolean JSONWrite = false;
 			line        = [[NSString alloc]initWithFormat:@"<?xml version=\'1.0\' ?>"];
             tempstring  = [NSString stringWithFormat:@"%@%@",line,cr];
             tempdata    = [tempstring dataUsingEncoding:NSUTF8StringEncoding];
-            [file writeData:tempdata];
+            
+            if (![self MyWriteData:file:tempdata])
+            {
+                // close the file, remove ApplicationsFile and return
+                [file closeFile];
+                [filemgr removeItemAtPath:ApplicationsFile error:nil];
+                return;
+            }
+            ////[file writeData:tempdata];
             
             // GODMData tag
             LocalFormID = [self FixXML:LocalFormID];
             line        = [[NSString alloc]initWithFormat:@"%@GODMData FormId=%@%@%@%@",opentag,tick,LocalFormID,tick,closetag];
             tempstring  = [NSString stringWithFormat:@"%@%@",line,cr];
             tempdata    = [tempstring dataUsingEncoding:NSUTF8StringEncoding];
-            [file writeData:tempdata];
+            if (![self MyWriteData:file:tempdata])
+            {
+                // close the file, remove ApplicationsFile and return
+                [file closeFile];
+                [filemgr removeItemAtPath:ApplicationsFile error:nil];
+                return;
+            }
+            ////[file writeData:tempdata];
             
             // Project tag (tab 1)
             LocalProjectID = [self FixXML:LocalProjectID];
             line        = [[NSString alloc]initWithFormat:@"%@<Project ID=%@%@%@%@",tab,tick,LocalProjectID,tick,@">"];
             tempstring  = [NSString stringWithFormat:@"%@%@",line,cr];
             tempdata    = [tempstring dataUsingEncoding:NSUTF8StringEncoding];
-            [file writeData:tempdata];
+            if (![self MyWriteData:file:tempdata])
+            {
+                // close the file, remove ApplicationsFile and return
+                [file closeFile];
+                [filemgr removeItemAtPath:ApplicationsFile error:nil];
+                return;
+            }
+            ////[file writeData:tempdata];
             
             // Name and value tag (tab 2)
             LocalVisitName = [self FixXML:LocalVisitName];
@@ -7035,7 +6811,14 @@ Boolean JSONWrite = false;
             line        = [[NSString alloc]initWithFormat:@"%@%@%@Area",tab,tab,opentag];
             tempstring  = [NSString stringWithFormat:@"%@%@",line,cr];
             tempdata    = [tempstring dataUsingEncoding:NSUTF8StringEncoding];
-            [file writeData:tempdata];
+            if (![self MyWriteData:file:tempdata])
+            {
+                // close the file, remove ApplicationsFile and return
+                [file closeFile];
+                [filemgr removeItemAtPath:ApplicationsFile error:nil];
+                return;
+            }
+            ////[file writeData:tempdata];
             NSString *areafield;
             
             if([self GetPredefinedLocationMode])
@@ -7045,14 +6828,28 @@ Boolean JSONWrite = false;
                 line        = [[NSString alloc]initWithFormat:@"%@%@%@%@AreaName=%@%@%@",tab,tab,tab,tab,tick,areafield,tick];
                 tempstring  = [NSString stringWithFormat:@"%@%@",line,cr];
                 tempdata    = [tempstring dataUsingEncoding:NSUTF8StringEncoding];
-                [file writeData:tempdata];
+                if (![self MyWriteData:file:tempdata])
+                {
+                    // close the file, remove ApplicationsFile and return
+                    [file closeFile];
+                    [filemgr removeItemAtPath:ApplicationsFile error:nil];
+                    return;
+                }
+                ////[file writeData:tempdata];
                 
                 // location ID
                 areafield   = [[NSString alloc]initWithFormat:@"%@",[self GetSelectedPredefinedID]];
                 line        = [[NSString alloc]initWithFormat:@"%@%@%@%@AreaID=%@%@%@",tab,tab,tab,tab,tick,areafield,tick];
                 tempstring  = [NSString stringWithFormat:@"%@%@",line,cr];
                 tempdata    = [tempstring dataUsingEncoding:NSUTF8StringEncoding];
-                [file writeData:tempdata];
+                if (![self MyWriteData:file:tempdata])
+                {
+                    // close the file, remove ApplicationsFile and return
+                    [file closeFile];
+                    [filemgr removeItemAtPath:ApplicationsFile error:nil];
+                    return;
+                }
+                ////[file writeData:tempdata];
                 
                 // area lon,lat,coordinate systemid, and accuracy not used here so set to
                 // ''
@@ -7061,27 +6858,55 @@ Boolean JSONWrite = false;
                 line        = [[NSString alloc]initWithFormat:@"%@%@%@%@X=%@%@%@",tab,tab,tab,tab,tick,TheLon,tick];
                 tempstring  = [NSString stringWithFormat:@"%@%@",line,cr];
                 tempdata    = [tempstring dataUsingEncoding:NSUTF8StringEncoding];
-                [file writeData:tempdata];
+                if (![self MyWriteData:file:tempdata])
+                {
+                    // close the file, remove ApplicationsFile and return
+                    [file closeFile];
+                    [filemgr removeItemAtPath:ApplicationsFile error:nil];
+                    return;
+                }
+                ////[file writeData:tempdata];
                 
                 // area lat
                 TheLat      = @"";
                 line        = [[NSString alloc]initWithFormat:@"%@%@%@%@Y=%@%@%@",tab,tab,tab,tab,tick,TheLat,tick];
                 tempstring  = [NSString stringWithFormat:@"%@%@",line,cr];
                 tempdata    = [tempstring dataUsingEncoding:NSUTF8StringEncoding];
-                [file writeData:tempdata];
+                if (![self MyWriteData:file:tempdata])
+                {
+                    // close the file, remove ApplicationsFile and return
+                    [file closeFile];
+                    [filemgr removeItemAtPath:ApplicationsFile error:nil];
+                    return;
+                }
+                ////[file writeData:tempdata];
                 
                 // coordinate system
                 line        = [[NSString alloc]initWithFormat:@"%@%@%@%@CoordinateSystemID=%@%@%@",tab,tab,tab,tab,tick,@"",tick];
                 tempstring  = [NSString stringWithFormat:@"%@%@",line,cr];
                 tempdata    = [tempstring dataUsingEncoding:NSUTF8StringEncoding];
-                [file writeData:tempdata];
+                if (![self MyWriteData:file:tempdata])
+                {
+                    // close the file, remove ApplicationsFile and return
+                    [file closeFile];
+                    [filemgr removeItemAtPath:ApplicationsFile error:nil];
+                    return;
+                }
+                ////[file writeData:tempdata];
                 
                 // area accuracy
                 TheAcc      = @"";
                 line        = [[NSString alloc]initWithFormat:@"%@%@%@%@Accuracy=%@%@%@",tab,tab,tab,tab,tick,TheAcc,tick];
                 tempstring  = [NSString stringWithFormat:@"%@%@",line,cr];
                 tempdata    = [tempstring dataUsingEncoding:NSUTF8StringEncoding];
-                [file writeData:tempdata];
+                if (![self MyWriteData:file:tempdata])
+                {
+                    // close the file, remove ApplicationsFile and return
+                    [file closeFile];
+                    [filemgr removeItemAtPath:ApplicationsFile error:nil];
+                    return;
+                }
+                ////[file writeData:tempdata];
             }
             else
             {
@@ -7091,53 +6916,109 @@ Boolean JSONWrite = false;
                 line        = [[NSString alloc]initWithFormat:@"%@%@%@%@AreaName=%@%@%@",tab,tab,tab,tab,tick,areafield,tick];
                 tempstring  = [NSString stringWithFormat:@"%@%@",line,cr];
                 tempdata    = [tempstring dataUsingEncoding:NSUTF8StringEncoding];
-                [file writeData:tempdata];
+                if (![self MyWriteData:file:tempdata])
+                {
+                    // close the file, remove ApplicationsFile and return
+                    [file closeFile];
+                    [filemgr removeItemAtPath:ApplicationsFile error:nil];
+                    return;
+                }
+                ////[file writeData:tempdata];
                 
                 // location ID
                 areafield   = @"";
                 line        = [[NSString alloc]initWithFormat:@"%@%@%@%@AreaID=%@%@%@",tab,tab,tab,tab,tick,areafield,tick];
                 tempstring  = [NSString stringWithFormat:@"%@%@",line,cr];
                 tempdata    = [tempstring dataUsingEncoding:NSUTF8StringEncoding];
-                [file writeData:tempdata];
+                if (![self MyWriteData:file:tempdata])
+                {
+                    // close the file, remove ApplicationsFile and return
+                    [file closeFile];
+                    [filemgr removeItemAtPath:ApplicationsFile error:nil];
+                    return;
+                }
+                ////[file writeData:tempdata];
                 // area lon
                 TheLon      = [self FixXML:TheLon];
                 line        = [[NSString alloc]initWithFormat:@"%@%@%@%@X=%@%@%@",tab,tab,tab,tab,tick,TheLon,tick];
                 tempstring  = [NSString stringWithFormat:@"%@%@",line,cr];
                 tempdata    = [tempstring dataUsingEncoding:NSUTF8StringEncoding];
-                [file writeData:tempdata];
+                if (![self MyWriteData:file:tempdata])
+                {
+                    // close the file, remove ApplicationsFile and return
+                    [file closeFile];
+                    [filemgr removeItemAtPath:ApplicationsFile error:nil];
+                    return;
+                }
+                ////[file writeData:tempdata];
                 
                 // area lat
                 TheLat      = [self FixXML:TheLat];
                 line        = [[NSString alloc]initWithFormat:@"%@%@%@%@Y=%@%@%@",tab,tab,tab,tab,tick,TheLat,tick];
                 tempstring  = [NSString stringWithFormat:@"%@%@",line,cr];
                 tempdata    = [tempstring dataUsingEncoding:NSUTF8StringEncoding];
-                [file writeData:tempdata];
+                if (![self MyWriteData:file:tempdata])
+                {
+                    // close the file, remove ApplicationsFile and return
+                    [file closeFile];
+                    [filemgr removeItemAtPath:ApplicationsFile error:nil];
+                    return;
+                }
+                ////[file writeData:tempdata];
                 
                 // coordinate system
                 line        = [[NSString alloc]initWithFormat:@"%@%@%@%@CoordinateSystemID=%@%@%@",tab,tab,tab,tab,tick,@"1",tick];
                 tempstring  = [NSString stringWithFormat:@"%@%@",line,cr];
                 tempdata    = [tempstring dataUsingEncoding:NSUTF8StringEncoding];
-                [file writeData:tempdata];
+                if (![self MyWriteData:file:tempdata])
+                {
+                    // close the file, remove ApplicationsFile and return
+                    [file closeFile];
+                    [filemgr removeItemAtPath:ApplicationsFile error:nil];
+                    return;
+                }
+                ////[file writeData:tempdata];
                 
                 // area accuracy
                 TheAcc      = [self FixXML:TheAcc];
                 line        = [[NSString alloc]initWithFormat:@"%@%@%@%@Accuracy=%@%@%@",tab,tab,tab,tab,tick,TheAcc,tick];
                 tempstring  = [NSString stringWithFormat:@"%@%@",line,cr];
                 tempdata    = [tempstring dataUsingEncoding:NSUTF8StringEncoding];
-                [file writeData:tempdata];
+                if (![self MyWriteData:file:tempdata])
+                {
+                    // close the file, remove ApplicationsFile and return
+                    [file closeFile];
+                    [filemgr removeItemAtPath:ApplicationsFile error:nil];
+                    return;
+                }
+                ////[file writeData:tempdata];
             }
             
             // close the area
             line        = [[NSString alloc]initWithFormat:@"%@%@%@",tab,tab,closetag];
             tempstring  = [NSString stringWithFormat:@"%@%@",line,cr];
             tempdata    = [tempstring dataUsingEncoding:NSUTF8StringEncoding];
-            [file writeData:tempdata];
+            if (![self MyWriteData:file:tempdata])
+            {
+                // close the file, remove ApplicationsFile and return
+                [file closeFile];
+                [filemgr removeItemAtPath:ApplicationsFile error:nil];
+                return;
+            }
+            ////[file writeData:tempdata];
             
             // Visit open tag 2 tabs
             line        = [[NSString alloc]initWithFormat:@"%@%@%@Visit Date=%@%@%@%@",tab,tab,opentag,tick,TheDate,tick,closetag];
             tempstring  = [NSString stringWithFormat:@"%@%@",line,cr];
             tempdata    = [tempstring dataUsingEncoding:NSUTF8StringEncoding];
-            [file writeData:tempdata];
+            if (![self MyWriteData:file:tempdata])
+            {
+                // close the file, remove ApplicationsFile and return
+                [file closeFile];
+                [filemgr removeItemAtPath:ApplicationsFile error:nil];
+                return;
+            }
+            ////[file writeData:tempdata];
             
             // authority (open 3 tabs) - if necessary
             if(DoAuthority)
@@ -7145,7 +7026,14 @@ Boolean JSONWrite = false;
                 line        = [[NSString alloc]initWithFormat:@"%@%@%@<Authority>",tab,tab,tab];
                 tempstring  = [NSString stringWithFormat:@"%@%@",line,cr];
                 tempdata    = [tempstring dataUsingEncoding:NSUTF8StringEncoding];
-                [file writeData:tempdata];
+                if (![self MyWriteData:file:tempdata])
+                {
+                    // close the file, remove ApplicationsFile and return
+                    [file closeFile];
+                    [filemgr removeItemAtPath:ApplicationsFile error:nil];
+                    return;
+                }
+                ////[file writeData:tempdata];
                 
                 // authority option (4 tabs)
                 LocalAuthorityFirstName = [self FixXML:LocalAuthorityFirstName];
@@ -7154,45 +7042,94 @@ Boolean JSONWrite = false;
                 line        = [[NSString alloc]initWithFormat:@"%@%@%@%@<AuthorityOption Value=%@%@ %@%@ ID='%@%@/>",tab,tab,tab,tab,tick,LocalAuthorityFirstName,LocalAuthorityLastName,tick,LocalAuthorityID,tick];
                 tempstring  = [NSString stringWithFormat:@"%@%@",line,cr];
                 tempdata    = [tempstring dataUsingEncoding:NSUTF8StringEncoding];
-                [file writeData:tempdata];
+                if (![self MyWriteData:file:tempdata])
+                {
+                    // close the file, remove ApplicationsFile and return
+                    [file closeFile];
+                    [filemgr removeItemAtPath:ApplicationsFile error:nil];
+                    return;
+                }
+                ////[file writeData:tempdata];
                 
                 // authority close (3 tabs)
                 line        = [[NSString alloc]initWithFormat:@"%@%@%@</Authority>",tab,tab,tab];
                 tempstring  = [NSString stringWithFormat:@"%@%@",line,cr];
                 tempdata    = [tempstring dataUsingEncoding:NSUTF8StringEncoding];
-                [file writeData:tempdata];
+                if (![self MyWriteData:file:tempdata])
+                {
+                    // close the file, remove ApplicationsFile and return
+                    [file closeFile];
+                    [filemgr removeItemAtPath:ApplicationsFile error:nil];
+                    return;
+                }
+                ////[file writeData:tempdata];
             }
             
             // recorder open (3 tabs)
             line        = [[NSString alloc]initWithFormat:@"%@%@%@<Recorder>",tab,tab,tab];
             tempstring  = [NSString stringWithFormat:@"%@%@",line,cr];
             tempdata    = [tempstring dataUsingEncoding:NSUTF8StringEncoding];
-            [file writeData:tempdata];
+            if (![self MyWriteData:file:tempdata])
+            {
+                // close the file, remove ApplicationsFile and return
+                [file closeFile];
+                [filemgr removeItemAtPath:ApplicationsFile error:nil];
+                return;
+            }
+            ////[file writeData:tempdata];
             
             // recorder option (4 tabs)
             line        = [[NSString alloc]initWithFormat:@"%@%@%@%@<RecorderOption Value=%@%@%@/>",tab,tab,tab,tab,tick,[self GetUserName],tick];
             tempstring  = [NSString stringWithFormat:@"%@%@",line,cr];
             tempdata    = [tempstring dataUsingEncoding:NSUTF8StringEncoding];
-            [file writeData:tempdata];
+            if (![self MyWriteData:file:tempdata])
+            {
+                // close the file, remove ApplicationsFile and return
+                [file closeFile];
+                [filemgr removeItemAtPath:ApplicationsFile error:nil];
+                return;
+            }
+            ////[file writeData:tempdata];
             
             // recorder close (3 tabs)
             line        = [[NSString alloc]initWithFormat:@"%@%@%@</Recorder>",tab,tab,tab];
             tempstring  = [NSString stringWithFormat:@"%@%@",line,cr];
             tempdata    = [tempstring dataUsingEncoding:NSUTF8StringEncoding];
-            [file writeData:tempdata];
+            if (![self MyWriteData:file:tempdata])
+            {
+                // close the file, remove ApplicationsFile and return
+                [file closeFile];
+                [filemgr removeItemAtPath:ApplicationsFile error:nil];
+                return;
+            }
+            ////[file writeData:tempdata];
             
             // time of visit sibling of organism data (3 tabs)
             line        = [[NSString alloc]initWithFormat:@"%@%@%@%@Time Value=%@%@%@%@%@",tab,tab,tab,opentag,tick,ObservationTime,tick,slash,closetag];
             tempstring  = [NSString stringWithFormat:@"%@%@",line,cr];
             tempdata    = [tempstring dataUsingEncoding:NSUTF8StringEncoding];
-            [file writeData:tempdata];
+            if (![self MyWriteData:file:tempdata])
+            {
+                // close the file, remove ApplicationsFile and return
+                [file closeFile];
+                [filemgr removeItemAtPath:ApplicationsFile error:nil];
+                return;
+            }
+            ////[file writeData:tempdata];
             
             // visit comment (3 tabs)
             TheComment  = [self FixXML:TheComment];
             line        = [[NSString alloc]initWithFormat:@"%@%@%@%@VisitComment Value=%@%@%@%@%@",tab,tab,tab,opentag,tick,TheComment,tick,slash,closetag];
             tempstring  = [NSString stringWithFormat:@"%@%@",line,cr];
             tempdata    = [tempstring dataUsingEncoding:NSUTF8StringEncoding];
-            [file writeData:tempdata];
+            if (![self MyWriteData:file:tempdata])
+            {
+                // close the file, remove ApplicationsFile and return
+                [file closeFile];
+                [filemgr removeItemAtPath:ApplicationsFile error:nil];
+                return;
+            }
+            ////[file writeData:tempdata];
             
             //
             // for each organism write each attribute and the attribute value
@@ -7209,13 +7146,27 @@ Boolean JSONWrite = false;
                 line        = [[NSString alloc]initWithFormat:@"%@%@%@%@OrganismData%@",tab,tab,tab,opentag,closetag];
                 tempstring  = [NSString stringWithFormat:@"%@%@",line,cr];
                 tempdata    = [tempstring dataUsingEncoding:NSUTF8StringEncoding];
-                [file writeData:tempdata];
+                if (![self MyWriteData:file:tempdata])
+                {
+                    // close the file, remove ApplicationsFile and return
+                    [file closeFile];
+                    [filemgr removeItemAtPath:ApplicationsFile error:nil];
+                    return;
+                }
+                ////[file writeData:tempdata];
                 
                 // OrganismDataOption open tag 4 tabs
                 line        = [[NSString alloc]initWithFormat:@"%@%@%@%@%@OrganismDataOption ",tab,tab,tab,tab,opentag];
                 tempstring  = [NSString stringWithFormat:@"%@",line];
                 tempdata    = [tempstring dataUsingEncoding:NSUTF8StringEncoding];
-                [file writeData:tempdata];
+                if (![self MyWriteData:file:tempdata])
+                {
+                    // close the file, remove ApplicationsFile and return
+                    [file closeFile];
+                    [filemgr removeItemAtPath:ApplicationsFile error:nil];
+                    return;
+                }
+                ////[file writeData:tempdata];
                 
                 tempstring          = [self.OrganismNumberOfAttributes objectAtIndex:i];
                 NumberOfAttributes  = (int)[tempstring integerValue];
@@ -7227,13 +7178,27 @@ Boolean JSONWrite = false;
                 line                = [[NSString alloc]initWithFormat:@"OrganismName=%@%@%@/%@",tick,thefield,tick,closetag];
                 tempstring          = [NSString stringWithFormat:@"%@%@",line,cr];
                 tempdata            = [tempstring dataUsingEncoding:NSUTF8StringEncoding];
-                [file writeData:tempdata];
+                if (![self MyWriteData:file:tempdata])
+                {
+                    // close the file, remove ApplicationsFile and return
+                    [file closeFile];
+                    [filemgr removeItemAtPath:ApplicationsFile error:nil];
+                    return;
+                }
+                ////[file writeData:tempdata];
                 
                 // OrganismDataOption open tag 4 tabs
                 line        = [[NSString alloc]initWithFormat:@"%@%@%@%@%@OrganismDataOption ",tab,tab,tab,tab,opentag];
                 tempstring  = [NSString stringWithFormat:@"%@",line];
                 tempdata    = [tempstring dataUsingEncoding:NSUTF8StringEncoding];
-                [file writeData:tempdata];
+                if (![self MyWriteData:file:tempdata])
+                {
+                    // close the file, remove ApplicationsFile and return
+                    [file closeFile];
+                    [filemgr removeItemAtPath:ApplicationsFile error:nil];
+                    return;
+                }
+                ////[file writeData:tempdata];
                 
                 // organsim id
                 thefield            = [[NSString alloc]initWithFormat:@"%@",[self.OrganismDataIDs objectAtIndex:i]];
@@ -7245,13 +7210,27 @@ Boolean JSONWrite = false;
                 line                = [[NSString alloc]initWithFormat:@"OrganismInfoID=%@%@%@/%@",tick,thefield,tick,closetag];
                 tempstring          = [NSString stringWithFormat:@"%@%@",line,cr];
                 tempdata            = [tempstring dataUsingEncoding:NSUTF8StringEncoding];
-                [file writeData:tempdata];
+                if (![self MyWriteData:file:tempdata])
+                {
+                    // close the file, remove ApplicationsFile and return
+                    [file closeFile];
+                    [filemgr removeItemAtPath:ApplicationsFile error:nil];
+                    return;
+                }
+                ////[file writeData:tempdata];
                 
                 // OrganismDataOption open tag 4 tabs
                 line        = [[NSString alloc]initWithFormat:@"%@%@%@%@%@OrganismDataOption ",tab,tab,tab,tab,opentag];
                 tempstring  = [NSString stringWithFormat:@"%@",line];
                 tempdata    = [tempstring dataUsingEncoding:NSUTF8StringEncoding];
-                [file writeData:tempdata];
+                if (![self MyWriteData:file:tempdata])
+                {
+                    // close the file, remove ApplicationsFile and return
+                    [file closeFile];
+                    [filemgr removeItemAtPath:ApplicationsFile error:nil];
+                    return;
+                }
+                ////[file writeData:tempdata];
                 
                 // organsim comment
                 thefield            = [[NSString alloc]initWithFormat:@"%@",[self.OrganismDataComment objectAtIndex:i]];
@@ -7259,13 +7238,27 @@ Boolean JSONWrite = false;
                 line                = [[NSString alloc]initWithFormat:@"OrganismComment=%@%@%@/%@",tick,thefield,tick,closetag];
                 tempstring          = [NSString stringWithFormat:@"%@%@",line,cr];
                 tempdata            = [tempstring dataUsingEncoding:NSUTF8StringEncoding];
-                [file writeData:tempdata];
+                if (![self MyWriteData:file:tempdata])
+                {
+                    // close the file, remove ApplicationsFile and return
+                    [file closeFile];
+                    [filemgr removeItemAtPath:ApplicationsFile error:nil];
+                    return;
+                }
+                ////[file writeData:tempdata];
                 
                 // open attribute data 5 tabs
                 line        = [[NSString alloc]initWithFormat:@"%@%@%@%@%@%@AttributeData%@",tab,tab,tab,tab,tab,opentag,closetag];
                 tempstring  = [NSString stringWithFormat:@"%@%@",line,cr];
                 tempdata    = [tempstring dataUsingEncoding:NSUTF8StringEncoding];
-                [file writeData:tempdata];
+                if (![self MyWriteData:file:tempdata])
+                {
+                    // close the file, remove ApplicationsFile and return
+                    [file closeFile];
+                    [filemgr removeItemAtPath:ApplicationsFile error:nil];
+                    return;
+                }
+                ////[file writeData:tempdata];
                 
                 ////NSLog(@"attributedatatype:%@",self.AttributeDataType);
                 // now for the attributes
@@ -7320,13 +7313,27 @@ Boolean JSONWrite = false;
                     // write out the 6 tabs
                     line        = [[NSString alloc]initWithFormat:@"%@%@%@%@%@%@",tab,tab,tab,tab,tab,tab];
                     tempdata    = [line dataUsingEncoding:NSUTF8StringEncoding];
-                    [file writeData:tempdata];
+                    if (![self MyWriteData:file:tempdata])
+                    {
+                        // close the file, remove ApplicationsFile and return
+                        [file closeFile];
+                        [filemgr removeItemAtPath:ApplicationsFile error:nil];
+                        return;
+                    }
+                    ////[file writeData:tempdata];
                     
                     // write out the AttributeDataOption line
                     line        = [[NSString alloc]initWithFormat:@"<AttributeDataOption Name=%@%@%@ Value=%@%@%@ UnitID=%@%@%@ AttributeDataTypeID=%@%@%@%@%@",tick,theName,tick,tick,thefield,tick,tick,theValue,tick,tick,theID,tick,slash,closetag];
                     tempstring  = [NSString stringWithFormat:@"%@%@",line,cr];
                     tempdata    = [tempstring dataUsingEncoding:NSUTF8StringEncoding];
-                    [file writeData:tempdata];
+                    if (![self MyWriteData:file:tempdata])
+                    {
+                        // close the file, remove ApplicationsFile and return
+                        [file closeFile];
+                        [filemgr removeItemAtPath:ApplicationsFile error:nil];
+                        return;
+                    }
+                    ////[file writeData:tempdata];
                     
                     // bump the attrbute index
                     LocalAttributeIndex++;
@@ -7336,14 +7343,28 @@ Boolean JSONWrite = false;
                 line        = [[NSString alloc]initWithFormat:@"%@%@%@%@%@%@/AttributeData%@",tab,tab,tab,tab,tab,opentag,closetag];
                 tempstring  = [NSString stringWithFormat:@"%@%@",line,cr];
                 tempdata    = [tempstring dataUsingEncoding:NSUTF8StringEncoding];
-                [file writeData:tempdata];
+                if (![self MyWriteData:file:tempdata])
+                {
+                    // close the file, remove ApplicationsFile and return
+                    [file closeFile];
+                    [filemgr removeItemAtPath:ApplicationsFile error:nil];
+                    return;
+                }
+                ////[file writeData:tempdata];
                 
                 // close organsimdata  3 tabsclose tag
                 line                = nil;
                 line                = [[NSString alloc]initWithFormat:@"%@%@%@</OrganismData>",tab,tab,tab];
                 tempstring          = [NSString stringWithFormat:@"%@%@",line,cr];
                 tempdata            = [tempstring dataUsingEncoding:NSUTF8StringEncoding];
-                [file writeData:tempdata];
+                if (![self MyWriteData:file:tempdata])
+                {
+                    // close the file, remove ApplicationsFile and return
+                    [file closeFile];
+                    [filemgr removeItemAtPath:ApplicationsFile error:nil];
+                    return;
+                }
+                ////[file writeData:tempdata];
             }
             
             UnitIDIndex             = NumberOfAttributes;
@@ -7363,7 +7384,14 @@ Boolean JSONWrite = false;
                 line                = [[NSString alloc]initWithFormat:@"%@%@%@<SiteCharacteristics>",tab,tab,tab];
                 tempstring          = [NSString stringWithFormat:@"%@%@",line,cr];
                 tempdata            = [tempstring dataUsingEncoding:NSUTF8StringEncoding];
-                [file writeData:tempdata];
+                if (![self MyWriteData:file:tempdata])
+                {
+                    // close the file, remove ApplicationsFile and return
+                    [file closeFile];
+                    [filemgr removeItemAtPath:ApplicationsFile error:nil];
+                    return;
+                }
+                ////[file writeData:tempdata];
                 
                 // write out each attributes
                 for(int i=0;i<NumberOfAttributes;i++)
@@ -7411,14 +7439,28 @@ Boolean JSONWrite = false;
                     // write out the 6 tabs
                     line        = [[NSString alloc]initWithFormat:@"%@%@%@%@%@%@",tab,tab,tab,tab,tab,tab];
                     tempdata    = [line dataUsingEncoding:NSUTF8StringEncoding];
-                    [file writeData:tempdata];
+                    if (![self MyWriteData:file:tempdata])
+                    {
+                        // close the file, remove ApplicationsFile and return
+                        [file closeFile];
+                        [filemgr removeItemAtPath:ApplicationsFile error:nil];
+                        return;
+                    }
+                    ////[file writeData:tempdata];
                     
                     // write out the AttributeDataOption line
                     ////line        = [[NSString alloc]initWithFormat:@"<AttributeDataOption Value=%@%@%@ AttributeDataTypeID=%@%@%@%@%@",tick,thefield,tick,tick,theID,tick,slash,closetag];
                     line        = [[NSString alloc]initWithFormat:@"<AttributeDataOption Name=%@%@%@ Value=%@%@%@ UnitID=%@%@%@ AttributeDataTypeID=%@%@%@%@%@",tick,theName,tick,tick,thefield,tick,tick,theValue,tick,tick,theID,tick,slash,closetag];
                     tempstring  = [NSString stringWithFormat:@"%@%@",line,cr];
                     tempdata    = [tempstring dataUsingEncoding:NSUTF8StringEncoding];
-                    [file writeData:tempdata];
+                    if (![self MyWriteData:file:tempdata])
+                    {
+                        // close the file, remove ApplicationsFile and return
+                        [file closeFile];
+                        [filemgr removeItemAtPath:ApplicationsFile error:nil];
+                        return;
+                    }
+                    ////[file writeData:tempdata];
                     
                     // bump the attrbute index
                     LocalAttributeIndex++;
@@ -7429,26 +7471,54 @@ Boolean JSONWrite = false;
                 line                = [[NSString alloc]initWithFormat:@"%@%@%@</SiteCharacteristics>",tab,tab,tab];
                 tempstring          = [NSString stringWithFormat:@"%@%@",line,cr];
                 tempdata            = [tempstring dataUsingEncoding:NSUTF8StringEncoding];
-                [file writeData:tempdata];
+                if (![self MyWriteData:file:tempdata])
+                {
+                    // close the file, remove ApplicationsFile and return
+                    [file closeFile];
+                    [filemgr removeItemAtPath:ApplicationsFile error:nil];
+                    return;
+                }
+                ////[file writeData:tempdata];
             }
             
             // close the visit
             line        = [[NSString alloc]initWithFormat:@"%@%@%@/Visit%@",tab,tab,opentag,closetag];
             tempstring  = [NSString stringWithFormat:@"%@%@",line,cr];
             tempdata    = [tempstring dataUsingEncoding:NSUTF8StringEncoding];
-            [file writeData:tempdata];
+            if (![self MyWriteData:file:tempdata])
+            {
+                // close the file, remove ApplicationsFile and return
+                [file closeFile];
+                [filemgr removeItemAtPath:ApplicationsFile error:nil];
+                return;
+            }
+            ////[file writeData:tempdata];
             
             // close the area
             line        = [[NSString alloc]initWithFormat:@"%@%@%@/Area%@",tab,tab,opentag,closetag];
             tempstring  = [NSString stringWithFormat:@"%@%@",line,cr];
             tempdata    = [tempstring dataUsingEncoding:NSUTF8StringEncoding];
-            [file writeData:tempdata];
+            if (![self MyWriteData:file:tempdata])
+            {
+                // close the file, remove ApplicationsFile and return
+                [file closeFile];
+                [filemgr removeItemAtPath:ApplicationsFile error:nil];
+                return;
+            }
+            ////[file writeData:tempdata];
             
             // close the project
             line        = [[NSString alloc]initWithFormat:@"%@%@/Project%@",tab,opentag,closetag];
             tempstring  = [NSString stringWithFormat:@"%@%@",line,cr];
             tempdata    = [tempstring dataUsingEncoding:NSUTF8StringEncoding];
-            [file writeData:tempdata];
+            if (![self MyWriteData:file:tempdata])
+            {
+                // close the file, remove ApplicationsFile and return
+                [file closeFile];
+                [filemgr removeItemAtPath:ApplicationsFile error:nil];
+                return;
+            }
+            ////[file writeData:tempdata];
             
             
             //
@@ -7459,7 +7529,14 @@ Boolean JSONWrite = false;
             line=[[NSString alloc]initWithFormat:@"</GODMData>"];
             tempstring=[NSString stringWithFormat:@"%@%@",line,cr];
             tempdata=[tempstring dataUsingEncoding:NSUTF8StringEncoding];
-            [file writeData:tempdata];
+            if (![self MyWriteData:file:tempdata])
+            {
+                // close the file, remove ApplicationsFile and return
+                [file closeFile];
+                [filemgr removeItemAtPath:ApplicationsFile error:nil];
+                return;
+            }
+            ////[file writeData:tempdata];
             
 			[file closeFile];
             
@@ -7808,6 +7885,7 @@ Boolean JSONWrite = false;
     double      TheLimit            = 20.0;         // the total length of taime to wait
     
     [self SetValidApp:false];
+    [self SetValidAppAcquired:false];
     [self SetCheckAppRevisionRunning:true];
     [self SetBadNetworkConnection:false];
     
@@ -7825,6 +7903,7 @@ Boolean JSONWrite = false;
             // we're done and failed so quit checking and ensure failure is noted
             // but don't send the incompatible message
             [self SetValidApp:false];
+            [self SetValidAppAcquired:false];
             [self SetCheckAppRevisionRunning:false];
             [self SetBadNetworkConnection:true];
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CitSciMobile"
